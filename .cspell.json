@@ -1,0 +1,40 @@
+{
+  "language": "en",
+  "ignorePaths": [
+    ".git",
+    "build",
+    "coverage",
+    "dist",
+    "node_modules",
+    "venv",
+    "yarn-error.log",
+    "yarn.lock"
+  ],
+  "dictionaries": [
+    "bash",
+    "companies",
+    "css",
+    "en-gb",
+    "filetypes",
+    "fonts",
+    "html",
+    "local",
+    "misc",
+    "node",
+    "npm",
+    "softwareTerms",
+    "typescript"
+  ],
+  "words": [
+    "autofix",
+    "bumpversion",
+    "camelcase",
+    "codacy",
+    "huskyrc",
+    "nosecret",
+    "plusplus",
+    "trufflehog",
+    "typecheck",
+    "venv"
+  ]
+}
