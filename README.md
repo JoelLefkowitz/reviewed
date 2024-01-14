@@ -1,3 +1,3 @@
 # TS-Valid
 
-Ergonomic, lightweight and extensible validators
+Ergonomic, lightweight and extensible validators.
