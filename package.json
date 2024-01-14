@@ -1,6 +1,6 @@
 {
   "name": "ts-valid",
-  "description": "",
+  "description": "Ergonomic, lightweight and extensible validators.",
   "version": "0.1.0",
   "private": true,
   "scripts": {
