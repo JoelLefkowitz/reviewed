@@ -31,8 +31,10 @@
     "camelcase",
     "codacy",
     "huskyrc",
+    "lefkowitz",
     "nosecret",
     "plusplus",
+    "superstruct",
     "trufflehog",
     "typecheck",
     "venv"

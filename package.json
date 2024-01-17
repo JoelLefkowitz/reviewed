@@ -1,14 +1,15 @@
 {
   "name": "ts-valid",
-  "description": "Ergonomic, lightweight and extensible validators.",
+  "description": "Ergonomic, extensible and dependency free validators.",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "prepare": "husky install",
     "format": "prettier . --write",
-    "lint": "cspell . --dot && eslint . && tsc --noEmit",
+    "lint": "cspell . --dot && eslint . --fix && tsc --noEmit",
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "docs": "typedoc"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
@@ -26,6 +27,8 @@
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
     "tslib": "^2.6.2",
+    "typedoc": "^0.25.7",
+    "typedoc-material-theme": "^1.0.2",
     "typescript": "^5.3.3"
   }
 }

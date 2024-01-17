@@ -1,16 +1,28 @@
-import { isRecord } from "./objects";
-import { suite } from "../services/suite";
+import { isNonEmptyRecord, isRecord } from "./objects";
+import { suite } from "../testing/suite";
 
-suite({
-  name: "isRecord",
-  validator: isRecord,
-  valid: [
-    [{}, {}],
-    [{ a: 1 }, { a: 1 }],
-    [{ a: "a" }, { a: "a" }],
-    [{ 1: "a" }, { 1: "a" }],
+suite(
+  isRecord,
+  [
+    { input: {}, parsed: {} },
+    { input: { a: 1 }, parsed: { a: 1 } },
+    { input: { a: "a" }, parsed: { a: "a" } },
+    { input: { 1: "a" }, parsed: { 1: "a" } },
   ],
-  invalid: {
+  {
     "Not a record": [undefined, null, true, 1, "a", []],
   },
-});
+);
+
+suite(
+  isNonEmptyRecord,
+  [
+    { input: { a: 1 }, parsed: { a: 1 } },
+    { input: { a: "a" }, parsed: { a: "a" } },
+    { input: { 1: "a" }, parsed: { 1: "a" } },
+  ],
+  {
+    "Not a record": [undefined, null, true, 1, "a", []],
+    "Not a non empty record": [{}],
+  },
+);

@@ -6,70 +6,56 @@ import {
   isString,
   isUndefined,
 } from "./primitives";
-import { suite } from "../services/suite";
+import { suite } from "../testing/suite";
 
-suite({
-  name: "isUndefined",
-  validator: isUndefined,
-  valid: [[undefined, undefined]],
-  invalid: {
-    "Not undefined": [null, true, 1, "", "a", [], {}],
-  },
+suite(isUndefined, [{ input: undefined, parsed: undefined }], {
+  "Not undefined": [null, true, 1, "", "a", [], {}],
 });
 
-suite({
-  name: "isNull",
-  validator: isNull,
-  valid: [[null, null]],
-  invalid: {
-    "Not null": [undefined, true, 1, "", "a", [], {}],
-  },
+suite(isNull, [{ input: null, parsed: null }], {
+  "Not null": [undefined, true, 1, "", "a", [], {}],
 });
 
-suite({
-  name: "isBoolean",
-  validator: isBoolean,
-  valid: [
-    [true, true],
-    [false, false],
+suite(
+  isBoolean,
+  [
+    { input: true, parsed: true },
+    { input: false, parsed: false },
   ],
-  invalid: {
+  {
     "Not a boolean": [undefined, null, 1, "", "a", [], {}],
   },
-});
+);
 
-suite({
-  name: "isNumber",
-  validator: isNumber,
-  valid: [
-    [0, 0],
-    [1, 1],
+suite(
+  isNumber,
+  [
+    { input: 0, parsed: 0 },
+    { input: 1, parsed: 1 },
   ],
-  invalid: {
+  {
     "Not a number": [undefined, null, true, NaN, Infinity, "", "a", [], {}],
   },
-});
+);
 
-suite({
-  name: "isString",
-  validator: isString,
-  valid: [
-    ["", ""],
-    ["a", "a"],
+suite(
+  isString,
+  [
+    { input: "", parsed: "" },
+    { input: "a", parsed: "a" },
   ],
-  invalid: {
+  {
     "Not a string": [undefined, null, true, 1, [], {}],
   },
-});
+);
 
-suite({
-  name: "isObject",
-  validator: isObject,
-  valid: [
-    [[], []],
-    [{ a: 1 }, { a: 1 }],
+suite(
+  isObject,
+  [
+    { input: [], parsed: [] },
+    { input: { a: 1 }, parsed: { a: 1 } },
   ],
-  invalid: {
+  {
     "Not an object": [undefined, null, true, 1, NaN, Infinity],
   },
-});
+);

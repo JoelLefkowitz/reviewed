@@ -1,49 +1,52 @@
 import {
   isArray,
   isArrayOf,
+  isNonEmptyArray,
   isNumberArray,
   isOneOf,
   isStringArray,
 } from "./arrays";
-import { suite } from "../services/suite";
+import { suite } from "../testing/suite";
 
-suite({
-  name: "isArray",
-  validator: isArray,
-  valid: [
-    [[], []],
-    [[1], [1]],
+suite(
+  isArray,
+  [
+    { input: [], parsed: [] },
+    { input: [1], parsed: [1] },
   ],
-  invalid: {
+  {
     "Not an array": [undefined, null, true, 1, "a", {}],
   },
+);
+
+suite(isNonEmptyArray, [{ input: [1], parsed: [1] }], {
+  "Not an array": [undefined, null, true, 1, "a", {}],
+  "Not a non empty array": [[]],
 });
 
-suite({
-  name: "isNumberArray",
-  validator: isNumberArray,
-  valid: [
-    [[], []],
-    [[1], [1]],
+suite(
+  isNumberArray,
+  [
+    { input: [], parsed: [] },
+    { input: [1], parsed: [1] },
   ],
-  invalid: {
+  {
     "Not an array": [undefined, null, true, 1, "a", {}],
     "Not an array of numbers": [["a"]],
   },
-});
+);
 
-suite({
-  name: "isStringArray",
-  validator: isStringArray,
-  valid: [
-    [[], []],
-    [["a"], ["a"]],
+suite(
+  isStringArray,
+  [
+    { input: [], parsed: [] },
+    { input: ["a"], parsed: ["a"] },
   ],
-  invalid: {
+  {
     "Not an array": [undefined, null, true, 1, "a", {}],
     "Not an array of strings": [[1]],
   },
-});
+);
 
 describe("isOneOf", () => {
   it("validates if an object is a value from a set of options", () => {
