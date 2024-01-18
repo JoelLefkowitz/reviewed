@@ -236,7 +236,7 @@ const isRecord: Validator<Record<string | number | symbol, unknown>> = (
 
 ## Documentation
 
-Documentation and more detailed examples are hosted on [Github Pages]("https://joellefkowitz.github.io/reviewed").
+Documentation and more detailed examples are hosted on [Github Pages](https://joellefkowitz.github.io/reviewed).
 
 ## Tooling
 

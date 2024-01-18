@@ -1,8 +1,18 @@
 {
   "name": "reviewed",
   "description": "Ergonomic, extensible and lightweight validators.",
-  "license": "MIT",
   "version": "0.1.3",
+  "repository": "https://github.com/joellefkowitz/reviewed",
+  "homepage": "https://joellefkowitz.github.io/reviewed",
+  "author": "Joel Lefkowitz",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "validation"
+  ],
   "scripts": {
     "prepare": "husky install",
     "format": "prettier . --write",
