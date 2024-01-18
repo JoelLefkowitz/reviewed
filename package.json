@@ -3,7 +3,6 @@
   "description": "Ergonomic, extensible and lightweight validators.",
   "license": "MIT",
   "version": "0.1.2",
-  "private": true,
   "scripts": {
     "prepare": "husky install",
     "format": "prettier . --write",
