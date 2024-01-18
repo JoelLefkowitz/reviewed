@@ -29,6 +29,7 @@
     "autofix",
     "bumpversion",
     "camelcase",
+    "cliui",
     "codacy",
     "huskyrc",
     "lefkowitz",
