@@ -178,7 +178,7 @@ JavaScript has some famously confusing types:
 typeof NaN -> "number";
 ```
 
-Care is taken to make primitive types easier to work with
+Care is taken to make primitive types easier to work with.
 
 #### Numbers
 
