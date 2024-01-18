@@ -16,7 +16,7 @@ jobs:
         uses: ./.github/actions/install
 
       - name: Build the package
-        run: npm build
+        run: npm run build
 
       - uses: JS-DevTools/npm-publish@v1
         with:
