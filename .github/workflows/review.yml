@@ -16,7 +16,7 @@ jobs:
         run: npm run lint
 
       - name: Run tests
-        run: nps run test
+        run: npm run test
 
       - name: Publish test coverage
         uses: codacy/codacy-coverage-reporter-action@v1

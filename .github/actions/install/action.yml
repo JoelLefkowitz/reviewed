@@ -49,9 +49,7 @@ runs:
 
     - name: Install node dependencies
       shell: bash
-      run: |
-        yarn install --frozen-lockfile
-        yarn global add nps ts-node
+      run: yarn install --frozen-lockfile
 
     - name: Install python dependencies
       shell: bash
