@@ -1,7 +1,7 @@
 import { Validator } from "../models/validation/Validator.model";
-import { invalidate, validateIf } from "../factories/validate";
 import { isArray } from "./arrays";
 import { isObject } from "./primitives";
+import { validateIf } from "../factories/validate";
 
 /**
  * Validate a record
@@ -18,12 +18,12 @@ import { isObject } from "./primitives";
  * ```
  */
 export const isRecord: Validator<Record<string | number | symbol, unknown>> = (
-  input: unknown,
+  input: unknown
 ) =>
   validateIf(
     isObject(input).valid && !isArray(input).valid,
     "Not a record",
-    input,
+    input
   );
 
 /**
@@ -42,4 +42,16 @@ export const isRecord: Validator<Record<string | number | symbol, unknown>> = (
  */
 export const isNonEmptyRecord: Validator<
   Record<string | number | symbol, unknown>
-> = (input: unknown) => invalidate(input, "Not a non empty record");
+> = (input: unknown) => {
+  const isRecordCheck = isRecord(input);
+
+  if (!isRecordCheck.valid) {
+    return isRecordCheck;
+  }
+
+  return validateIf(
+    Object.keys(isRecordCheck.parsed).length > 0,
+    "Not a non empty record",
+    input
+  );
+};

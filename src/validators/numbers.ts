@@ -1,6 +1,6 @@
 import { Validator } from "../models/validation/Validator.model";
-import { invalidate, validateIf } from "../factories/validate";
 import { isNumber } from "./primitives";
+import { validateIf } from "../factories/validate";
 
 /**
  * Validate an integer
@@ -26,8 +26,7 @@ export const isInteger: Validator<number> = (input: unknown) => {
   return validateIf(
     Number.isInteger(isNumberCheck.parsed),
     "Not an integer",
-    input,
-    isNumberCheck.parsed,
+    input
   );
 };
 
@@ -45,5 +44,12 @@ export const isInteger: Validator<number> = (input: unknown) => {
  * isNaturalNumber(0) -> { valid: false, error: "Not a natural number: 0", ... }
  * ```
  */
-export const isNaturalNumber: Validator<number> = (input: unknown) =>
-  invalidate(input, "");
+export const isNaturalNumber: Validator<number> = (input: unknown) => {
+  const isIntegerCheck = isInteger(input);
+
+  if (!isIntegerCheck.valid) {
+    return isIntegerCheck;
+  }
+
+  return validateIf(isIntegerCheck.parsed > 0, "Not a natural number", input);
+};

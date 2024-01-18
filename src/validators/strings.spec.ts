@@ -14,7 +14,7 @@ suite(
   ],
   {
     "Not a string": [undefined, null, true, 1, [], {}],
-    "Not a boolean": ["", "1", "a"],
+    "Not a boolean string": ["", "1", "a"],
   },
 );
 
@@ -28,7 +28,7 @@ suite(
   ],
   {
     "Not a string": [undefined, null, true, 1, [], {}],
-    "Not a number": ["", "true", "a", "NaN", "Infinity"],
+    "Not a number string": ["", "true", "a", "NaN", "Infinity"],
   },
 );
 
@@ -41,14 +41,14 @@ suite(
   ],
   {
     "Not a string": [undefined, null, true, 1, [], {}],
-    "Not a number": ["", "true", "a", "NaN", "Infinity"],
-    "Not an integer": ["0.5"],
+    "Not a number string": ["", "true", "a", "NaN", "Infinity"],
+    "Not an integer string": ["0.5"],
   },
 );
 
 suite(isNaturalNumberString, [{ input: "1", parsed: 1 }], {
   "Not a string": [undefined, null, true, 1, [], {}],
-  "Not a number": ["", "true", "a", "NaN", "Infinity"],
-  "Not an integer": ["0.5"],
-  "Not a natural number": ["0", "-1"],
+  "Not a number string": ["", "true", "a", "NaN", "Infinity"],
+  "Not an integer string": ["0.5"],
+  "Not a natural number string": ["0", "-1"],
 });

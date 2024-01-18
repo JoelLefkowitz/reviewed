@@ -42,7 +42,7 @@ export const isNull: Validator<null> = (input: unknown) =>
  *
  * @typeParam T - the validated type
  * @param input - the raw input
- * 
+ *
  * @example
  * ```ts
  * isBoolean(true)  -> { valid: true,  parsed: true, ... }
@@ -60,7 +60,7 @@ export const isBoolean: Validator<boolean> = (input: unknown) =>
  *
  * @typeParam T - the validated type
  * @param input - the raw input
- * 
+ *
  * @example
  * ```ts
  * isNumber(1)  -> { valid: true,  parsed: 1, ... }
@@ -71,7 +71,7 @@ export const isNumber: Validator<number> = (input: unknown) =>
   validateIf(
     typeof input === "number" && isFinite(input),
     "Not a number",
-    input
+    input,
   );
 
 /**
@@ -81,7 +81,7 @@ export const isNumber: Validator<number> = (input: unknown) =>
  *
  * @typeParam T - the validated type
  * @param input - the raw input
- * 
+ *
  * @example
  * ```ts
  * isString("") -> { valid: true,  parsed: "", ... }
@@ -98,7 +98,7 @@ export const isString: Validator<string> = (input: unknown) =>
  *
  * @typeParam T - the validated type
  * @param input - the raw input
- * 
+ *
  * @example
  * ```ts
  * isObject([]) -> { valid: true,  parsed: [], ... }
@@ -110,5 +110,5 @@ export const isObject: Validator<object> = (input: unknown) =>
   validateIf(
     typeof input === "object" && input !== null,
     "Not an object",
-    input
+    input,
   );

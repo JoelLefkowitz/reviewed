@@ -1,6 +1,6 @@
 import { Validator } from "../models/validation/Validator.model";
-import { invalidate, validate, validateIf } from "../factories/validate";
-import { isString } from "./primitives";
+import { isNumber, isString } from "./primitives";
+import { validateIf } from "../factories/validate";
 
 /**
  * Validate a boolean string
@@ -25,9 +25,12 @@ export const isBooleanString: Validator<boolean> = (input: unknown) => {
     return isStringCheck;
   }
 
-  return ["true", "false"].includes(isStringCheck.parsed)
-    ? validate(input, isStringCheck.parsed === "true")
-    : invalidate(input, "Not a boolean");
+  return validateIf(
+    ["true", "false"].includes(isStringCheck.parsed),
+    "Not a boolean string",
+    input,
+    input === "true"
+  );
 };
 
 /**
@@ -54,8 +57,14 @@ export const isNumberString: Validator<number> = (input: unknown) => {
   }
 
   const parsed = parseFloat(isStringCheck.parsed);
+  const isNumberCheck = isNumber(isNaN(parsed) ? input : parsed);
 
-  return validateIf(isFinite(parsed), "Not a number", input, parsed);
+  return validateIf(
+    isNumberCheck.valid,
+    "Not a number string",
+    input,
+    isNumberCheck.parsed
+  );
 };
 
 /**
@@ -82,9 +91,9 @@ export const isIntegerString: Validator<number> = (input: unknown) => {
 
   return validateIf(
     Number.isInteger(isNumberStringCheck.parsed),
-    "Not an integer",
+    "Not an integer string",
     input,
-    isNumberStringCheck.parsed,
+    isNumberStringCheck.parsed
   );
 };
 
@@ -113,8 +122,8 @@ export const isNaturalNumberString: Validator<number> = (input: unknown) => {
 
   return validateIf(
     isIntegerStringCheck.parsed > 0,
-    "Not a natural number",
+    "Not a natural number string",
     input,
-    isIntegerStringCheck.parsed,
+    isIntegerStringCheck.parsed
   );
 };

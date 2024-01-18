@@ -1,7 +1,7 @@
 import { Validated } from "../models/validation/Validated.model";
 import { Validator } from "../models/validation/Validator.model";
-import { invalidate, validate } from "../factories/validate";
 import { isNumber, isString } from "./primitives";
+import { validateIf } from "../factories/validate";
 
 /**
  * Validate an array
@@ -19,7 +19,7 @@ import { isNumber, isString } from "./primitives";
  * ```
  */
 export const isArray: Validator<unknown[]> = (input: unknown) =>
-  Array.isArray(input) ? validate(input) : invalidate(input, "Not an array");
+  validateIf(Array.isArray(input), "Not an array", input);
 
 /**
  * Validate a non empty array
@@ -36,8 +36,19 @@ export const isArray: Validator<unknown[]> = (input: unknown) =>
  * isNonEmptyArray([])  -> { valid: false, error: "Not a non empty array: []", ... }
  * ```
  */
-export const isNonEmptyArray: Validator<unknown[]> = (input: unknown) =>
-  invalidate(input, "Not a non empty array");
+export const isNonEmptyArray: Validator<unknown[]> = (input: unknown) => {
+  const isArrayCheck = isArray(input);
+
+  if (!isArrayCheck.valid) {
+    return isArrayCheck;
+  }
+
+  return validateIf(
+    isArrayCheck.parsed.length > 0,
+    "Not a non empty array",
+    input
+  );
+};
 
 /**
  * Validate an array of numbers
@@ -62,9 +73,11 @@ export const isNumberArray: Validator<number[]> = (input: unknown) => {
     return isArrayCheck;
   }
 
-  return isArrayCheck.parsed.every((i) => isNumber(i).valid)
-    ? validate(input, isArrayCheck.parsed)
-    : invalidate(input, "Not an array of numbers");
+  return validateIf(
+    isArrayCheck.parsed.every((i) => isNumber(i).valid),
+    "Not an array of numbers",
+    input
+  );
 };
 
 /**
@@ -90,9 +103,11 @@ export const isStringArray: Validator<string[]> = (input: unknown) => {
     return isArrayCheck;
   }
 
-  return isArrayCheck.parsed.every((i) => isString(i).valid)
-    ? validate(input, isArrayCheck.parsed)
-    : invalidate(input, "Not an array of strings");
+  return validateIf(
+    isArrayCheck.parsed.every((i) => isString(i).valid),
+    "Not an array of strings",
+    input
+  );
 };
 
 /**
@@ -112,9 +127,11 @@ export const isStringArray: Validator<string[]> = (input: unknown) => {
  * ```
  */
 export const isOneOf = <T>(options: T[], input: unknown): Validated<T> =>
-  options.includes(input as T)
-    ? validate(input as T)
-    : invalidate(input, `Not one of ${JSON.stringify(options)}`);
+  validateIf(
+    options.includes(input as T),
+    `Not one of ${JSON.stringify(options)}`,
+    input
+  );
 
 /**
  * Validate an input is an array of elements from a list of options
@@ -139,7 +156,9 @@ export const isArrayOf = <T>(options: T[], input: unknown): Validated<T> => {
     return isArrayCheck;
   }
 
-  return isArrayCheck.parsed.some((i) => !options.includes(i as T))
-    ? invalidate(input, `Not an array of ${JSON.stringify(options)}`)
-    : validate(input as T);
+  return validateIf(
+    !isArrayCheck.parsed.some((i) => !options.includes(i as T)),
+    `Not an array of ${JSON.stringify(options)}`,
+    input
+  );
 };
