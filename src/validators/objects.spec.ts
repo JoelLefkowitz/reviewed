@@ -11,7 +11,7 @@ suite(
   ],
   {
     "Not a record": [undefined, null, true, 1, "a", []],
-  }
+  },
 );
 
 suite(
@@ -24,5 +24,5 @@ suite(
   {
     "Not a record": [undefined, null, true, 1, "a", []],
     "Not a non empty record": [{}],
-  }
+  },
 );

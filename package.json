@@ -1,6 +1,7 @@
 {
   "name": "ts-valid",
-  "description": "Ergonomic, extensible and dependency free validators.",
+  "description": "Ergonomic, extensible and lightweight validators.",
+  "license": "MIT",
   "version": "0.1.0",
   "private": true,
   "scripts": {

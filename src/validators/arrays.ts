@@ -46,7 +46,7 @@ export const isNonEmptyArray: Validator<unknown[]> = (input: unknown) => {
   return validateIf(
     isArrayCheck.parsed.length > 0,
     "Not a non empty array",
-    input
+    input,
   );
 };
 
@@ -76,7 +76,7 @@ export const isNumberArray: Validator<number[]> = (input: unknown) => {
   return validateIf(
     isArrayCheck.parsed.every((i) => isNumber(i).valid),
     "Not an array of numbers",
-    input
+    input,
   );
 };
 
@@ -106,7 +106,7 @@ export const isStringArray: Validator<string[]> = (input: unknown) => {
   return validateIf(
     isArrayCheck.parsed.every((i) => isString(i).valid),
     "Not an array of strings",
-    input
+    input,
   );
 };
 
@@ -130,7 +130,7 @@ export const isOneOf = <T>(options: T[], input: unknown): Validated<T> =>
   validateIf(
     options.includes(input as T),
     `Not one of ${JSON.stringify(options)}`,
-    input
+    input,
   );
 
 /**
@@ -159,6 +159,6 @@ export const isArrayOf = <T>(options: T[], input: unknown): Validated<T> => {
   return validateIf(
     !isArrayCheck.parsed.some((i) => !options.includes(i as T)),
     `Not an array of ${JSON.stringify(options)}`,
-    input
+    input,
   );
 };

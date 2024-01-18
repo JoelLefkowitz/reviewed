@@ -71,7 +71,7 @@ export const isNumber: Validator<number> = (input: unknown) =>
   validateIf(
     typeof input === "number" && isFinite(input),
     "Not a number",
-    input,
+    input
   );
 
 /**
@@ -110,5 +110,5 @@ export const isObject: Validator<object> = (input: unknown) =>
   validateIf(
     typeof input === "object" && input !== null,
     "Not an object",
-    input,
+    input
   );

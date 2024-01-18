@@ -151,7 +151,7 @@
           "jsx": true
         },
         "ecmaVersion": 2020,
-        "project": ["tsconfig.json"],
+        "project": ["tsconfig.eslint.json"],
         "sourceType": "module"
       },
       "rules": {

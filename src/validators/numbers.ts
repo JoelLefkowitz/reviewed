@@ -26,7 +26,7 @@ export const isInteger: Validator<number> = (input: unknown) => {
   return validateIf(
     Number.isInteger(isNumberCheck.parsed),
     "Not an integer",
-    input
+    input,
   );
 };
 
