@@ -1,4 +1,4 @@
-# TS-Valid
+# Reviewed
 
 Ergonomic, extensible and lightweight validators.
 
@@ -15,7 +15,7 @@ Ergonomic, extensible and lightweight validators.
 ## Installing
 
 ```bash
-npm install ts-valid
+npm install reviewed
 ```
 
 ## Motivation
@@ -35,12 +35,12 @@ A validation library for TypeScript needs to be:
   - Tiny bundle size (< 10Kb)
   - Fully tree shakeable
 
-`ts-valid` exposes a flexible interface that achieves these goals.
+`reviewed` exposes a flexible interface that achieves these goals.
 
 ### Simple example
 
 ```ts
-import { isNumber } from "ts-valid";
+import { isNumber } from "reviewed";
 
 // Input type: unknown
 const { valid, parsed } = isNumber(input);
@@ -62,7 +62,7 @@ isIntegerString("0.5") -> { valid: false, error: "Not an integer 0.5", ... }
 ### Detailed example
 
 ```ts
-import { errors, isNaturalNumberString } from "ts-valid";
+import { errors, isNaturalNumberString } from "reviewed";
 
 const pagination = (url: URL): void => {
   const page = isNaturalNumberString(url.searchParams.get("page"));
@@ -110,7 +110,7 @@ Superstruct has good TypeScript support and serves as an inspiration for this pa
 `numbers.ts`
 
 ```ts
-import { Validator, isInteger, validateIf } from "ts-valid";
+import { Validator, isInteger, validateIf } from "reviewed";
 
 export const isNaturalNumber: Validator<number> = (input: unknown) => {
   const isIntegerCheck = isInteger(input);
@@ -129,7 +129,7 @@ export const isNaturalNumber: Validator<number> = (input: unknown) => {
 
 ```ts
 import { isNaturalNumber } from "./numbers";
-import { suite } from "ts-valid";
+import { suite } from "reviewed";
 
 suite(isNaturalNumber, [{ input: 1, parsed: 1 }], {
   "Not a number": [undefined, null, true, "", "a", [], {}, NaN, Infinity],
@@ -149,7 +149,7 @@ Guards can inform the compiler that the input satisfies a type predicate. This i
 Validators make assertions about the parsed type:
 
 ```ts
-import { isNumber } from "ts-valid";
+import { isNumber } from "reviewed";
 
 const { valid, parsed } = isNumber(x);
 
@@ -162,7 +162,7 @@ if (valid) {
 We can convert this to a guard and apply the assertion to the input instead:
 
 ```ts
-import { guard, isNumber } from "ts-valid";
+import { guard, isNumber } from "reviewed";
 
 if (guard(isNumber)(input)) {
   // Parsed type: number
@@ -308,19 +308,19 @@ Lots of love to the open source community!
     <img width=200 height=200 src='https://media.giphy.com/media/WRWykrFkxJA6JJuTvc/giphy.gif' alt="It's ok to have a bad day" />
 </p>
 
-[latest_release]: https://img.shields.io/github/v/tag/joellefkowitz/ts-valid "Latest release"
-[license]: https://img.shields.io/github/license/joellefkowitz/ts-valid "License"
-[line_count]: https://img.shields.io/tokei/lines/github/joellefkowitz/ts-valid "Line count"
-[language_count]: https://img.shields.io/github/languages/count/joellefkowitz/ts-valid "Language count"
-[review_action]: https://img.shields.io/github/actions/workflow/status/JoelLefkowitz/ts-valid/review.yml "Review action"
+[latest_release]: https://img.shields.io/github/v/tag/joellefkowitz/reviewed "Latest release"
+[license]: https://img.shields.io/github/license/joellefkowitz/reviewed "License"
+[line_count]: https://img.shields.io/tokei/lines/github/joellefkowitz/reviewed "Line count"
+[language_count]: https://img.shields.io/github/languages/count/joellefkowitz/reviewed "Language count"
+[review_action]: https://img.shields.io/github/actions/workflow/status/JoelLefkowitz/reviewed/review.yml "Review action"
 [codacy_quality]: https://img.shields.io/codacy/grade/0c0c92a961d444ee9f65d961bf0e1293 "Codacy quality"
 [codacy_coverage]: https://img.shields.io/codacy/coverage/0c0c92a961d444ee9f65d961bf0e1293 "Codacy coverage"
-[npm_version]: https://img.shields.io/npm/v/ts-valid "NPM Version"
-[npm_downloads]: https://img.shields.io/npm/dw/ts-valid "NPM Downloads"
-[open_issues]: https://img.shields.io/github/issues/joellefkowitz/ts-valid "Open issues"
-[closed_issues]: https://img.shields.io/github/issues-closed/joellefkowitz/ts-valid "Closed issues"
-[open_pulls]: https://img.shields.io/github/issues-pr/joellefkowitz/ts-valid "Open pull requests"
-[closed_pulls]: https://img.shields.io/github/issues-pr-closed/joellefkowitz/ts-valid "Closed pull requests"
-[contributors]: https://img.shields.io/github/contributors/joellefkowitz/ts-valid "Contributors"
-[monthly_commits]: https://img.shields.io/github/commit-activity/m/joellefkowitz/ts-valid "Monthly commits"
-[last_commit]: https://img.shields.io/github/last-commit/joellefkowitz/ts-valid "Last commit"
+[npm_version]: https://img.shields.io/npm/v/reviewed "NPM Version"
+[npm_downloads]: https://img.shields.io/npm/dw/reviewed "NPM Downloads"
+[open_issues]: https://img.shields.io/github/issues/joellefkowitz/reviewed "Open issues"
+[closed_issues]: https://img.shields.io/github/issues-closed/joellefkowitz/reviewed "Closed issues"
+[open_pulls]: https://img.shields.io/github/issues-pr/joellefkowitz/reviewed "Open pull requests"
+[closed_pulls]: https://img.shields.io/github/issues-pr-closed/joellefkowitz/reviewed "Closed pull requests"
+[contributors]: https://img.shields.io/github/contributors/joellefkowitz/reviewed "Contributors"
+[monthly_commits]: https://img.shields.io/github/commit-activity/m/joellefkowitz/reviewed "Monthly commits"
+[last_commit]: https://img.shields.io/github/last-commit/joellefkowitz/reviewed "Last commit"
