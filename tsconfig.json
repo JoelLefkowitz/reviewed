@@ -22,8 +22,8 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "declaration": true,
-    "importHelpers": true,
-    "removeComments": true,
+    "importHelpers": false,
+    "removeComments": false,
     "sourceMap": true,
     "allowJs": false,
     "esModuleInterop": true,
@@ -32,7 +32,8 @@
     "experimentalDecorators": true,
     "target": "ES5",
     "skipDefaultLibCheck": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   },
-  "exclude": ["**/*.spec.ts"]
+  "include": ["src/**/*"],
+  "exclude": ["**/*.spec.ts"],
 }
