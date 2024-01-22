@@ -4,7 +4,7 @@ import { Validator } from "../models/validation/Validator.model";
 import { guard } from "./guards";
 import { isArray } from "../validators/arrays";
 import { isString } from "../validators/primitives";
-import { mergeValidatedArray } from "../results/join";
+import { mergeArray } from "../results/join";
 import { rejection } from "../services/strings";
 
 /**
@@ -115,7 +115,7 @@ export const validateEach = <T>(
     return isArrayCheck;
   }
 
-  return mergeValidatedArray(isArrayCheck.parsed.map(validator));
+  return mergeArray(isArrayCheck.parsed.map(validator));
 };
 
 /**

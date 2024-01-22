@@ -20,7 +20,7 @@ import { reduceRecord } from "../services/records";
 export const validated = <T>(results: Validated<T>[]): T[] =>
   results.reduce<T[]>(
     (acc, { valid, parsed }) => (valid ? acc.concat(parsed) : acc),
-    [],
+    []
   );
 
 /**
@@ -39,16 +39,16 @@ export const validated = <T>(results: Validated<T>[]): T[] =>
  */
 export const validatedWith = <T>(
   validator: Validator<T>,
-  input: unknown,
+  input: unknown
 ): T[] => (guard(isArray)(input) ? validated(input.map(validator)) : []);
 
 export const selectValidated = <T extends string, U>(
-  results: Record<T, Validated<U>>,
+  results: Record<T, Validated<U>>
 ): Partial<Record<T, U>> =>
   reduceRecord(
-    ({ valid }) => valid,
     ({ parsed }) => parsed as U,
-    results,
+    ({ valid }) => valid,
+    results
   );
 
 // TODO

@@ -190,7 +190,7 @@ const isNumber: Validator<number> = (input: unknown) =>
   validateIf(
     typeof input === "number" && isFinite(input),
     "Not a number",
-    input,
+    input
   );
 ```
 
@@ -208,7 +208,7 @@ const isObject: Validator<object> = (input: unknown) =>
   validateIf(
     typeof input === "object" && input !== null,
     "Not an object",
-    input,
+    input
   );
 ```
 
@@ -222,12 +222,12 @@ const isObject: Validator<object> = (input: unknown) =>
 
 ```ts
 const isRecord: Validator<Record<string | number | symbol, unknown>> = (
-  input: unknown,
+  input: unknown
 ) =>
   validateIf(
     isObject(input).valid && !isArray(input).valid,
     "Not a record",
-    input,
+    input
   );
 ```
 
