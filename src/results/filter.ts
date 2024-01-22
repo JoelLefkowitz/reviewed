@@ -2,6 +2,7 @@ import { Validated } from "../models/validation/Validated.model";
 import { Validator } from "../models/validation/Validator.model";
 import { guard } from "../factories/guards";
 import { isArray } from "../validators/arrays";
+import { reduceRecord } from "../services/records";
 
 /**
  * Select the valid results from an array
@@ -41,22 +42,16 @@ export const validatedWith = <T>(
   input: unknown,
 ): T[] => (guard(isArray)(input) ? validated(input.map(validator)) : []);
 
-/**
- * Select the errors from an array of results
- *
- * @category Results
- *
- * @typeParam T - the validated type
- * @param results - the results to filter
- *
- * @example
- * ```ts
- * errors(["1", 2, "3"].map(isNumber) ->
- *   ['Not a number: "1"', 'Not a number: "3"']
- * ```
- */
-export const errors = (results: Validated<unknown>[]): string[] =>
-  results.reduce<string[]>(
-    (acc, x) => (x.valid ? acc : acc.concat(x.error)),
-    [],
+export const selectValidated = <T extends string, U>(
+  results: Record<T, Validated<U>>,
+): Partial<Record<T, U>> =>
+  reduceRecord(
+    ({ valid }) => valid,
+    ({ parsed }) => parsed as U,
+    results,
   );
+
+// TODO
+// export const validatedOr     = <T>(results: Validated<T>,  fallback: T): T => {}
+// export const pickValidated   = <T>(results: Validated<T[]>): T[] => {}
+// export const pickValidatedOr = <T>(results: Validated<T>,  fallback: T): T[] => {}

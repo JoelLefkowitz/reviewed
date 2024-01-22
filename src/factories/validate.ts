@@ -1,7 +1,11 @@
+import { Errors, Validated } from "../models/validation/Validated.model";
 import { RegexValidator } from "../models/regexes/RegexValidator.model";
-import { Validated } from "../models/validation/Validated.model";
+import { Validator } from "../models/validation/Validator.model";
 import { guard } from "./guards";
+import { isArray } from "../validators/arrays";
 import { isString } from "../validators/primitives";
+import { mergeValidatedArray } from "../results/join";
+import { rejection } from "../services/strings";
 
 /**
  * Validate an input
@@ -18,10 +22,10 @@ import { isString } from "../validators/primitives";
  * validate("1", 1) -> { valid: true, input: "1", parsed: 1, error: null }
  * ```
  */
-export const validate = <T>(
+export const validate = <T, U extends Errors<T>>(
   input: unknown,
   parsed: unknown = input,
-): Validated<T> => ({
+): Validated<T, U> => ({
   valid: true,
   input,
   parsed: parsed as T,
@@ -34,32 +38,27 @@ export const validate = <T>(
  * @category Factories
  *
  * @typeParam T - the validated type
- * @param input - the raw input
  * @param reason - the failure explanation
+ * @param input - the raw input
  *
  * @example
  * ```ts
- * invalidate("", "Not a number") ->
- *   { valid: false, input: "", parsed: null, error: 'Not a number: ""' }
  * ```
  */
-export const invalidate = <T>(
+export const invalidate = <T, U extends Errors<T>>(
   input: unknown,
-  reason: string,
-): Validated<T> => ({
+  error: U,
+): Validated<T, U> => ({
   valid: false,
   input,
   parsed: null,
-  error: reason.concat(
-    ": ",
-    JSON.stringify(input, (_, token: unknown) =>
-      typeof token === "number" &&
-      (isNaN(token) || [Infinity, -Infinity].includes(token))
-        ? token.toString()
-        : token,
-    ),
-  ),
+  error,
 });
+
+export const invalidateWith = <T>(
+  input: unknown,
+  reason: string,
+): Validated<T> => invalidate(input, rejection(input, reason));
 
 /**
  * Validate an input given a condition
@@ -68,23 +67,56 @@ export const invalidate = <T>(
  *
  * @typeParam T - the validated type
  * @param condition - the validation condition
- * @param reason - the failure explanation
  * @param input - the raw input
  * @param parsed - the parsed input
+ * @param reason - the failure explanation
  *
  * @example
  * ```ts
- * validateIf(true, "Not a number", "1", 1) ->
+ * validateIf(true, "1", 1, "Not a number") ->
  *   { valid: true, input: "1", parsed: 1, error: null }
  * ```
  */
 export const validateIf = <T>(
   condition: boolean,
-  reason: string,
   input: unknown,
-  parsed: unknown = input,
+  parsed: unknown,
+  reason: string,
 ): Validated<T> =>
-  condition ? validate(input, parsed) : invalidate(input, reason);
+  condition ? validate(input, parsed) : invalidateWith(input, reason);
+
+/**
+ * Validate an array of inputs
+ *
+ * @category Factories
+ *
+ * @typeParam T - the validated type
+ * @param validator - the validator to use
+ * @param input - the raw inputs
+ *
+ * @example
+ * ```ts
+ * validateEach(isNumber, [1, 2, 3]) -> { valid: true, parsed: [1, 2, 3], ... }
+ *
+ * validateEach(isNumber, ["1", 2, "3"]) -> {
+ *     valid: false,
+ *     error: '[Not a number: "1", Not a number: "3"]: ["1",2,"3"]',
+ *     ...
+ *   }
+ * ```
+ */
+export const validateEach = <T>(
+  validator: Validator<T>,
+  input: unknown,
+): Validated<T[], string | string[]> => {
+  const isArrayCheck = isArray(input);
+
+  if (!isArrayCheck.valid) {
+    return isArrayCheck;
+  }
+
+  return mergeValidatedArray(isArrayCheck.parsed.map(validator));
+};
 
 /**
  * Validate an input given a regex
@@ -132,5 +164,5 @@ export const validateRegex =
       }
     }
 
-    return invalidate(input, reason);
+    return invalidateWith(input, reason);
   };

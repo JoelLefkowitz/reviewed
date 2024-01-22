@@ -1,6 +1,4 @@
 /**
- * ...
- *
  * @typeParam T - the validated type
  */
 export interface ParsedRegex<T extends string> {

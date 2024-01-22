@@ -1,5 +1,5 @@
 import { Validator } from "../models/validation/Validator.model";
-import { invalidate } from "../factories/validate";
+import { invalidateWith } from "../factories/validate";
 
 /**
  * Construct a test suite for a validator
@@ -43,7 +43,8 @@ export const suite = <T>(
     it("fails invalid objects", () => {
       Object.entries(invalid).forEach(([reason, cases]) => {
         cases.forEach((input) => {
-          expect(validator(input).error).toBe(invalidate(input, reason).error);
+          const { error } = invalidateWith(input, reason);
+          expect(validator(input).error).toBe(error);
         });
       });
     });

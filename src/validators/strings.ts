@@ -27,9 +27,9 @@ export const isBooleanString: Validator<boolean> = (input: unknown) => {
 
   return validateIf(
     ["true", "false"].includes(isStringCheck.parsed),
-    "Not a boolean string",
     input,
     input === "true",
+    "Not a boolean string",
   );
 };
 
@@ -61,9 +61,9 @@ export const isNumberString: Validator<number> = (input: unknown) => {
 
   return validateIf(
     isNumberCheck.valid,
-    "Not a number string",
     input,
     isNumberCheck.parsed,
+    "Not a number string",
   );
 };
 
@@ -91,9 +91,9 @@ export const isIntegerString: Validator<number> = (input: unknown) => {
 
   return validateIf(
     Number.isInteger(isNumberStringCheck.parsed),
-    "Not an integer string",
     input,
     isNumberStringCheck.parsed,
+    "Not an integer string",
   );
 };
 
@@ -122,8 +122,8 @@ export const isNaturalNumberString: Validator<number> = (input: unknown) => {
 
   return validateIf(
     isIntegerStringCheck.parsed > 0,
-    "Not a natural number string",
     input,
     isIntegerStringCheck.parsed,
+    "Not a natural number string",
   );
 };

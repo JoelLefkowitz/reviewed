@@ -1,4 +1,12 @@
-import { invalidate, validate, validateIf, validateRegex } from "./validate";
+import {
+  invalidate,
+  invalidateWith,
+  validate,
+  validateEach,
+  validateIf,
+  validateRegex,
+} from "./validate";
+import { isNumber } from "../validators/primitives";
 
 describe("validate", () => {
   it("wraps a valid object", () => {
@@ -20,7 +28,18 @@ describe("validate", () => {
 
 describe("invalidate", () => {
   it("wraps an invalid object", () => {
-    expect(invalidate<number>("", "Not a number")).toEqual({
+    expect(invalidate<number, string>("", "error")).toEqual({
+      valid: false,
+      input: "",
+      parsed: null,
+      error: "error",
+    });
+  });
+});
+
+describe("invalidateWith", () => {
+  it("wraps an invalid object", () => {
+    expect(invalidateWith<number>("", "Not a number")).toEqual({
       valid: false,
       input: "",
       parsed: null,
@@ -31,18 +50,43 @@ describe("invalidate", () => {
 
 describe("validateIf", () => {
   it("validates an input based on a condition", () => {
-    expect(validateIf(true, "Not a number", "1", 1)).toEqual({
+    expect(validateIf(true, "1", 1, "Not a number")).toEqual({
       valid: true,
       input: "1",
       parsed: 1,
       error: null,
     });
 
-    expect(validateIf(false, "Not a number", "", "")).toEqual({
+    expect(validateIf(false, "", "", "Not a number")).toEqual({
       valid: false,
       input: "",
       parsed: null,
       error: 'Not a number: ""',
+    });
+  });
+});
+
+describe("validateEach", () => {
+  it("validates an array of inputs", () => {
+    expect(validateEach(isNumber, [1, 2, 3])).toEqual({
+      valid: true,
+      input: [1, 2, 3],
+      parsed: [1, 2, 3],
+      error: null,
+    });
+
+    expect(validateEach(isNumber, {})).toEqual({
+      valid: false,
+      input: {},
+      parsed: null,
+      error: "Not an array: {}",
+    });
+
+    expect(validateEach(isNumber, ["1", 2, "3"])).toEqual({
+      valid: false,
+      input: ["1", 2, "3"],
+      parsed: null,
+      error: ['Not a number: "1"', 'Not a number: "3"'],
     });
   });
 });

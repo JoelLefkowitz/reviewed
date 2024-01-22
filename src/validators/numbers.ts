@@ -25,8 +25,9 @@ export const isInteger: Validator<number> = (input: unknown) => {
 
   return validateIf(
     Number.isInteger(isNumberCheck.parsed),
-    "Not an integer",
     input,
+    input,
+    "Not an integer",
   );
 };
 
@@ -51,5 +52,10 @@ export const isNaturalNumber: Validator<number> = (input: unknown) => {
     return isIntegerCheck;
   }
 
-  return validateIf(isIntegerCheck.parsed > 0, "Not a natural number", input);
+  return validateIf(
+    isIntegerCheck.parsed > 0,
+    input,
+    input,
+    "Not a natural number",
+  );
 };

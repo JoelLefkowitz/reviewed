@@ -51,7 +51,7 @@ suite(
 describe("isOneOf", () => {
   it("validates if an object is a value from a set of options", () => {
     expect(isOneOf([1, 2, 3], 1).parsed).toBe(1);
-    expect(isOneOf([1, 2, 3], 4).error).toBe("Not one of [1,2,3]: 4");
+    expect(isOneOf([1, 2, 3], 4).error).toBe("Not one of [1, 2, 3]: 4");
   });
 });
 
@@ -59,7 +59,7 @@ describe("isArrayOf", () => {
   it("validates if an array contains only values from a set of options", () => {
     expect(isArrayOf([1, 2, 3], [3, 1]).parsed).toEqual([3, 1]);
     expect(isArrayOf([1, 2, 3], [3, 1, 4]).error).toBe(
-      "Not an array of [1,2,3]: [3,1,4]",
+      "Not an array of [1, 2, 3]: [3, 1, 4]",
     );
   });
 });

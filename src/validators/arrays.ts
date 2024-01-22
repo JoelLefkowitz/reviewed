@@ -1,6 +1,7 @@
 import { Validated } from "../models/validation/Validated.model";
 import { Validator } from "../models/validation/Validator.model";
 import { isNumber, isString } from "./primitives";
+import { serialize } from "../services/strings";
 import { validateIf } from "../factories/validate";
 
 /**
@@ -19,7 +20,7 @@ import { validateIf } from "../factories/validate";
  * ```
  */
 export const isArray: Validator<unknown[]> = (input: unknown) =>
-  validateIf(Array.isArray(input), "Not an array", input);
+  validateIf(Array.isArray(input), input, input, "Not an array");
 
 /**
  * Validate a non empty array
@@ -45,8 +46,9 @@ export const isNonEmptyArray: Validator<unknown[]> = (input: unknown) => {
 
   return validateIf(
     isArrayCheck.parsed.length > 0,
-    "Not a non empty array",
     input,
+    input,
+    "Not a non empty array",
   );
 };
 
@@ -75,8 +77,9 @@ export const isNumberArray: Validator<number[]> = (input: unknown) => {
 
   return validateIf(
     isArrayCheck.parsed.every((i) => isNumber(i).valid),
-    "Not an array of numbers",
     input,
+    input,
+    "Not an array of numbers",
   );
 };
 
@@ -105,8 +108,9 @@ export const isStringArray: Validator<string[]> = (input: unknown) => {
 
   return validateIf(
     isArrayCheck.parsed.every((i) => isString(i).valid),
-    "Not an array of strings",
     input,
+    input,
+    "Not an array of strings",
   );
 };
 
@@ -129,8 +133,9 @@ export const isStringArray: Validator<string[]> = (input: unknown) => {
 export const isOneOf = <T>(options: T[], input: unknown): Validated<T> =>
   validateIf(
     options.includes(input as T),
-    `Not one of ${JSON.stringify(options)}`,
     input,
+    input,
+    `Not one of ${serialize(options)}`,
   );
 
 /**
@@ -158,7 +163,8 @@ export const isArrayOf = <T>(options: T[], input: unknown): Validated<T> => {
 
   return validateIf(
     !isArrayCheck.parsed.some((i) => !options.includes(i as T)),
-    `Not an array of ${JSON.stringify(options)}`,
     input,
+    input,
+    `Not an array of ${serialize(options)}`,
   );
 };

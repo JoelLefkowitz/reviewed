@@ -18,12 +18,13 @@ import { validateIf } from "../factories/validate";
  * ```
  */
 export const isRecord: Validator<Record<string | number | symbol, unknown>> = (
-  input: unknown
+  input: unknown,
 ) =>
   validateIf(
     isObject(input).valid && !isArray(input).valid,
+    input,
+    input,
     "Not a record",
-    input
   );
 
 /**
@@ -51,7 +52,8 @@ export const isNonEmptyRecord: Validator<
 
   return validateIf(
     Object.keys(isRecordCheck.parsed).length > 0,
+    input,
+    input,
     "Not a non empty record",
-    input
   );
 };

@@ -1,4 +1,4 @@
-import { isNonEmptyRecord, isRecord } from "./objects";
+import { isNonEmptyRecord, isRecord } from "./records";
 import { suite } from "../testing/suite";
 
 suite(

@@ -65,13 +65,16 @@ isIntegerString("0.5") -> { valid: false, error: "Not an integer 0.5", ... }
 import { errors, isNaturalNumberString } from "reviewed";
 
 const pagination = (url: URL): void => {
-  const page = isNaturalNumberString(url.searchParams.get("page"));
-  const size = isNaturalNumberString(url.searchParams.get("size"));
+  const page = url.searchParams.get("page");
+  const size = url.searchParams.get("size");
 
-  const error = errors([page, size]);
+  const { valid, parsed, error } = merge({
+    page: isNaturalNumberString(page),
+    size: isNaturalNumberString(size),
+  });
 
-  if (error.length === 0) {
-    console.log({ page: page.parsed, size: size.parsed });
+  if (valid) {
+    console.log(parsed);
   } else {
     console.error(error);
   }
@@ -79,13 +82,13 @@ const pagination = (url: URL): void => {
 ```
 
 ```ts
-pagination(new URL("https://example.com?page=1&size=10")) >
+pagination(new URL("https://example.com?page=1&size=10")) ->
   { page: 1, size: 10 };
 ```
 
 ```ts
-pagination(new URL("https://example.com?page=-1")) >
-  ['Not a natural number string: "-1"', "Not a string: null"];
+pagination(new URL("https://example.com?page=-1")) ->
+  { page: 'Not a natural number string: "-1"', size: "Not a string: null" };
 ```
 
 ### Alternatives
@@ -187,7 +190,7 @@ const isNumber: Validator<number> = (input: unknown) =>
   validateIf(
     typeof input === "number" && isFinite(input),
     "Not a number",
-    input
+    input,
   );
 ```
 
@@ -205,7 +208,7 @@ const isObject: Validator<object> = (input: unknown) =>
   validateIf(
     typeof input === "object" && input !== null,
     "Not an object",
-    input
+    input,
   );
 ```
 
@@ -219,12 +222,12 @@ const isObject: Validator<object> = (input: unknown) =>
 
 ```ts
 const isRecord: Validator<Record<string | number | symbol, unknown>> = (
-  input: unknown
+  input: unknown,
 ) =>
   validateIf(
     isObject(input).valid && !isArray(input).valid,
     "Not a record",
-    input
+    input,
   );
 ```
 

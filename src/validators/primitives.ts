@@ -16,7 +16,7 @@ import { validateIf } from "../factories/validate";
  * ```
  */
 export const isUndefined: Validator<undefined> = (input: unknown) =>
-  validateIf(input === undefined, "Not undefined", input);
+  validateIf(input === undefined, input, input, "Not undefined");
 
 /**
  * Validate an input is null
@@ -33,7 +33,7 @@ export const isUndefined: Validator<undefined> = (input: unknown) =>
  * ```
  */
 export const isNull: Validator<null> = (input: unknown) =>
-  validateIf(input === null, "Not null", input);
+  validateIf(input === null, input, input, "Not null");
 
 /**
  * Validate a boolean
@@ -51,7 +51,7 @@ export const isNull: Validator<null> = (input: unknown) =>
  * ```
  */
 export const isBoolean: Validator<boolean> = (input: unknown) =>
-  validateIf(typeof input === "boolean", "Not a boolean", input);
+  validateIf(typeof input === "boolean", input, input, "Not a boolean");
 
 /**
  * Validate a number
@@ -70,8 +70,9 @@ export const isBoolean: Validator<boolean> = (input: unknown) =>
 export const isNumber: Validator<number> = (input: unknown) =>
   validateIf(
     typeof input === "number" && isFinite(input),
+    input,
+    input,
     "Not a number",
-    input
   );
 
 /**
@@ -89,7 +90,7 @@ export const isNumber: Validator<number> = (input: unknown) =>
  * ```
  */
 export const isString: Validator<string> = (input: unknown) =>
-  validateIf(typeof input === "string", "Not a string", input);
+  validateIf(typeof input === "string", input, input, "Not a string");
 
 /**
  * Validate an object
@@ -109,6 +110,7 @@ export const isString: Validator<string> = (input: unknown) =>
 export const isObject: Validator<object> = (input: unknown) =>
   validateIf(
     typeof input === "object" && input !== null,
+    input,
+    input,
     "Not an object",
-    input
   );
