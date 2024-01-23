@@ -1,10 +1,10 @@
-import { isNumber } from "../validators/primitives";
 import {
+  filterValidated,
+  filterValidatedOr,
   pickValidated,
-  pickValidatedOr,
-  selectValidated,
   validatedOr,
 } from "./filter";
+import { isNumber } from "../validators/primitives";
 
 describe("validatedOr", () => {
   it("takes a  an array of validation results", () => {
@@ -13,25 +13,27 @@ describe("validatedOr", () => {
   });
 });
 
-describe("pickValidated", () => {
+describe("filterValidated", () => {
   it("filters an array of validation results", () => {
-    expect(pickValidated(["1", 2, "3"].map(isNumber))).toEqual([2]);
+    expect(filterValidated(["1", 2, "3"].map(isNumber))).toEqual([2]);
   });
 });
 
-describe("pickValidatedOr", () => {
-  it("picks parsed results or a fallback from an array of validation results", () => {
-    expect(pickValidatedOr(["1", 2, "3"].map(isNumber), 4)).toEqual([4, 2, 4]);
+describe("filterValidatedOr", () => {
+  it("filters parsed results or a fallback from an array of validation results", () => {
+    expect(filterValidatedOr(["1", 2, "3"].map(isNumber), 4)).toEqual([
+      4, 2, 4,
+    ]);
   });
 });
 
-describe("selectValidated", () => {
+describe("pickValidated", () => {
   it("selects parsed results from validated fields", () => {
     expect(
-      selectValidated({
+      pickValidated({
         a: isNumber("1"),
         b: isNumber(2),
-      }),
+      })
     ).toEqual({ b: 2 });
   });
 });

@@ -9,54 +9,24 @@ Ergonomic, extensible and lightweight validators.
 ![codacy_quality](https://img.shields.io/codacy/grade/0c0c92a961d444ee9f65d961bf0e1293)
 ![codacy_coverage](https://img.shields.io/codacy/coverage/0c0c92a961d444ee9f65d961bf0e1293)
 
-## Installing
-
-```bash
-npm install reviewed
-```
-
 ## Motivation
 
-A validation library for TypeScript needs to be:
-
-- Ergonomic
-  - Validated types can be inferred by the compiler
-  - Validators can parse the inputs
-  - Errors are easy to collect
-- Extensible
-  - It is quick to write validators
-  - It is simple to test validators
-  - Common validators are available
-- Lightweight
-  - Dependency free
-  - Tiny bundle size (< 10Kb)
-  - Fully tree shakeable
-
-`reviewed` exposes a flexible interface that achieves these goals.
-
-### Simple example
+I want to validate unknowns and for the compiler to know the parsed type:
 
 ```ts
 import { isNumber } from "reviewed";
 
-// Input type: unknown
-const { valid, parsed } = isNumber(input);
+const parse = (input: unknown) => {
+  const { valid, parsed } = isNumber(input);
 
-if (valid) {
-  // Parsed type: number
-  console.log(parsed + 1);
-}
+  if (valid) {
+    // Parsed type: number
+    console.log(parsed);
+  }
+};
 ```
 
-```ts
-isIntegerString("1") -> { valid: true, parsed: 1, ... }
-```
-
-```ts
-isIntegerString("0.5") -> { valid: false, error: "Not an integer 0.5", ... }
-```
-
-### Detailed example
+I want to validate an object and get failure messages for each field:
 
 ```ts
 import { errors, isNaturalNumberString } from "reviewed";
@@ -88,6 +58,39 @@ pagination(new URL("https://example.com?page=-1")) ->
   { page: 'Not a natural number string: "-1"', size: "Not a string: null" };
 ```
 
+## Installing
+
+```bash
+npm install reviewed
+```
+
+## Design
+
+A validation library for TypeScript needs to be:
+
+- Ergonomic
+  - Validated types can be inferred by the compiler
+  - Validators can parse the inputs
+  - Errors are easy to collect
+- Extensible
+  - It is quick to write validators
+  - It is simple to test validators
+  - Common validators are available
+- Lightweight
+  - Dependency free
+  - Tiny bundle size (< 10Kb)
+  - Fully tree shakeable
+
+`reviewed` exposes a flexible interface that achieves these goals.
+
+```ts
+isIntegerString("1") -> { valid: true, parsed: 1, ... }
+```
+
+```ts
+isIntegerString("0.5") -> { valid: false, error: "Not an integer 0.5", ... }
+```
+
 ### Alternatives
 
 Webpack warns when a bundle exceeds 250kb, validation is not an optional feature of a web application. If the minified size of a package compromises this budget it simply won't be used.
@@ -101,7 +104,7 @@ Webpack warns when a bundle exceeds 250kb, validation is not an optional feature
 | yup         | 1.3.3   | 40.8          |
 | superstruct | 1.0.3   | 11.5          |
 
-Superstruct has good TypeScript support and serves as an inspiration for this package. However, the validation style for this package is designed to be more flexible than superstruct with less need for factory functions and simpler error message customisation.
+Superstruct has good TypeScript support and serves as an inspiration for this package. However, the validation style for this package is designed to be much simpler and more flexible than superstruct with less need for factory functions and simpler error message customisation.
 
 ## Usage
 
@@ -119,7 +122,12 @@ export const isNaturalNumber: Validator<number> = (input: unknown) => {
     return isIntegerCheck;
   }
 
-  return validateIf(isIntegerCheck.parsed > 0, "Not a natural number", input);
+  return validateIf(
+    isIntegerCheck.parsed > 0,
+    input,
+    input,
+    "Not a natural number"
+  );
 };
 ```
 
@@ -186,8 +194,9 @@ Care is taken to make primitive types easier to work with.
 const isNumber: Validator<number> = (input: unknown) =>
   validateIf(
     typeof input === "number" && isFinite(input),
-    "Not a number",
-    input
+    input,
+    input,
+    "Not a number"
   );
 ```
 
@@ -204,8 +213,9 @@ const isNumber: Validator<number> = (input: unknown) =>
 const isObject: Validator<object> = (input: unknown) =>
   validateIf(
     typeof input === "object" && input !== null,
-    "Not an object",
-    input
+    input,
+    input,
+    "Not an object"
   );
 ```
 
@@ -223,8 +233,9 @@ const isRecord: Validator<Record<string | number | symbol, unknown>> = (
 ) =>
   validateIf(
     isObject(input).valid && !isArray(input).valid,
-    "Not a record",
-    input
+    input,
+    input,
+    "Not a record"
   );
 ```
 

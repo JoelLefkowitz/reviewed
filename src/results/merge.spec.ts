@@ -1,6 +1,6 @@
 import { isNumber } from "../validators/primitives";
 import { mapRecord } from "../services/records";
-import { merge, mergeArray } from "./join";
+import { merge, mergeArray } from "./merge";
 
 describe("mergeArray", () => {
   it("merges an array of valid objects", () => {

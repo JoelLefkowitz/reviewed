@@ -5,7 +5,7 @@ import { Validator } from "../models/validation/Validator.model";
 import { guard } from "./guards";
 import { isArray } from "../validators/arrays";
 import { isString } from "../validators/primitives";
-import { mergeArray } from "../results/join";
+import { mergeArray } from "../results/merge";
 import { rejection } from "../services/strings";
 
 /**
@@ -62,7 +62,7 @@ export const invalidate = <T, U extends ValidationErrors<T> = string>(
 /**
  * ...
  *
- * @category Results
+ * @category Factories
  *
  * @typeParam ...
  * @param ...

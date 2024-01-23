@@ -30,7 +30,7 @@ export const validatedOr = <T>(result: Validated<T>, fallback: T): T =>
  * ...
  * ```
  */
-export const pickValidated = <T>(results: Validated<T>[]): T[] =>
+export const filterValidated = <T>(results: Validated<T>[]): T[] =>
   results.reduce<T[]>(
     (acc, { valid, parsed }) => (valid ? [...acc, parsed] : acc),
     [] as T[],
@@ -49,7 +49,10 @@ export const pickValidated = <T>(results: Validated<T>[]): T[] =>
  * ...
  * ```
  */
-export const pickValidatedOr = <T>(results: Validated<T>[], fallback: T): T[] =>
+export const filterValidatedOr = <T>(
+  results: Validated<T>[],
+  fallback: T,
+): T[] =>
   results.reduce<T[]>(
     (acc, { valid, parsed }) => [...acc, valid ? parsed : fallback],
     [] as T[],
@@ -68,7 +71,7 @@ export const pickValidatedOr = <T>(results: Validated<T>[], fallback: T): T[] =>
  * ...
  * ```
  */
-export const selectValidated = <T extends string, U>(
+export const pickValidated = <T extends string, U>(
   results: Record<T, Validated<U>>,
 ): Partial<Record<T, U>> =>
   reduceRecord(
