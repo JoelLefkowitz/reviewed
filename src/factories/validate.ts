@@ -1,5 +1,6 @@
-import { Errors, Validated } from "../models/validation/Validated.model";
 import { RegexValidator } from "../models/regexes/RegexValidator.model";
+import { Validated } from "../models/validation/Validated.model";
+import { ValidationErrors } from "../models/validation/ValidationErrors.model";
 import { Validator } from "../models/validation/Validator.model";
 import { guard } from "./guards";
 import { isArray } from "../validators/arrays";
@@ -13,6 +14,7 @@ import { rejection } from "../services/strings";
  * @category Factories
  *
  * @typeParam T - the validated type
+ * @typeParam U - the validation errors type
  * @param input - the raw input
  * @param parsed - the parsed input
  *
@@ -22,7 +24,7 @@ import { rejection } from "../services/strings";
  * validate("1", 1) -> { valid: true, input: "1", parsed: 1, error: null }
  * ```
  */
-export const validate = <T, U extends Errors<T>>(
+export const validate = <T, U extends ValidationErrors<T> = string>(
   input: unknown,
   parsed: unknown = input,
 ): Validated<T, U> => ({
@@ -38,14 +40,16 @@ export const validate = <T, U extends Errors<T>>(
  * @category Factories
  *
  * @typeParam T - the validated type
+ * @typeParam U - the validation errors type
  * @param reason - the failure explanation
  * @param input - the raw input
  *
  * @example
  * ```ts
+ * invalidate() -> { valid: false, input, parsed: null, error }
  * ```
  */
-export const invalidate = <T, U extends Errors<T>>(
+export const invalidate = <T, U extends ValidationErrors<T> = string>(
   input: unknown,
   error: U,
 ): Validated<T, U> => ({
@@ -55,6 +59,19 @@ export const invalidate = <T, U extends Errors<T>>(
   error,
 });
 
+/**
+ * ...
+ *
+ * @category Results
+ *
+ * @typeParam ...
+ * @param ...
+ *
+ * @example
+ * ```ts
+ * ...
+ * ```
+ */
 export const invalidateWith = <T>(
   input: unknown,
   reason: string,

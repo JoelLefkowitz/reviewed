@@ -10,6 +10,7 @@ describe("validateOr", () => {
 
 describe("validateEachOr", () => {
   it("validates an array of inputs with a fallback", () => {
+    expect(validateEachOr(isNumber, 0, "")).toEqual([]);
     expect(validateEachOr(isNumber, 0, [1, 2, 3])).toEqual([1, 2, 3]);
     expect(validateEachOr(isNumber, 0, ["1", 2, "3"])).toEqual([0, 2, 0]);
   });

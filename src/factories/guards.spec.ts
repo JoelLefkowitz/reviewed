@@ -15,5 +15,6 @@ describe("fromGuard", () => {
 
     const isNumber = fromGuard(guard, "Not a number");
     expect(isNumber(1).parsed).toBe(1);
+    expect(isNumber("").error).toBe('Not a number: ""');
   });
 });

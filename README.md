@@ -2,15 +2,12 @@
 
 Ergonomic, extensible and lightweight validators.
 
-## Status
-
-| Source     | Shields                                                       |
-| ---------- | ------------------------------------------------------------- |
-| Project    | ![latest_release] ![license] ![line_count] ![language_count]  |
-| Health     | ![review_action] ![codacy_quality] ![codacy_coverage]         |
-| Publishers | ![npm_version] ![npm_downloads]                               |
-| Repository | ![open_issues] ![closed_issues] ![open_pulls] ![closed_pulls] |
-| Activity   | ![contributors] ![monthly_commits] ![last_commit]             |
+![review_action](https://img.shields.io/github/actions/workflow/status/JoelLefkowitz/reviewed/review.yml)
+![npm_version](https://img.shields.io/npm/v/reviewed)
+![npm_downloads](https://img.shields.io/npm/dw/reviewed)
+![npm_bundle_size](https://img.shields.io/bundlephobia/min/reviewed)
+![codacy_quality](https://img.shields.io/codacy/grade/0c0c92a961d444ee9f65d961bf0e1293)
+![codacy_coverage](https://img.shields.io/codacy/coverage/0c0c92a961d444ee9f65d961bf0e1293)
 
 ## Installing
 
@@ -214,7 +211,7 @@ const isObject: Validator<object> = (input: unknown) =>
 
 | Input | Parsed | Error         |
 | ----- | ------ | ------------- |
-| []    | []     | null          |
+| \[]   | \[]    | null          |
 | {}    | {}     | null          |
 | ""    | null   | Not an object |
 
@@ -233,7 +230,7 @@ const isRecord: Validator<Record<string | number | symbol, unknown>> = (
 
 | Input | Parsed | Error         |
 | ----- | ------ | ------------- |
-| []    | null   | Not a record  |
+| \[]   | null   | Not a record  |
 | {}    | {}     | null          |
 | ""    | null   | Not an object |
 
@@ -310,20 +307,3 @@ Lots of love to the open source community!
     <img width=200 height=200 src='https://media.giphy.com/media/KEAAbQ5clGWJwuJuZB/giphy.gif' alt='Love each other' />
     <img width=200 height=200 src='https://media.giphy.com/media/WRWykrFkxJA6JJuTvc/giphy.gif' alt="It's ok to have a bad day" />
 </p>
-
-[latest_release]: https://img.shields.io/github/v/tag/joellefkowitz/reviewed "Latest release"
-[license]: https://img.shields.io/github/license/joellefkowitz/reviewed "License"
-[line_count]: https://img.shields.io/tokei/lines/github/joellefkowitz/reviewed "Line count"
-[language_count]: https://img.shields.io/github/languages/count/joellefkowitz/reviewed "Language count"
-[review_action]: https://img.shields.io/github/actions/workflow/status/JoelLefkowitz/reviewed/review.yml "Review action"
-[codacy_quality]: https://img.shields.io/codacy/grade/0c0c92a961d444ee9f65d961bf0e1293 "Codacy quality"
-[codacy_coverage]: https://img.shields.io/codacy/coverage/0c0c92a961d444ee9f65d961bf0e1293 "Codacy coverage"
-[npm_version]: https://img.shields.io/npm/v/reviewed "NPM Version"
-[npm_downloads]: https://img.shields.io/npm/dw/reviewed "NPM Downloads"
-[open_issues]: https://img.shields.io/github/issues/joellefkowitz/reviewed "Open issues"
-[closed_issues]: https://img.shields.io/github/issues-closed/joellefkowitz/reviewed "Closed issues"
-[open_pulls]: https://img.shields.io/github/issues-pr/joellefkowitz/reviewed "Open pull requests"
-[closed_pulls]: https://img.shields.io/github/issues-pr-closed/joellefkowitz/reviewed "Closed pull requests"
-[contributors]: https://img.shields.io/github/contributors/joellefkowitz/reviewed "Contributors"
-[monthly_commits]: https://img.shields.io/github/commit-activity/m/joellefkowitz/reviewed "Monthly commits"
-[last_commit]: https://img.shields.io/github/last-commit/joellefkowitz/reviewed "Last commit"

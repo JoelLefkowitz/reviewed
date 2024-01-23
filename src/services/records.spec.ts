@@ -15,8 +15,8 @@ describe("reduceRecord", () => {
       reduceRecord(
         (x) => x * 2,
         (x) => x % 2 === 0,
-        { a: 1, b: 2 }
-      )
+        { a: 1, b: 2 },
+      ),
     ).toEqual({
       b: 4,
     });

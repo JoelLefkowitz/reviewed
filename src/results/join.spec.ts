@@ -1,12 +1,10 @@
 import { isNumber } from "../validators/primitives";
 import { mapRecord } from "../services/records";
-import { mergeArray, merge } from "./join";
+import { merge, mergeArray } from "./join";
 
 describe("mergeArray", () => {
   it("merges an array of valid objects", () => {
-    expect(mergeArray([1, 2, 3].map(isNumber)).parsed).toEqual([
-      1, 2, 3,
-    ]);
+    expect(mergeArray([1, 2, 3].map(isNumber)).parsed).toEqual([1, 2, 3]);
   });
 
   it("invalidates an array containing invalid objects", () => {
@@ -19,15 +17,15 @@ describe("mergeArray", () => {
 
 describe("merge", () => {
   it("merges an array of valid objects", () => {
-    expect(
-      merge(mapRecord(isNumber, { a: 1, b: 2, c: 3 })).parsed
-    ).toEqual({ a: 1, b: 2, c: 3 });
+    expect(merge(mapRecord(isNumber, { a: 1, b: 2, c: 3 })).parsed).toEqual({
+      a: 1,
+      b: 2,
+      c: 3,
+    });
   });
 
   it("invalidates an array containing invalid objects", () => {
-    expect(
-      merge(mapRecord(isNumber, { a: "1", b: 2, c: "3" })).error
-    ).toEqual({
+    expect(merge(mapRecord(isNumber, { a: "1", b: 2, c: "3" })).error).toEqual({
       a: 'Not a number: "1"',
       c: 'Not a number: "3"',
     });
