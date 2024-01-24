@@ -1,4 +1,5 @@
 import { Validated } from "../models/validation/Validated.model";
+import { ValidationErrors } from "../models/validation/ValidationErrors.model";
 import { reduceRecord } from "../services/records";
 
 /**
@@ -7,6 +8,7 @@ import { reduceRecord } from "../services/records";
  * @category Results
  *
  * @typeParam T - the validated type
+ * @typeParam U - the validation errors type
  * @param result - the validated result
  * @param fallback - the fallback
  *
@@ -16,8 +18,10 @@ import { reduceRecord } from "../services/records";
  * validatedOr(isNumber("1"), 0)) -> 0
  * ```
  */
-export const validatedOr = <T>(result: Validated<T>, fallback: T): T =>
-  result.valid ? result.parsed : fallback;
+export const validatedOr = <T, U extends ValidationErrors<T>>(
+  result: Validated<T, U>,
+  fallback: T,
+): T => (result.valid ? result.parsed : fallback);
 
 /**
  * Filter an array of validated results
@@ -25,6 +29,7 @@ export const validatedOr = <T>(result: Validated<T>, fallback: T): T =>
  * @category Results
  *
  * @typeParam T - the validated type
+ * @typeParam U - the validation errors type
  * @param results - the validated results to filter
  *
  * @example
@@ -32,7 +37,9 @@ export const validatedOr = <T>(result: Validated<T>, fallback: T): T =>
  * filterValidated(["1", 2, "3"].map(isNumber)) -> [2]
  * ```
  */
-export const filterValidated = <T>(results: Validated<T>[]): T[] =>
+export const filterValidated = <T, U extends ValidationErrors<T>>(
+  results: Validated<T, U>[],
+): T[] =>
   results.reduce<T[]>(
     (acc, { valid, parsed }) => (valid ? [...acc, parsed] : acc),
     [] as T[],
@@ -44,6 +51,7 @@ export const filterValidated = <T>(results: Validated<T>[]): T[] =>
  * @category Results
  *
  * @typeParam T - the validated type
+ * @typeParam U - the validation errors type
  * @param results - the validated results to filter
  * @param fallback - the fallback
  *
@@ -52,8 +60,8 @@ export const filterValidated = <T>(results: Validated<T>[]): T[] =>
  * filterValidatedOr(["1", 2, "3"].map(isNumber), 0) -> [0, 2, 0]
  * ```
  */
-export const filterValidatedOr = <T>(
-  results: Validated<T>[],
+export const filterValidatedOr = <T, U extends ValidationErrors<T>>(
+  results: Validated<T, U>[],
   fallback: T,
 ): T[] =>
   results.reduce<T[]>(

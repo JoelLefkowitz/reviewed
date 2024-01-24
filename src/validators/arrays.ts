@@ -130,7 +130,10 @@ export const isStringArray: Validator<string[]> = (input: unknown) => {
  *   { valid: false, error: "Not one of [1,2,3]: 4", ... }
  * ```
  */
-export const isOneOf = <T>(options: T[], input: unknown): Validated<T> =>
+export const isOneOf = <T>(
+  options: T[],
+  input: unknown,
+): Validated<T, string> =>
   validateIf(
     options.includes(input as T),
     input,
@@ -154,7 +157,10 @@ export const isOneOf = <T>(options: T[], input: unknown): Validated<T> =>
  *   { valid: false, error: "Not an array of [1,2,3]: [3,1,4]", ... }
  * ```
  */
-export const isArrayOf = <T>(options: T[], input: unknown): Validated<T> => {
+export const isArrayOf = <T>(
+  options: T[],
+  input: unknown,
+): Validated<T, string> => {
   const isArrayCheck = isArray(input);
 
   if (!isArrayCheck.valid) {

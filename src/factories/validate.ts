@@ -78,7 +78,7 @@ export const invalidate = <T, U extends ValidationErrors<T> = string>(
 export const invalidateWith = <T>(
   input: unknown,
   reason: string,
-): Validated<T> => invalidate(input, rejection(input, reason));
+): Validated<T, string> => invalidate(input, rejection(input, reason));
 
 /**
  * Validate an input given a condition
@@ -102,7 +102,7 @@ export const validateIf = <T>(
   input: unknown,
   parsed: unknown,
   reason: string,
-): Validated<T> =>
+): Validated<T, string> =>
   condition ? validate(input, parsed) : invalidateWith(input, reason);
 
 /**

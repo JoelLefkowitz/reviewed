@@ -62,7 +62,7 @@ export const merge = <T>(
  * ```
  */
 export const mergeArray = <T>(
-  results: Validated<T>[],
+  results: Validated<T, string>[],
 ): Validated<T[], string[]> => {
   const { valid, input, parsed, error } = group(results);
 
