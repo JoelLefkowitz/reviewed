@@ -1,5 +1,5 @@
 import { Validator } from "../models/validation/Validator.model";
-import { invalidate, validate } from "./validate";
+import { invalidateWith, validate } from "./validate";
 
 /**
  * Turn a validator into a type guard
@@ -47,4 +47,4 @@ export const guard =
 export const fromGuard =
   <T>(guard: (input: unknown) => input is T, reason: string): Validator<T> =>
   (input: unknown) =>
-    guard(input) ? validate(input) : invalidate(input, reason);
+    guard(input) ? validate(input) : invalidateWith(input, reason);

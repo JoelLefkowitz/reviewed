@@ -1,5 +1,5 @@
 import { Validator } from "../models/validation/Validator.model";
-import { invalidate } from "../factories/validate";
+import { invalidateWith } from "../factories/validate";
 
 /**
  * Construct a test suite for a validator
@@ -9,7 +9,7 @@ import { invalidate } from "../factories/validate";
  * @typeParam T - the validated type
  * @param validator - the validator to test
  * @param valid - an array of valid raw and parsed inputs
- * @param invalid - a mapping of rejections and invalid inputs
+ * @param invalid - a mapping of validation errors and invalid inputs
  * @param name - the name of the validator to test
  *
  * @example
@@ -43,7 +43,8 @@ export const suite = <T>(
     it("fails invalid objects", () => {
       Object.entries(invalid).forEach(([reason, cases]) => {
         cases.forEach((input) => {
-          expect(validator(input).error).toBe(invalidate(input, reason).error);
+          const { error } = invalidateWith(input, reason);
+          expect(validator(input).error).toBe(error);
         });
       });
     });

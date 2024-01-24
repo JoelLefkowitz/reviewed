@@ -2,15 +2,61 @@
 
 Ergonomic, extensible and lightweight validators.
 
-## Status
+![review_action](https://img.shields.io/github/actions/workflow/status/JoelLefkowitz/reviewed/review.yml)
+![npm_version](https://img.shields.io/npm/v/reviewed)
+![npm_downloads](https://img.shields.io/npm/dw/reviewed)
+![npm_bundle_size](https://img.shields.io/bundlephobia/min/reviewed)
+![codacy_quality](https://img.shields.io/codacy/grade/0c0c92a961d444ee9f65d961bf0e1293)
+![codacy_coverage](https://img.shields.io/codacy/coverage/0c0c92a961d444ee9f65d961bf0e1293)
 
-| Source     | Shields                                                       |
-| ---------- | ------------------------------------------------------------- |
-| Project    | ![latest_release] ![license] ![line_count] ![language_count]  |
-| Health     | ![review_action] ![codacy_quality] ![codacy_coverage]         |
-| Publishers | ![npm_version] ![npm_downloads]                               |
-| Repository | ![open_issues] ![closed_issues] ![open_pulls] ![closed_pulls] |
-| Activity   | ![contributors] ![monthly_commits] ![last_commit]             |
+## Motivation
+
+I want to validate unknowns and for the compiler to know the parsed type:
+
+```ts
+import { isNumber } from "reviewed";
+
+const parse = (input: unknown) => {
+  const { valid, parsed } = isNumber(input);
+
+  if (valid) {
+    // Parsed type: number
+    console.log(parsed);
+  }
+};
+```
+
+I want to validate an object and get failure messages for each field:
+
+```ts
+import { errors, isNaturalNumberString } from "reviewed";
+
+const pagination = (url: URL): void => {
+  const page = url.searchParams.get("page");
+  const size = url.searchParams.get("size");
+
+  const { valid, parsed, error } = merge({
+    page: isNaturalNumberString(page),
+    size: isNaturalNumberString(size),
+  });
+
+  if (valid) {
+    console.log(parsed);
+  } else {
+    console.error(error);
+  }
+};
+```
+
+```ts
+pagination(new URL("https://example.com?page=1&size=10")) ->
+  { page: 1, size: 10 };
+```
+
+```ts
+pagination(new URL("https://example.com?page=-1")) ->
+  { page: 'Not a natural number string: "-1"', size: "Not a string: null" };
+```
 
 ## Installing
 
@@ -18,7 +64,7 @@ Ergonomic, extensible and lightweight validators.
 npm install reviewed
 ```
 
-## Motivation
+## Design
 
 A validation library for TypeScript needs to be:
 
@@ -37,55 +83,12 @@ A validation library for TypeScript needs to be:
 
 `reviewed` exposes a flexible interface that achieves these goals.
 
-### Simple example
-
-```ts
-import { isNumber } from "reviewed";
-
-// Input type: unknown
-const { valid, parsed } = isNumber(input);
-
-if (valid) {
-  // Parsed type: number
-  console.log(parsed + 1);
-}
-```
-
 ```ts
 isIntegerString("1") -> { valid: true, parsed: 1, ... }
 ```
 
 ```ts
 isIntegerString("0.5") -> { valid: false, error: "Not an integer 0.5", ... }
-```
-
-### Detailed example
-
-```ts
-import { errors, isNaturalNumberString } from "reviewed";
-
-const pagination = (url: URL): void => {
-  const page = isNaturalNumberString(url.searchParams.get("page"));
-  const size = isNaturalNumberString(url.searchParams.get("size"));
-
-  const error = errors([page, size]);
-
-  if (error.length === 0) {
-    console.log({ page: page.parsed, size: size.parsed });
-  } else {
-    console.error(error);
-  }
-};
-```
-
-```ts
-pagination(new URL("https://example.com?page=1&size=10")) >
-  { page: 1, size: 10 };
-```
-
-```ts
-pagination(new URL("https://example.com?page=-1")) >
-  ['Not a natural number string: "-1"', "Not a string: null"];
 ```
 
 ### Alternatives
@@ -101,7 +104,7 @@ Webpack warns when a bundle exceeds 250kb, validation is not an optional feature
 | yup         | 1.3.3   | 40.8          |
 | superstruct | 1.0.3   | 11.5          |
 
-Superstruct has good TypeScript support and serves as an inspiration for this package. However, the validation style for this package is designed to be more flexible than superstruct with less need for factory functions and simpler error message customisation.
+Superstruct has good TypeScript support and serves as an inspiration for this package. However, the validation style for this package is designed to be much simpler and more flexible than superstruct with less need for factory functions and simpler error message customisation.
 
 ## Usage
 
@@ -119,7 +122,12 @@ export const isNaturalNumber: Validator<number> = (input: unknown) => {
     return isIntegerCheck;
   }
 
-  return validateIf(isIntegerCheck.parsed > 0, "Not a natural number", input);
+  return validateIf(
+    isIntegerCheck.parsed > 0,
+    input,
+    input,
+    "Not a natural number",
+  );
 };
 ```
 
@@ -186,8 +194,9 @@ Care is taken to make primitive types easier to work with.
 const isNumber: Validator<number> = (input: unknown) =>
   validateIf(
     typeof input === "number" && isFinite(input),
+    input,
+    input,
     "Not a number",
-    input
   );
 ```
 
@@ -204,14 +213,15 @@ const isNumber: Validator<number> = (input: unknown) =>
 const isObject: Validator<object> = (input: unknown) =>
   validateIf(
     typeof input === "object" && input !== null,
+    input,
+    input,
     "Not an object",
-    input
   );
 ```
 
 | Input | Parsed | Error         |
 | ----- | ------ | ------------- |
-| []    | []     | null          |
+| \[]   | \[]    | null          |
 | {}    | {}     | null          |
 | ""    | null   | Not an object |
 
@@ -219,18 +229,19 @@ const isObject: Validator<object> = (input: unknown) =>
 
 ```ts
 const isRecord: Validator<Record<string | number | symbol, unknown>> = (
-  input: unknown
+  input: unknown,
 ) =>
   validateIf(
     isObject(input).valid && !isArray(input).valid,
+    input,
+    input,
     "Not a record",
-    input
   );
 ```
 
 | Input | Parsed | Error         |
 | ----- | ------ | ------------- |
-| []    | null   | Not a record  |
+| \[]   | null   | Not a record  |
 | {}    | {}     | null          |
 | ""    | null   | Not an object |
 
@@ -307,20 +318,3 @@ Lots of love to the open source community!
     <img width=200 height=200 src='https://media.giphy.com/media/KEAAbQ5clGWJwuJuZB/giphy.gif' alt='Love each other' />
     <img width=200 height=200 src='https://media.giphy.com/media/WRWykrFkxJA6JJuTvc/giphy.gif' alt="It's ok to have a bad day" />
 </p>
-
-[latest_release]: https://img.shields.io/github/v/tag/joellefkowitz/reviewed "Latest release"
-[license]: https://img.shields.io/github/license/joellefkowitz/reviewed "License"
-[line_count]: https://img.shields.io/tokei/lines/github/joellefkowitz/reviewed "Line count"
-[language_count]: https://img.shields.io/github/languages/count/joellefkowitz/reviewed "Language count"
-[review_action]: https://img.shields.io/github/actions/workflow/status/JoelLefkowitz/reviewed/review.yml "Review action"
-[codacy_quality]: https://img.shields.io/codacy/grade/0c0c92a961d444ee9f65d961bf0e1293 "Codacy quality"
-[codacy_coverage]: https://img.shields.io/codacy/coverage/0c0c92a961d444ee9f65d961bf0e1293 "Codacy coverage"
-[npm_version]: https://img.shields.io/npm/v/reviewed "NPM Version"
-[npm_downloads]: https://img.shields.io/npm/dw/reviewed "NPM Downloads"
-[open_issues]: https://img.shields.io/github/issues/joellefkowitz/reviewed "Open issues"
-[closed_issues]: https://img.shields.io/github/issues-closed/joellefkowitz/reviewed "Closed issues"
-[open_pulls]: https://img.shields.io/github/issues-pr/joellefkowitz/reviewed "Open pull requests"
-[closed_pulls]: https://img.shields.io/github/issues-pr-closed/joellefkowitz/reviewed "Closed pull requests"
-[contributors]: https://img.shields.io/github/contributors/joellefkowitz/reviewed "Contributors"
-[monthly_commits]: https://img.shields.io/github/commit-activity/m/joellefkowitz/reviewed "Monthly commits"
-[last_commit]: https://img.shields.io/github/last-commit/joellefkowitz/reviewed "Last commit"

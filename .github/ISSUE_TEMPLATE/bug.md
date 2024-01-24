@@ -12,6 +12,7 @@ about: Report a bug
 ## Is this a regression?
 
 <!-- Did this behavior use to work in the previous version? -->
+
 <!-- edit: --> Yes, the previous version in which this bug was not present was: ...
 
 ## Minimal Reproduction
