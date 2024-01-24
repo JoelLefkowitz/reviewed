@@ -41,12 +41,13 @@ export const validate = <T, U extends ValidationErrors<T> = string>(
  *
  * @typeParam T - the validated type
  * @typeParam U - the validation errors type
- * @param reason - the failure explanation
  * @param input - the raw input
+ * @param error - the validation errors
  *
  * @example
  * ```ts
- * invalidate() -> { valid: false, input, parsed: null, error }
+ * invalidate("1", "Not a number") ->
+ *   { valid: false, input: "", parsed: null, error: 'Not a number'}
  * ```
  */
 export const invalidate = <T, U extends ValidationErrors<T> = string>(
@@ -60,16 +61,18 @@ export const invalidate = <T, U extends ValidationErrors<T> = string>(
 });
 
 /**
- * ...
+ * Invalidate an input and serialize it with an error message
  *
  * @category Factories
  *
- * @typeParam ...
- * @param ...
+ * @typeParam T - the validated type
+ * @param input - the raw input
+ * @param reason - the error message
  *
  * @example
  * ```ts
- * ...
+ * invalidateWith("1", "Not a number") ->
+ *   { valid: false, input: "", parsed: null, error: 'Not a number: "1"'}
  * ```
  */
 export const invalidateWith = <T>(

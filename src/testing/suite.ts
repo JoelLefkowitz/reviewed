@@ -9,7 +9,7 @@ import { invalidateWith } from "../factories/validate";
  * @typeParam T - the validated type
  * @param validator - the validator to test
  * @param valid - an array of valid raw and parsed inputs
- * @param invalid - a mapping of rejections and invalid inputs
+ * @param invalid - a mapping of validation errors and invalid inputs
  * @param name - the name of the validator to test
  *
  * @example

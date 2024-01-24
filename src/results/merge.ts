@@ -8,16 +8,20 @@ import { isString } from "../validators/primitives";
 import { mapRecord, pickField, reduceRecord } from "../services/records";
 
 /**
- * ...
+ * Merge the validated fields of an object
  *
  * @category Results
  *
- * @typeParam ...
- * @param ...
+ * @typeParam T - the validated type
+ * @param results - the validated results to merge
  *
  * @example
  * ```ts
- * ...
+ * merge({ a: isNumber("1"), b: isNumber(2), c: isNumber("3") }) -> {
+ *     valid: false,
+ *     error: { a: 'Not a number: "1"', c: 'Not a number: "3"' },
+ *     ...
+ *   }
  * ```
  */
 export const merge = <T>(
@@ -41,16 +45,20 @@ export const merge = <T>(
 };
 
 /**
- * ...
+ * Merge an array of validated results
  *
  * @category Results
  *
- * @typeParam ...
- * @param ...
+ * @typeParam T - the validated type
+ * @param results - the validated results to merge
  *
  * @example
  * ```ts
- * ...
+ * mergeArray(["1", 2, "3"].map(isNumber)) -> {
+ *     valid: false,
+ *     error: ['Not a number: "1"', 'Not a number: "3"'],
+ *     ...
+ *   }
  * ```
  */
 export const mergeArray = <T>(
