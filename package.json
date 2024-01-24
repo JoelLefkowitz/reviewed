@@ -1,7 +1,7 @@
 {
   "name": "reviewed",
   "description": "Ergonomic, extensible and lightweight validators.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "repository": "https://github.com/joellefkowitz/reviewed",
   "homepage": "https://joellefkowitz.github.io/reviewed",
   "author": "Joel Lefkowitz",
