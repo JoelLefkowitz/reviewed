@@ -15,6 +15,3 @@ export const serialize = (input: unknown): string =>
   })
     .replace(/,/gu, ", ")
     .replace(/":/gu, '": ');
-
-export const rejection = (input: unknown, reason: string): string =>
-  `${reason}: ${serialize(input)}`;

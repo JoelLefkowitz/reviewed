@@ -6,7 +6,7 @@ import { guard } from "./guards";
 import { isArray } from "../validators/arrays";
 import { isString } from "../validators/primitives";
 import { mergeArray } from "../results/merge";
-import { rejection } from "../services/strings";
+import { serialize } from "../services/strings";
 
 /**
  * Validate an input
@@ -26,7 +26,7 @@ import { rejection } from "../services/strings";
  */
 export const validate = <T, U extends ValidationErrors<T> = string>(
   input: unknown,
-  parsed: unknown = input,
+  parsed: unknown = input
 ): Validated<T, U> => ({
   valid: true,
   input,
@@ -52,7 +52,7 @@ export const validate = <T, U extends ValidationErrors<T> = string>(
  */
 export const invalidate = <T, U extends ValidationErrors<T> = string>(
   input: unknown,
-  error: U,
+  error: U
 ): Validated<T, U> => ({
   valid: false,
   input,
@@ -77,8 +77,8 @@ export const invalidate = <T, U extends ValidationErrors<T> = string>(
  */
 export const invalidateWith = <T>(
   input: unknown,
-  reason: string,
-): Validated<T, string> => invalidate(input, rejection(input, reason));
+  reason: string
+): Validated<T, string> => invalidate(input, `${reason}: ${serialize(input)}`);
 
 /**
  * Validate an input given a condition
@@ -101,7 +101,7 @@ export const validateIf = <T>(
   condition: boolean,
   input: unknown,
   parsed: unknown,
-  reason: string,
+  reason: string
 ): Validated<T, string> =>
   condition ? validate(input, parsed) : invalidateWith(input, reason);
 
@@ -127,7 +127,7 @@ export const validateIf = <T>(
  */
 export const validateEach = <T>(
   validator: Validator<T>,
-  input: unknown,
+  input: unknown
 ): Validated<T[], string | string[]> => {
   const isArrayCheck = isArray(input);
 

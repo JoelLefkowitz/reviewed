@@ -1,4 +1,4 @@
-import { rejection, serialize } from "./strings";
+import { serialize } from "./strings";
 
 describe("serialize", () => {
   it("adds spacing to collections", () => {
@@ -11,13 +11,5 @@ describe("serialize", () => {
     expect(serialize(NaN)).toBe('"NaN"');
     expect(serialize(Infinity)).toBe('"Infinity"');
     expect(serialize(-Infinity)).toBe('"-Infinity"');
-  });
-});
-
-describe("rejection", () => {
-  it("formats a rejection", () => {
-    expect(rejection([1, 2, 3], "Not a number")).toBe(
-      "Not a number: [1, 2, 3]",
-    );
   });
 });

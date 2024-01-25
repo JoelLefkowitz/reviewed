@@ -1,3 +1,4 @@
+export * from "./factories/errors";
 export * from "./factories/fallbacks";
 export * from "./factories/guards";
 export * from "./factories/validate";

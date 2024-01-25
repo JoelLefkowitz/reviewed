@@ -21,7 +21,7 @@ import { isArray } from "../validators/arrays";
 export const validateOr = <T>(
   validator: Validator<T>,
   fallback: T,
-  input: unknown,
+  input: unknown
 ): T => {
   const validated = validator(input);
   return validated.valid ? validated.parsed : fallback;
@@ -46,7 +46,7 @@ export const validateOr = <T>(
 export const validateEachOr = <T>(
   validator: Validator<T>,
   fallback: T,
-  input: unknown,
+  input: unknown
 ): T[] =>
   guard(isArray)(input)
     ? input.map((i) => validateOr(validator, fallback, i))
