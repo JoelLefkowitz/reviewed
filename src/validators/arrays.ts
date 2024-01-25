@@ -160,7 +160,7 @@ export const isOneOf = <T>(
 export const isArrayOf = <T>(
   options: T[],
   input: unknown,
-): Validated<T, string> => {
+): Validated<T[], string> => {
   const isArrayCheck = isArray(input);
 
   if (!isArrayCheck.valid) {
