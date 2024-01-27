@@ -1,12 +1,11 @@
+import { isNumber, isString } from "../validators/primitives";
 import {
-  invalidate,
-  invalidateWith,
   validate,
   validateEach,
   validateIf,
   validateRegex,
+  validateWith,
 } from "./validate";
-import { isNumber } from "../validators/primitives";
 
 describe("validate", () => {
   it("wraps a valid object", () => {
@@ -22,28 +21,6 @@ describe("validate", () => {
       input: "1",
       parsed: 1,
       error: null,
-    });
-  });
-});
-
-describe("invalidate", () => {
-  it("wraps an invalid object", () => {
-    expect(invalidate<number, string>("", "error")).toEqual({
-      valid: false,
-      input: "",
-      parsed: null,
-      error: "error",
-    });
-  });
-});
-
-describe("invalidateWith", () => {
-  it("wraps an invalid object", () => {
-    expect(invalidateWith<number>("", "Not a number")).toEqual({
-      valid: false,
-      input: "",
-      parsed: null,
-      error: 'Not a number: ""',
     });
   });
 });
@@ -91,11 +68,38 @@ describe("validateEach", () => {
   });
 });
 
+describe("validateWith", () => {
+  it("validates an input's fields with validators", () => {
+    expect(
+      validateWith({ a: isNumber, b: isString }, { a: 1, b: "2" })
+    ).toEqual({
+      valid: true,
+      input: { a: 1, b: "2" },
+      parsed: { a: 1, b: "2" },
+      error: null,
+    });
+
+    expect(validateWith({ a: isNumber, b: isString }, "")).toEqual({
+      valid: false,
+      input: "",
+      parsed: null,
+      error: 'Not a record: ""',
+    });
+
+    expect(validateWith({ a: isNumber, b: isString }, { a: 1, b: 2 })).toEqual({
+      valid: false,
+      input: { a: 1, b: 2 },
+      parsed: null,
+      error: { b: "Not a string: 2" },
+    });
+  });
+});
+
 describe("validateRegex", () => {
   it("validates an input using a regex", () => {
     const validator = validateRegex(
       /^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})$/u,
-      "Not a yyyy-mm-dd date",
+      "Not a yyyy-mm-dd date"
     );
 
     const parsed = {

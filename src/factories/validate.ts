@@ -1,12 +1,15 @@
 import { RegexValidator } from "../models/regexes/RegexValidator.model";
 import { Validated } from "../models/validation/Validated.model";
+import { ValidatedFields } from "../models/fields/ValidatedFields.model";
 import { ValidationErrors } from "../models/validation/ValidationErrors.model";
 import { Validator } from "../models/validation/Validator.model";
+import { ValidatorFields } from "../models/fields/ValidatorFields.model";
 import { guard } from "./guards";
+import { invalidateWith } from "./invalidate";
 import { isArray } from "../validators/arrays";
+import { isRecord } from "../validators/records";
 import { isString } from "../validators/primitives";
-import { mergeArray } from "../results/merge";
-import { serialize } from "../services/strings";
+import { merge, mergeArray } from "../results/merge";
 
 /**
  * Validate an input
@@ -33,52 +36,6 @@ export const validate = <T, U extends ValidationErrors<T> = string>(
   parsed: parsed as T,
   error: null,
 });
-
-/**
- * Invalidate an input
- *
- * @category Factories
- *
- * @typeParam T - the validated type
- * @typeParam U - the validation errors type
- * @param input - the raw input
- * @param error - the validation errors
- *
- * @example
- * ```ts
- * invalidate("1", "Not a number") ->
- *   { valid: false, input: "", parsed: null, error: 'Not a number'}
- * ```
- */
-export const invalidate = <T, U extends ValidationErrors<T> = string>(
-  input: unknown,
-  error: U
-): Validated<T, U> => ({
-  valid: false,
-  input,
-  parsed: null,
-  error,
-});
-
-/**
- * Invalidate an input and serialize it with an error message
- *
- * @category Factories
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- * @param reason - the error message
- *
- * @example
- * ```ts
- * invalidateWith("1", "Not a number") ->
- *   { valid: false, input: "", parsed: null, error: 'Not a number: "1"'}
- * ```
- */
-export const invalidateWith = <T>(
-  input: unknown,
-  reason: string
-): Validated<T, string> => invalidate(input, `${reason}: ${serialize(input)}`);
 
 /**
  * Validate an input given a condition
@@ -112,7 +69,7 @@ export const validateIf = <T>(
  *
  * @typeParam T - the validated type
  * @param validator - the validator to use
- * @param input - the raw inputs
+ * @param input - the raw input
  *
  * @example
  * ```ts
@@ -136,6 +93,46 @@ export const validateEach = <T>(
   }
 
   return mergeArray(isArrayCheck.parsed.map(validator));
+};
+
+/**
+ * Validates an input's fields with validators
+ *
+ * @category Factories
+ *
+ * @typeParam T - the validated type
+ * @param validators - the validators to use
+ * @param input - the raw input
+ *
+ * @example
+ * ```ts
+ * validateWith({ a: isString }, { a: "1" }) ->
+ *   { valid: true, parsed: { a: "1" }, ... }
+ *
+ * validateWith({ a: isString }, { a: 1 }) ->
+ *   { valid: false, error: { a: "Not a string: 1" }, ... }
+ * ```
+ */
+export const validateWith = <T>(
+  validators: ValidatorFields<T>,
+  input: unknown
+): Validated<T, ValidationErrors<T>> => {
+  const isRecordCheck = isRecord(input);
+
+  if (!isRecordCheck.valid) {
+    return isRecordCheck;
+  }
+
+  const entries: [string, Validator<unknown>][] = Object.entries(validators);
+
+  const validated = Object.fromEntries(
+    entries.map(([field, validator]) => [
+      field,
+      validator(isRecordCheck.parsed[field]),
+    ])
+  );
+
+  return merge(validated as ValidatedFields<T>);
 };
 
 /**

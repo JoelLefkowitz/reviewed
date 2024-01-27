@@ -1,5 +1,6 @@
 import { Validator } from "../models/validation/Validator.model";
-import { invalidateWith, validate } from "./validate";
+import { invalidateWith } from "./invalidate";
+import { validate } from "./validate";
 
 /**
  * Turn a validator into a type guard

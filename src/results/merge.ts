@@ -3,9 +3,10 @@ import { ValidatedFields } from "../models/fields/ValidatedFields.model";
 import { ValidationErrors } from "../models/validation/ValidationErrors.model";
 import { all, group } from "../services/arrays";
 import { guard } from "../factories/guards";
-import { invalidate, validate } from "../factories/validate";
+import { invalidate } from "../factories/invalidate";
 import { isString } from "../validators/primitives";
 import { mapRecord, pickField, reduceRecord } from "../services/records";
+import { validate } from "../factories/validate";
 
 /**
  * Merge the validated fields of an object

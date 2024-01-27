@@ -1,5 +1,5 @@
 import { Validator } from "../models/validation/Validator.model";
-import { invalidateWith } from "../factories/validate";
+import { invalidateWith } from "../factories/invalidate";
 
 /**
  * Construct a test suite for a validator
@@ -31,7 +31,7 @@ export const suite = <T>(
   validator: Validator<T>,
   valid: { input: unknown; parsed: T }[],
   invalid: Record<string, unknown[]>,
-  name: string = validator.name,
+  name: string = validator.name
 ): void =>
   describe(name, () => {
     it("passes a valid objects", () => {
