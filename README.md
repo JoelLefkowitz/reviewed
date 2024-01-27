@@ -32,13 +32,16 @@ I want to validate an object and get failure messages for each field:
 import { errors, isNaturalNumberString } from "reviewed";
 
 const pagination = (url: URL): void => {
-  const page = url.searchParams.get("page");
-  const size = url.searchParams.get("size");
-
-  const { valid, parsed, error } = merge({
-    page: isNaturalNumberString(page),
-    size: isNaturalNumberString(size),
-  });
+  const { valid, parsed, error } = validateWith(
+    {
+      page: isNaturalNumberString,
+      size: isNaturalNumberString,
+    },
+    {
+      page: url.searchParams.get("page"),
+      size: url.searchParams.get("size"),
+    }
+  );
 
   if (valid) {
     console.log(parsed);
@@ -126,7 +129,7 @@ export const isNaturalNumber: Validator<number> = (input: unknown) => {
     isIntegerCheck.parsed > 0,
     input,
     input,
-    "Not a natural number",
+    "Not a natural number"
   );
 };
 ```
@@ -196,7 +199,7 @@ const isNumber: Validator<number> = (input: unknown) =>
     typeof input === "number" && isFinite(input),
     input,
     input,
-    "Not a number",
+    "Not a number"
   );
 ```
 
@@ -215,7 +218,7 @@ const isObject: Validator<object> = (input: unknown) =>
     typeof input === "object" && input !== null,
     input,
     input,
-    "Not an object",
+    "Not an object"
   );
 ```
 
@@ -229,13 +232,13 @@ const isObject: Validator<object> = (input: unknown) =>
 
 ```ts
 const isRecord: Validator<Record<string | number | symbol, unknown>> = (
-  input: unknown,
+  input: unknown
 ) =>
   validateIf(
     isObject(input).valid && !isArray(input).valid,
     input,
     input,
-    "Not a record",
+    "Not a record"
   );
 ```
 

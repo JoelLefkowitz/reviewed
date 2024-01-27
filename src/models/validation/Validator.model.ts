@@ -6,5 +6,5 @@ import { ValidationErrors } from "./ValidationErrors.model";
  * @typeParam U - the validation errors type
  */
 export type Validator<T, U extends ValidationErrors<T> = string> = (
-  obj: unknown,
+  input: unknown,
 ) => Validated<T, U>;

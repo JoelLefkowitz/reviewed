@@ -5,5 +5,5 @@ import { Validated } from "../validation/Validated.model";
  * @typeParam T - the validated type
  */
 export type RegexValidator<T extends string = ""> = (
-  obj: unknown,
+  input: unknown,
 ) => Validated<ParsedRegex<T>>;
