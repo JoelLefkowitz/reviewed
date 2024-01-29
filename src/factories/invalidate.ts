@@ -20,7 +20,7 @@ import { serialize } from "../services/strings";
  */
 export const invalidate = <T, U extends ValidationErrors<T> = string>(
   input: unknown,
-  error: U
+  error: U,
 ): Validated<T, U> => ({
   valid: false,
   input,
@@ -45,5 +45,5 @@ export const invalidate = <T, U extends ValidationErrors<T> = string>(
  */
 export const invalidateWith = <T>(
   input: unknown,
-  reason: string
+  reason: string,
 ): Validated<T, string> => invalidate(input, `${reason}: ${serialize(input)}`);

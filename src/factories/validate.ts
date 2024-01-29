@@ -29,7 +29,7 @@ import { merge, mergeArray } from "../results/merge";
  */
 export const validate = <T, U extends ValidationErrors<T> = string>(
   input: unknown,
-  parsed: unknown = input
+  parsed: unknown = input,
 ): Validated<T, U> => ({
   valid: true,
   input,
@@ -58,7 +58,7 @@ export const validateIf = <T>(
   condition: boolean,
   input: unknown,
   parsed: unknown,
-  reason: string
+  reason: string,
 ): Validated<T, string> =>
   condition ? validate(input, parsed) : invalidateWith(input, reason);
 
@@ -84,7 +84,7 @@ export const validateIf = <T>(
  */
 export const validateEach = <T>(
   validator: Validator<T>,
-  input: unknown
+  input: unknown,
 ): Validated<T[], string | string[]> => {
   const array = isArray(input);
 
@@ -115,7 +115,7 @@ export const validateEach = <T>(
  */
 export const validateWith = <T>(
   validators: ValidatorFields<T>,
-  input: unknown
+  input: unknown,
 ): Validated<T, ValidationErrors<T>> => {
   const record = isRecord(input);
 
@@ -129,7 +129,7 @@ export const validateWith = <T>(
     entries.map(([field, validator]) => [
       field,
       validator(record.parsed[field]),
-    ])
+    ]),
   );
 
   return merge(validated as ValidatedFields<T>);

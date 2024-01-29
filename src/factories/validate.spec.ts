@@ -71,7 +71,7 @@ describe("validateEach", () => {
 describe("validateWith", () => {
   it("validates an input's fields with validators", () => {
     expect(
-      validateWith({ a: isNumber, b: isString }, { a: 1, b: "2" })
+      validateWith({ a: isNumber, b: isString }, { a: 1, b: "2" }),
     ).toEqual({
       valid: true,
       input: { a: 1, b: "2" },
@@ -99,7 +99,7 @@ describe("validateRegex", () => {
   it("validates an input using a regex", () => {
     const validator = validateRegex(
       /^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})$/u,
-      "Not a yyyy-mm-dd date"
+      "Not a yyyy-mm-dd date",
     );
 
     const parsed = {

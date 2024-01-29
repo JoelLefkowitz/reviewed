@@ -31,7 +31,7 @@ export const suite = <T>(
   validator: Validator<T>,
   valid: { input: unknown; parsed: T }[],
   invalid: Record<string, unknown[]>,
-  name: string = validator.name
+  name: string = validator.name,
 ): void =>
   describe(name, () => {
     it("passes a valid objects", () => {
