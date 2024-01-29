@@ -19,17 +19,17 @@ import { validateIf } from "../factories/validate";
  * ```
  */
 export const isBooleanString: Validator<boolean> = (input: unknown) => {
-  const isStringCheck = isString(input);
+  const string = isString(input);
 
-  if (!isStringCheck.valid) {
-    return isStringCheck;
+  if (!string.valid) {
+    return string;
   }
 
   return validateIf(
-    ["true", "false"].includes(isStringCheck.parsed),
+    ["true", "false"].includes(string.parsed),
     input,
     input === "true",
-    "Not a boolean string",
+    "Not a boolean string"
   );
 };
 
@@ -50,21 +50,16 @@ export const isBooleanString: Validator<boolean> = (input: unknown) => {
  * ```
  */
 export const isNumberString: Validator<number> = (input: unknown) => {
-  const isStringCheck = isString(input);
+  const string = isString(input);
 
-  if (!isStringCheck.valid) {
-    return isStringCheck;
+  if (!string.valid) {
+    return string;
   }
 
-  const parsed = parseFloat(isStringCheck.parsed);
-  const isNumberCheck = isNumber(isNaN(parsed) ? input : parsed);
+  const parsed = parseFloat(string.parsed);
+  const number = isNumber(isNaN(parsed) ? input : parsed);
 
-  return validateIf(
-    isNumberCheck.valid,
-    input,
-    isNumberCheck.parsed,
-    "Not a number string",
-  );
+  return validateIf(number.valid, input, number.parsed, "Not a number string");
 };
 
 /**
@@ -83,17 +78,17 @@ export const isNumberString: Validator<number> = (input: unknown) => {
  * ```
  */
 export const isIntegerString: Validator<number> = (input: unknown) => {
-  const isNumberStringCheck = isNumberString(input);
+  const numberString = isNumberString(input);
 
-  if (!isNumberStringCheck.valid) {
-    return isNumberStringCheck;
+  if (!numberString.valid) {
+    return numberString;
   }
 
   return validateIf(
-    Number.isInteger(isNumberStringCheck.parsed),
+    Number.isInteger(numberString.parsed),
     input,
-    isNumberStringCheck.parsed,
-    "Not an integer string",
+    numberString.parsed,
+    "Not an integer string"
   );
 };
 
@@ -114,16 +109,16 @@ export const isIntegerString: Validator<number> = (input: unknown) => {
  * ```
  */
 export const isNaturalNumberString: Validator<number> = (input: unknown) => {
-  const isIntegerStringCheck = isIntegerString(input);
+  const integerString = isIntegerString(input);
 
-  if (!isIntegerStringCheck.valid) {
-    return isIntegerStringCheck;
+  if (!integerString.valid) {
+    return integerString;
   }
 
   return validateIf(
-    isIntegerStringCheck.parsed > 0,
+    integerString.parsed > 0,
     input,
-    isIntegerStringCheck.parsed,
-    "Not a natural number string",
+    integerString.parsed,
+    "Not a natural number string"
   );
 };

@@ -86,13 +86,13 @@ export const validateEach = <T>(
   validator: Validator<T>,
   input: unknown
 ): Validated<T[], string | string[]> => {
-  const isArrayCheck = isArray(input);
+  const array = isArray(input);
 
-  if (!isArrayCheck.valid) {
-    return isArrayCheck;
+  if (!array.valid) {
+    return array;
   }
 
-  return mergeArray(isArrayCheck.parsed.map(validator));
+  return mergeArray(array.parsed.map(validator));
 };
 
 /**
@@ -117,10 +117,10 @@ export const validateWith = <T>(
   validators: ValidatorFields<T>,
   input: unknown
 ): Validated<T, ValidationErrors<T>> => {
-  const isRecordCheck = isRecord(input);
+  const record = isRecord(input);
 
-  if (!isRecordCheck.valid) {
-    return isRecordCheck;
+  if (!record.valid) {
+    return record;
   }
 
   const entries: [string, Validator<unknown>][] = Object.entries(validators);
@@ -128,7 +128,7 @@ export const validateWith = <T>(
   const validated = Object.fromEntries(
     entries.map(([field, validator]) => [
       field,
-      validator(isRecordCheck.parsed[field]),
+      validator(record.parsed[field]),
     ])
   );
 

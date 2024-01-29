@@ -44,14 +44,14 @@ export const isRecord: Validator<Record<string | number | symbol, unknown>> = (
 export const isNonEmptyRecord: Validator<
   Record<string | number | symbol, unknown>
 > = (input: unknown) => {
-  const isRecordCheck = isRecord(input);
+  const record = isRecord(input);
 
-  if (!isRecordCheck.valid) {
-    return isRecordCheck;
+  if (!record.valid) {
+    return record;
   }
 
   return validateIf(
-    Object.keys(isRecordCheck.parsed).length > 0,
+    Object.keys(record.parsed).length > 0,
     input,
     input,
     "Not a non empty record",

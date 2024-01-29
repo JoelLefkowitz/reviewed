@@ -17,17 +17,17 @@ import { validateIf } from "../factories/validate";
  * ```
  */
 export const isInteger: Validator<number> = (input: unknown) => {
-  const isNumberCheck = isNumber(input);
+  const number = isNumber(input);
 
-  if (!isNumberCheck.valid) {
-    return isNumberCheck;
+  if (!number.valid) {
+    return number;
   }
 
   return validateIf(
-    Number.isInteger(isNumberCheck.parsed),
+    Number.isInteger(number.parsed),
     input,
     input,
-    "Not an integer",
+    "Not an integer"
   );
 };
 
@@ -46,16 +46,11 @@ export const isInteger: Validator<number> = (input: unknown) => {
  * ```
  */
 export const isNaturalNumber: Validator<number> = (input: unknown) => {
-  const isIntegerCheck = isInteger(input);
+  const integer = isInteger(input);
 
-  if (!isIntegerCheck.valid) {
-    return isIntegerCheck;
+  if (!integer.valid) {
+    return integer;
   }
 
-  return validateIf(
-    isIntegerCheck.parsed > 0,
-    input,
-    input,
-    "Not a natural number",
-  );
+  return validateIf(integer.parsed > 0, input, input, "Not a natural number");
 };

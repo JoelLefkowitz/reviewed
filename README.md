@@ -119,14 +119,14 @@ Superstruct has good TypeScript support and serves as an inspiration for this pa
 import { Validator, isInteger, validateIf } from "reviewed";
 
 export const isNaturalNumber: Validator<number> = (input: unknown) => {
-  const isIntegerCheck = isInteger(input);
+  const integer = isInteger(input);
 
-  if (!isIntegerCheck.valid) {
-    return isIntegerCheck;
+  if (!integer.valid) {
+    return integer;
   }
 
   return validateIf(
-    isIntegerCheck.parsed > 0,
+    integer.parsed > 0,
     input,
     input,
     "Not a natural number"

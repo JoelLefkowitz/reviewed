@@ -38,14 +38,14 @@ export const isArray: Validator<unknown[]> = (input: unknown) =>
  * ```
  */
 export const isNonEmptyArray: Validator<unknown[]> = (input: unknown) => {
-  const isArrayCheck = isArray(input);
+  const array = isArray(input);
 
-  if (!isArrayCheck.valid) {
-    return isArrayCheck;
+  if (!array.valid) {
+    return array;
   }
 
   return validateIf(
-    isArrayCheck.parsed.length > 0,
+    array.parsed.length > 0,
     input,
     input,
     "Not a non empty array",
@@ -69,14 +69,14 @@ export const isNonEmptyArray: Validator<unknown[]> = (input: unknown) => {
  * ```
  */
 export const isNumberArray: Validator<number[]> = (input: unknown) => {
-  const isArrayCheck = isArray(input);
+  const array = isArray(input);
 
-  if (!isArrayCheck.valid) {
-    return isArrayCheck;
+  if (!array.valid) {
+    return array;
   }
 
   return validateIf(
-    isArrayCheck.parsed.every((i) => isNumber(i).valid),
+    array.parsed.every((i) => isNumber(i).valid),
     input,
     input,
     "Not an array of numbers",
@@ -100,14 +100,14 @@ export const isNumberArray: Validator<number[]> = (input: unknown) => {
  * ```
  */
 export const isStringArray: Validator<string[]> = (input: unknown) => {
-  const isArrayCheck = isArray(input);
+  const array = isArray(input);
 
-  if (!isArrayCheck.valid) {
-    return isArrayCheck;
+  if (!array.valid) {
+    return array;
   }
 
   return validateIf(
-    isArrayCheck.parsed.every((i) => isString(i).valid),
+    array.parsed.every((i) => isString(i).valid),
     input,
     input,
     "Not an array of strings",
@@ -161,14 +161,14 @@ export const isArrayOf = <T>(
   options: T[],
   input: unknown,
 ): Validated<T[], string> => {
-  const isArrayCheck = isArray(input);
+  const array = isArray(input);
 
-  if (!isArrayCheck.valid) {
-    return isArrayCheck;
+  if (!array.valid) {
+    return array;
   }
 
   return validateIf(
-    !isArrayCheck.parsed.some((i) => !options.includes(i as T)),
+    !array.parsed.some((i) => !options.includes(i as T)),
     input,
     input,
     `Not an array of ${serialize(options)}`,
