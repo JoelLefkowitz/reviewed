@@ -1,7 +1,6 @@
 import { RegexValidator } from "../models/regexes/RegexValidator.model";
 import { Validated } from "../models/validation/Validated.model";
 import { ValidatedFields } from "../models/fields/ValidatedFields.model";
-import { ValidationErrors } from "../models/validation/ValidationErrors.model";
 import { Validator } from "../models/validation/Validator.model";
 import { ValidatorFields } from "../models/fields/ValidatorFields.model";
 import { guard } from "./guards";
@@ -85,7 +84,7 @@ export const validateIf = <T>(
 export const validateEach = <T>(
   validator: Validator<T>,
   input: unknown,
-): Validated<T[], string | string[]> => {
+): Validated<T[]> => {
   const array = isArray(input);
 
   if (!array.valid) {
@@ -116,19 +115,17 @@ export const validateEach = <T>(
 export const validateWith = <T>(
   validators: ValidatorFields<T>,
   input: unknown,
-): Validated<T, string | ValidationErrors<T>> => {
+): Validated<T> => {
   const record = isRecord(input);
 
   if (!record.valid) {
     return record;
   }
 
-  const entries: [string, Validator<unknown>][] = Object.entries(validators);
-
   const validated = Object.fromEntries(
-    entries.map(([field, validator]) => [
+    Object.entries(validators).map(([field, validator]) => [
       field,
-      validator(record.parsed[field]),
+      (validator as Validator<unknown>)(record.parsed[field]),
     ]),
   );
 

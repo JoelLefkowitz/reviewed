@@ -18,7 +18,7 @@ import { validateIf } from "../factories/validate";
  * isBooleanString("")      -> { valid: false, error: 'Not a boolean: ""', ... }
  * ```
  */
-export const isBooleanString: Validator<boolean> = (input: unknown) => {
+export const isBooleanString: Validator<boolean, string> = (input: unknown) => {
   const string = isString(input);
 
   if (!string.valid) {
@@ -49,7 +49,7 @@ export const isBooleanString: Validator<boolean> = (input: unknown) => {
  * isNumberString("Infinity") -> { valid: false, error: 'Not a number: "Infinity"', ... }
  * ```
  */
-export const isNumberString: Validator<number> = (input: unknown) => {
+export const isNumberString: Validator<number, string> = (input: unknown) => {
   const string = isString(input);
 
   if (!string.valid) {
@@ -77,7 +77,7 @@ export const isNumberString: Validator<number> = (input: unknown) => {
  * isIntegerString("0.5") -> { valid: false, error: 'Not an integer: "0.5"', ... }
  * ```
  */
-export const isIntegerString: Validator<number> = (input: unknown) => {
+export const isIntegerString: Validator<number, string> = (input: unknown) => {
   const numberString = isNumberString(input);
 
   if (!numberString.valid) {
@@ -108,7 +108,9 @@ export const isIntegerString: Validator<number> = (input: unknown) => {
  * isNaturalNumberString("0")   -> { valid: false, error: 'Not a natural number: "0"', ... }
  * ```
  */
-export const isNaturalNumberString: Validator<number> = (input: unknown) => {
+export const isNaturalNumberString: Validator<number, string> = (
+  input: unknown,
+) => {
   const integerString = isIntegerString(input);
 
   if (!integerString.valid) {

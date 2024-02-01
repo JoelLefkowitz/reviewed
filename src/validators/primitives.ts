@@ -15,7 +15,7 @@ import { validateIf } from "../factories/validate";
  * isUndefined(null)      -> { valid: false, error: "Not undefined: null", ... }
  * ```
  */
-export const isUndefined: Validator<undefined> = (input: unknown) =>
+export const isUndefined: Validator<undefined, string> = (input: unknown) =>
   validateIf(input === undefined, input, input, "Not undefined");
 
 /**
@@ -32,7 +32,7 @@ export const isUndefined: Validator<undefined> = (input: unknown) =>
  * isNull(undefined) -> { valid: false, error: "Not null: undefined", ... }
  * ```
  */
-export const isNull: Validator<null> = (input: unknown) =>
+export const isNull: Validator<null, string> = (input: unknown) =>
   validateIf(input === null, input, input, "Not null");
 
 /**
@@ -50,7 +50,7 @@ export const isNull: Validator<null> = (input: unknown) =>
  * isBoolean("")    -> { valid: false, error: 'Not a boolean: ""', ... }
  * ```
  */
-export const isBoolean: Validator<boolean> = (input: unknown) =>
+export const isBoolean: Validator<boolean, string> = (input: unknown) =>
   validateIf(typeof input === "boolean", input, input, "Not a boolean");
 
 /**
@@ -67,7 +67,7 @@ export const isBoolean: Validator<boolean> = (input: unknown) =>
  * isNumber("") -> { valid: false, error: 'Not a number: ""', ... }
  * ```
  */
-export const isNumber: Validator<number> = (input: unknown) =>
+export const isNumber: Validator<number, string> = (input: unknown) =>
   validateIf(
     typeof input === "number" && isFinite(input),
     input,
@@ -89,7 +89,7 @@ export const isNumber: Validator<number> = (input: unknown) =>
  * isString(1)  -> { valid: false, error: "Not a string: 1", ... }
  * ```
  */
-export const isString: Validator<string> = (input: unknown) =>
+export const isString: Validator<string, string> = (input: unknown) =>
   validateIf(typeof input === "string", input, input, "Not a string");
 
 /**
@@ -107,7 +107,7 @@ export const isString: Validator<string> = (input: unknown) =>
  * isObject("") -> { valid: false, error: 'Not an object: ""', ... }
  * ```
  */
-export const isObject: Validator<object> = (input: unknown) =>
+export const isObject: Validator<object, string> = (input: unknown) =>
   validateIf(
     typeof input === "object" && input !== null,
     input,

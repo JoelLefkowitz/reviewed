@@ -19,7 +19,7 @@ import { validateIf } from "../factories/validate";
  * isArray("")  -> { valid: false, error: 'Not an array: ""', ... }
  * ```
  */
-export const isArray: Validator<unknown[]> = (input: unknown) =>
+export const isArray: Validator<unknown[], string> = (input: unknown) =>
   validateIf(Array.isArray(input), input, input, "Not an array");
 
 /**
@@ -37,7 +37,9 @@ export const isArray: Validator<unknown[]> = (input: unknown) =>
  * isNonEmptyArray([])  -> { valid: false, error: "Not a non empty array: []", ... }
  * ```
  */
-export const isNonEmptyArray: Validator<unknown[]> = (input: unknown) => {
+export const isNonEmptyArray: Validator<unknown[], string> = (
+  input: unknown,
+) => {
   const array = isArray(input);
 
   if (!array.valid) {
@@ -68,7 +70,7 @@ export const isNonEmptyArray: Validator<unknown[]> = (input: unknown) => {
  * isNumberArray([""]) -> { valid: false, error: 'Not a number array: [""]', ... }
  * ```
  */
-export const isNumberArray: Validator<number[]> = (input: unknown) => {
+export const isNumberArray: Validator<number[], string> = (input: unknown) => {
   const array = isArray(input);
 
   if (!array.valid) {
@@ -99,7 +101,7 @@ export const isNumberArray: Validator<number[]> = (input: unknown) => {
  * isStringArray([1])  -> { valid: false, error: "Not a number array: [1]", ... }
  * ```
  */
-export const isStringArray: Validator<string[]> = (input: unknown) => {
+export const isStringArray: Validator<string[], string> = (input: unknown) => {
   const array = isArray(input);
 
   if (!array.valid) {
@@ -157,7 +159,10 @@ export const isOneOf = <T>(
  *   { valid: false, error: "Not an array of [1,2,3]: [3,1,4]", ... }
  * ```
  */
-export const isArrayOf = <T>(options: T[], input: unknown): Validated<T[]> => {
+export const isArrayOf = <T>(
+  options: T[],
+  input: unknown,
+): Validated<T[], string> => {
   const array = isArray(input);
 
   if (!array.valid) {

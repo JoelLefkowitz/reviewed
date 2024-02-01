@@ -118,7 +118,7 @@ Superstruct has good TypeScript support and serves as an inspiration for this pa
 ```ts
 import { Validator, isInteger, validateIf } from "reviewed";
 
-export const isNaturalNumber: Validator<number> = (input: unknown) => {
+export const isNaturalNumber: Validator<number, string> = (input: unknown) => {
   const integer = isInteger(input);
 
   if (!integer.valid) {
@@ -189,7 +189,7 @@ Care is taken to make primitive types easier to work with.
 #### Numbers
 
 ```ts
-const isNumber: Validator<number> = (input: unknown) =>
+const isNumber: Validator<number, string> = (input: unknown) =>
   validateIf(
     typeof input === "number" && isFinite(input),
     input,
@@ -208,7 +208,7 @@ const isNumber: Validator<number> = (input: unknown) =>
 #### Objects
 
 ```ts
-const isObject: Validator<object> = (input: unknown) =>
+const isObject: Validator<object, string> = (input: unknown) =>
   validateIf(
     typeof input === "object" && input !== null,
     input,
@@ -226,9 +226,7 @@ const isObject: Validator<object> = (input: unknown) =>
 #### Records
 
 ```ts
-const isRecord: Validator<Record<string | number | symbol, unknown>> = (
-  input: unknown,
-) =>
+const isRecord: Validator<Record<string, unknown>, string> = (input: unknown) =>
   validateIf(
     isObject(input).valid && !isArray(input).valid,
     input,

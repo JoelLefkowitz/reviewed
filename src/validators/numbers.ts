@@ -16,7 +16,7 @@ import { validateIf } from "../factories/validate";
  * isInteger(0.5) -> { valid: false, error: "Not an integer: 0.5", ... }
  * ```
  */
-export const isInteger: Validator<number> = (input: unknown) => {
+export const isInteger: Validator<number, string> = (input: unknown) => {
   const number = isNumber(input);
 
   if (!number.valid) {
@@ -45,7 +45,7 @@ export const isInteger: Validator<number> = (input: unknown) => {
  * isNaturalNumber(0) -> { valid: false, error: "Not a natural number: 0", ... }
  * ```
  */
-export const isNaturalNumber: Validator<number> = (input: unknown) => {
+export const isNaturalNumber: Validator<number, string> = (input: unknown) => {
   const integer = isInteger(input);
 
   if (!integer.valid) {

@@ -17,7 +17,7 @@ import { validateIf } from "../factories/validate";
  * isRecord([]) -> { valid: false, error: "Not a record: []", ... }
  * ```
  */
-export const isRecord: Validator<Record<string | number | symbol, unknown>> = (
+export const isRecord: Validator<Record<string, unknown>, string> = (
   input: unknown,
 ) =>
   validateIf(
@@ -41,9 +41,9 @@ export const isRecord: Validator<Record<string | number | symbol, unknown>> = (
  * isRecord({})     -> { valid: false, error: "Not a non empty record: {}", ... }
  * ```
  */
-export const isNonEmptyRecord: Validator<
-  Record<string | number | symbol, unknown>
-> = (input: unknown) => {
+export const isNonEmptyRecord: Validator<Record<string, unknown>, string> = (
+  input: unknown,
+) => {
   const record = isRecord(input);
 
   if (!record.valid) {
