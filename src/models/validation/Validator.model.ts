@@ -1,10 +1,7 @@
 import { Validated } from "./Validated.model";
-import { ValidationErrors } from "./ValidationErrors.model";
 
 /**
  * @typeParam T - the validated type
  * @typeParam U - the validation errors type
  */
-export type Validator<T, U extends ValidationErrors<T> = string> = (
-  input: unknown,
-) => Validated<T, U>;
+export type Validator<T, U = string> = (input: unknown) => Validated<T, U>;

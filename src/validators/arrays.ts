@@ -157,10 +157,7 @@ export const isOneOf = <T>(
  *   { valid: false, error: "Not an array of [1,2,3]: [3,1,4]", ... }
  * ```
  */
-export const isArrayOf = <T>(
-  options: T[],
-  input: unknown,
-): Validated<T[], string> => {
+export const isArrayOf = <T>(options: T[], input: unknown): Validated<T[]> => {
   const array = isArray(input);
 
   if (!array.valid) {

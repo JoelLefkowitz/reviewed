@@ -81,7 +81,7 @@ A validation library for TypeScript needs to be:
   - Common validators are available
 - Lightweight
   - Dependency free
-  - Tiny bundle size (< 10Kb)
+  - Tiny bundle size (~ 10Kb)
   - Fully tree shakeable
 
 `reviewed` exposes a flexible interface that achieves these goals.

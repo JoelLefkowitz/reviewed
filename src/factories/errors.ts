@@ -14,5 +14,6 @@ import { serialize } from "../services/strings";
  * fail({a: "Not a number: null"}) -> Error('{"a": "Not a number: null')
  * ```
  */
-export const fail = <T>(error: ValidationErrors<T>): Error =>
-  new Error(serialize(error));
+export const fail = <T>(
+  error: string | string[] | ValidationErrors<T>,
+): Error => new Error(serialize(error));

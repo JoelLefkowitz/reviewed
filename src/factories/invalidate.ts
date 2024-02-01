@@ -1,5 +1,4 @@
 import { Validated } from "../models/validation/Validated.model";
-import { ValidationErrors } from "../models/validation/ValidationErrors.model";
 import { serialize } from "../services/strings";
 
 /**
@@ -18,7 +17,7 @@ import { serialize } from "../services/strings";
  *   { valid: false, input: "", parsed: null, error: 'Not a number'}
  * ```
  */
-export const invalidate = <T, U extends ValidationErrors<T> = string>(
+export const invalidate = <T, U>(
   input: unknown,
   error: U,
 ): Validated<T, U> => ({

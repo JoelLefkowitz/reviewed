@@ -1,5 +1,4 @@
 import { Validated } from "../models/validation/Validated.model";
-import { ValidationErrors } from "../models/validation/ValidationErrors.model";
 import { reduceRecord } from "../services/records";
 
 /**
@@ -18,10 +17,8 @@ import { reduceRecord } from "../services/records";
  * validatedOr(isNumber("1"), 0)) -> 0
  * ```
  */
-export const validatedOr = <T, U extends ValidationErrors<T>>(
-  result: Validated<T, U>,
-  fallback: T,
-): T => (result.valid ? result.parsed : fallback);
+export const validatedOr = <T, U>(result: Validated<T, U>, fallback: T): T =>
+  result.valid ? result.parsed : fallback;
 
 /**
  * Filter an array of validated results
@@ -37,9 +34,7 @@ export const validatedOr = <T, U extends ValidationErrors<T>>(
  * filterValidated(["1", 2, "3"].map(isNumber)) -> [2]
  * ```
  */
-export const filterValidated = <T, U extends ValidationErrors<T>>(
-  results: Validated<T, U>[],
-): T[] =>
+export const filterValidated = <T, U>(results: Validated<T, U>[]): T[] =>
   results.reduce<T[]>(
     (acc, { valid, parsed }) => (valid ? [...acc, parsed] : acc),
     [] as T[],
@@ -60,7 +55,7 @@ export const filterValidated = <T, U extends ValidationErrors<T>>(
  * filterValidatedOr(["1", 2, "3"].map(isNumber), 0) -> [0, 2, 0]
  * ```
  */
-export const filterValidatedOr = <T, U extends ValidationErrors<T>>(
+export const filterValidatedOr = <T, U>(
   results: Validated<T, U>[],
   fallback: T,
 ): T[] =>

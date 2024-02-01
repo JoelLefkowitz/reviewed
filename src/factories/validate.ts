@@ -27,7 +27,7 @@ import { merge, mergeArray } from "../results/merge";
  * validate("1", 1) -> { valid: true, input: "1", parsed: 1, error: null }
  * ```
  */
-export const validate = <T, U extends ValidationErrors<T> = string>(
+export const validate = <T, U>(
   input: unknown,
   parsed: unknown = input,
 ): Validated<T, U> => ({
@@ -116,7 +116,7 @@ export const validateEach = <T>(
 export const validateWith = <T>(
   validators: ValidatorFields<T>,
   input: unknown,
-): Validated<T, ValidationErrors<T>> => {
+): Validated<T, string | ValidationErrors<T>> => {
   const record = isRecord(input);
 
   if (!record.valid) {

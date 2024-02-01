@@ -27,7 +27,7 @@ import { validate } from "../factories/validate";
  */
 export const merge = <T>(
   results: ValidatedFields<T>,
-): Validated<T, ValidationErrors<T>> => {
+): Validated<T, string | ValidationErrors<T>> => {
   const valid = pickField("valid", results);
   const input = pickField("input", results);
 
@@ -63,7 +63,7 @@ export const merge = <T>(
  * ```
  */
 export const mergeArray = <T>(
-  results: Validated<T, string>[],
+  results: Validated<T>[],
 ): Validated<T[], string[]> => {
   const { valid, input, parsed, error } = group(results);
 
