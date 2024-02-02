@@ -3,12 +3,12 @@ import { Validated } from "../models/validation/Validated.model";
 import { ValidatedFields } from "../models/fields/ValidatedFields.model";
 import { Validator } from "../models/validation/Validator.model";
 import { ValidatorFields } from "../models/fields/ValidatorFields.model";
+import { allValid, merge } from "../results/merge";
 import { guard } from "./guards";
 import { invalidateWith } from "./invalidate";
 import { isArray } from "../validators/arrays";
 import { isRecord } from "../validators/records";
 import { isString } from "../validators/primitives";
-import { merge, mergeArray } from "../results/merge";
 
 /**
  * Validate an input
@@ -91,11 +91,11 @@ export const validateEach = <T>(
     return array;
   }
 
-  return mergeArray(array.parsed.map(validator));
+  return allValid(array.parsed.map(validator));
 };
 
 /**
- * Validates an input's fields with validators
+ * Validate an input's fields with validators
  *
  * @category Factories
  *

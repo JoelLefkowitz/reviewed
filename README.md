@@ -176,6 +176,48 @@ if (guard(isNumber)(input)) {
 }
 ```
 
+### Combining validators
+
+Validators can be combined:
+
+```ts
+merge({ a: isNumber("1"), b: isNumber(2), c: isNumber("3") }) -> {
+    valid: false,
+    error: { a: 'Not a number: "1"', c: 'Not a number: "3"' },
+    ...
+  };
+
+allValid(["1", 2, "3"].map(isNumber)) -> {
+    valid: false,
+    error: ['Not a number: "1"', 'Not a number: "3"'],
+    ...
+  };
+
+anyValid(["1", 2, "3"].map(isNumber)) -> { valid: true, parsed: 2, ... };
+```
+
+### Inverting validators
+
+Validators can be inverted:
+
+```ts
+const isNotNull = not(isNull, "Not (not null)");
+
+isNotNull(null).error -> { valid: false, error: "Not (not null): null", ... };
+```
+
+### Using literals
+
+Array literals can be converted directly to validators:
+
+```ts
+const builds = ["dev", "prod"] as const;
+const { isOneOf: isBuild } = arrayValidators(builds);
+
+isBuild("dev") -> { valid: true, parsed: [3, 1], ... }
+isBuild("local") -> { valid: false, 'Not one of ["dev", "prod"]: "local"', ... }
+```
+
 ### Reasonable types
 
 JavaScript has some famously confusing types:

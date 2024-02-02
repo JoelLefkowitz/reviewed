@@ -3,7 +3,7 @@ import { ValidatedFields } from "../models/fields/ValidatedFields.model";
 import { ValidationErrors } from "../models/validation/ValidationErrors.model";
 import { all, group } from "../services/arrays";
 import { guard } from "../factories/guards";
-import { invalidate } from "../factories/invalidate";
+import { invalidate, invalidateWith } from "../factories/invalidate";
 import { isString } from "../validators/primitives";
 import { mapRecord, pickField, reduceRecord } from "../services/records";
 import { validate } from "../factories/validate";
@@ -44,7 +44,7 @@ export const merge = <T>(results: ValidatedFields<T>): Validated<T> => {
 };
 
 /**
- * Merge an array of validated results
+ * Merge an array of validated results using a logical AND
  *
  * @category Results
  *
@@ -53,14 +53,14 @@ export const merge = <T>(results: ValidatedFields<T>): Validated<T> => {
  *
  * @example
  * ```ts
- * mergeArray(["1", 2, "3"].map(isNumber)) -> {
+ * allValid(["1", 2, "3"].map(isNumber)) -> {
  *     valid: false,
  *     error: ['Not a number: "1"', 'Not a number: "3"'],
  *     ...
  *   }
  * ```
  */
-export const mergeArray = <T>(results: Validated<T>[]): Validated<T[]> => {
+export const allValid = <T>(results: Validated<T>[]): Validated<T[]> => {
   if (results.length === 0) {
     return validate([], []);
   }
@@ -73,4 +73,34 @@ export const mergeArray = <T>(results: Validated<T>[]): Validated<T[]> => {
 
   const errors = error.filter(guard(isString));
   return invalidate(input, errors);
+};
+
+/**
+ * Merge an array of validated results using a logical OR
+ *
+ * @category Results
+ *
+ * @typeParam T - the validated type
+ * @param results - the validated results to merge
+ *
+ * @example
+ * ```ts
+ * anyValid(["1", 2, "3"].map(isNumber)) -> { valid: true, parsed: 2, ... }
+ * ```
+ */
+export const anyValid = <T>(results: Validated<T>[]): Validated<T> => {
+  if (results.length === 0) {
+    return invalidateWith(results, "Not a non empty array");
+  }
+
+  const valid = results.find(({ valid }) => valid);
+
+  if (valid) {
+    return valid;
+  }
+
+  return invalidate(
+    results,
+    results.map(({ error }) => error).filter(guard(isString)),
+  );
 };
