@@ -122,6 +122,7 @@ export const isStringArray: Validator<string[], string> = (input: unknown) => {
  * @category Validators
  *
  * @typeParam T - the validated type
+ * @param options - the valid options
  * @param input - the raw input
  *
  * @example
@@ -129,7 +130,7 @@ export const isStringArray: Validator<string[], string> = (input: unknown) => {
  * isOneOf([1, 2, 3], 1) -> { valid: true, parsed: 1, ... }
  *
  * isOneOf([1, 2, 3], 4) ->
- *   { valid: false, error: "Not one of [1,2,3]: 4", ... }
+ *   { valid: false, error: "Not one of [1, 2, 3]: 4", ... }
  * ```
  */
 export const isOneOf = <T>(
@@ -149,6 +150,7 @@ export const isOneOf = <T>(
  * @category Validators
  *
  * @typeParam T - the validated type
+ * @param options - the valid options
  * @param input - the raw input
  *
  * @example
@@ -156,7 +158,7 @@ export const isOneOf = <T>(
  * isArrayOf([1, 2, 3], [3, 1]) -> { valid: true, parsed: [3, 1], ... }
  *
  * isArrayOf([1, 2, 3], [3, 1, 4]) ->
- *   { valid: false, error: "Not an array of [1,2,3]: [3,1,4]", ... }
+ *   { valid: false, error: "Not an array of [1, 2, 3]: [3, 1, 4]", ... }
  * ```
  */
 export const isArrayOf = <T>(
@@ -176,3 +178,30 @@ export const isArrayOf = <T>(
     `Not an array of ${serialize(options)}`,
   );
 };
+
+/**
+ * Constructs a set of array validators
+ *
+ * @category Validators
+ *
+ * @typeParam T - the validated type
+ * @param options - the valid options
+ *
+ * @example
+ * ```ts
+ * const builds = ["dev", "prod"] as const;
+ * const { isOneOf: isBuild } = arrayValidators(builds);
+ *
+ * isBuild("dev") -> { valid: true, parsed: [3, 1], ... }
+ * isBuild("local") -> { valid: false, 'Not one of ["dev", "prod"]: "local"', ... }
+ * ```
+ */
+export const arrayValidators = <T>(
+  options: T[] | readonly T[],
+): {
+  isOneOf: Validator<T>;
+  isArrayOf: Validator<T[]>;
+} => ({
+  isOneOf: (input: unknown) => isOneOf([...options], input),
+  isArrayOf: (input: unknown) => isArrayOf([...options], input),
+});
