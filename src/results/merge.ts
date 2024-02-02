@@ -61,6 +61,10 @@ export const merge = <T>(results: ValidatedFields<T>): Validated<T> => {
  * ```
  */
 export const mergeArray = <T>(results: Validated<T>[]): Validated<T[]> => {
+  if (results.length === 0) {
+    return validate([], []);
+  }
+
   const { valid, input, parsed, error } = group(results);
 
   if (all(valid)) {

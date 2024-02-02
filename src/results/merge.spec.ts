@@ -21,6 +21,7 @@ describe("merge", () => {
 
 describe("mergeArray", () => {
   it("merges an array of validated results", () => {
+    expect(mergeArray([].map(isNumber)).parsed).toEqual([]);
     expect(mergeArray([1, 2, 3].map(isNumber)).parsed).toEqual([1, 2, 3]);
   });
 
