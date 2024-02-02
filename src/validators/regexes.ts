@@ -20,9 +20,9 @@ import { validateRegex } from "../factories/validate";
  *       named: { user: "user", domain: "domain.com" },
  *     },
  *     ...
- *   }
+ *   };
  *
- * isEmail("") -> { valid: false, error: 'Not an email: ""', ... }
+ * isEmail("") -> { valid: false, error: 'Not an email: ""', ... };
  * ```
  */
 export const isEmail: RegexValidator<"user" | "domain"> = validateRegex(
@@ -49,9 +49,9 @@ export const isEmail: RegexValidator<"user" | "domain"> = validateRegex(
  *       named: { scheme: "https", domain: "domain.com", path: "/a/b/c" },
  *     },
  *     ...
- *   }
+ *   };
  *
- * isUrl("") -> { valid: false, error: 'Not a url: ""', ... }
+ * isUrl("") -> { valid: false, error: 'Not a url: ""', ... };
  * ```
  */
 export const isUrl: RegexValidator<"scheme" | "domain" | "path"> =

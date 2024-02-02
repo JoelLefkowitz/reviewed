@@ -22,7 +22,7 @@ import { validate } from "../factories/validate";
  *     valid: false,
  *     error: { a: 'Not a number: "1"', c: 'Not a number: "3"' },
  *     ...
- *   }
+ *   };
  * ```
  */
 export const merge = <T>(results: ValidatedFields<T>): Validated<T> => {
@@ -57,7 +57,7 @@ export const merge = <T>(results: ValidatedFields<T>): Validated<T> => {
  *     valid: false,
  *     error: ['Not a number: "1"', 'Not a number: "3"'],
  *     ...
- *   }
+ *   };
  * ```
  */
 export const allValid = <T>(results: Validated<T>[]): Validated<T[]> => {
@@ -85,7 +85,7 @@ export const allValid = <T>(results: Validated<T>[]): Validated<T[]> => {
  *
  * @example
  * ```ts
- * anyValid(["1", 2, "3"].map(isNumber)) -> { valid: true, parsed: 2, ... }
+ * anyValid(["1", 2, "3"].map(isNumber)) -> { valid: true, parsed: 2, ... };
  * ```
  */
 export const anyValid = <T>(results: Validated<T>[]): Validated<T> => {

@@ -13,8 +13,8 @@ import { reduceRecord } from "../services/records";
  *
  * @example
  * ```ts
- * validatedOr(isNumber(1), 0))   -> 1
- * validatedOr(isNumber("1"), 0)) -> 0
+ * validatedOr(isNumber(1), 0))   -> 1;
+ * validatedOr(isNumber("1"), 0)) -> 0;
  * ```
  */
 export const validatedOr = <T, U>(result: Validated<T, U>, fallback: T): T =>
@@ -31,7 +31,7 @@ export const validatedOr = <T, U>(result: Validated<T, U>, fallback: T): T =>
  *
  * @example
  * ```ts
- * filterValidated(["1", 2, "3"].map(isNumber)) -> [2]
+ * filterValidated(["1", 2, "3"].map(isNumber)) -> [2];
  * ```
  */
 export const filterValidated = <T, U>(results: Validated<T, U>[]): T[] =>
@@ -52,7 +52,7 @@ export const filterValidated = <T, U>(results: Validated<T, U>[]): T[] =>
  *
  * @example
  * ```ts
- * filterValidatedOr(["1", 2, "3"].map(isNumber), 0) -> [0, 2, 0]
+ * filterValidatedOr(["1", 2, "3"].map(isNumber), 0) -> [0, 2, 0];
  * ```
  */
 export const filterValidatedOr = <T, U>(
@@ -75,7 +75,7 @@ export const filterValidatedOr = <T, U>(
  * @example
  * ```ts
  * pickValidated({ a: isNumber("1"), b: isNumber(2), c: isNumber("3") })) ->
- *   { b: 2 }
+ *   { b: 2 };
  * ```
  */
 export const pickValidated = <T extends string, U>(

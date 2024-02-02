@@ -13,8 +13,8 @@ import { validateIf } from "../factories/validate";
  *
  * @example
  * ```ts
- * isRecord({}) -> { valid: true,  parsed: {}, ... }
- * isRecord([]) -> { valid: false, error: "Not a record: []", ... }
+ * isRecord({}) -> { valid: true,  parsed: {}, ... };
+ * isRecord([]) -> { valid: false, error: "Not a record: []", ... };
  * ```
  */
 export const isRecord: Validator<Record<string, unknown>, string> = (
@@ -37,8 +37,8 @@ export const isRecord: Validator<Record<string, unknown>, string> = (
  *
  * @example
  * ```ts
- * isRecord({a: 1}) -> { valid: true,  parsed: {a: 1}, ... }
- * isRecord({})     -> { valid: false, error: "Not a non empty record: {}", ... }
+ * isRecord({a: 1}) -> { valid: true,  parsed: {a: 1}, ... };
+ * isRecord({})     -> { valid: false, error: "Not a non empty record: {}", ... };
  * ```
  */
 export const isNonEmptyRecord: Validator<Record<string, unknown>, string> = (

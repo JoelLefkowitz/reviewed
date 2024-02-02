@@ -22,8 +22,8 @@ import { isString } from "../validators/primitives";
  *
  * @example
  * ```ts
- * validate(1)      -> { valid: true, input: 1,   parsed: 1, error: null }
- * validate("1", 1) -> { valid: true, input: "1", parsed: 1, error: null }
+ * validate(1)      -> { valid: true, input: 1,   parsed: 1, error: null };
+ * validate("1", 1) -> { valid: true, input: "1", parsed: 1, error: null };
  * ```
  */
 export const validate = <T, U>(
@@ -50,7 +50,7 @@ export const validate = <T, U>(
  * @example
  * ```ts
  * validateIf(true, "1", 1, "Not a number") ->
- *   { valid: true, input: "1", parsed: 1, error: null }
+ *   { valid: true, input: "1", parsed: 1, error: null };
  * ```
  */
 export const validateIf = <T>(
@@ -72,13 +72,13 @@ export const validateIf = <T>(
  *
  * @example
  * ```ts
- * validateEach(isNumber, [1, 2, 3]) -> { valid: true, parsed: [1, 2, 3], ... }
+ * validateEach(isNumber, [1, 2, 3]) -> { valid: true, parsed: [1, 2, 3], ... };
  *
  * validateEach(isNumber, ["1", 2, "3"]) -> {
  *     valid: false,
  *     error: '[Not a number: "1", Not a number: "3"]: ["1",2,"3"]',
  *     ...
- *   }
+ *   };
  * ```
  */
 export const validateEach = <T>(
@@ -106,10 +106,10 @@ export const validateEach = <T>(
  * @example
  * ```ts
  * validateWith({ a: isString }, { a: "1" }) ->
- *   { valid: true, parsed: { a: "1" }, ... }
+ *   { valid: true, parsed: { a: "1" }, ... };
  *
  * validateWith({ a: isString }, { a: 1 }) ->
- *   { valid: false, error: { a: "Not a string: 1" }, ... }
+ *   { valid: false, error: { a: "Not a string: 1" }, ... };
  * ```
  */
 export const validateWith = <T>(
@@ -156,7 +156,7 @@ export const validateWith = <T>(
  *       named: { year: "1234", month: "12", day: "12" },
  *     },
  *     error: null,
- *   }
+ *   };
  * ```
  */
 export const validateRegex =

@@ -14,9 +14,9 @@ import { validateIf } from "../factories/validate";
  *
  * @example
  * ```ts
- * isArray([])  -> { valid: true, parsed: [], ... }
- * isArray([1]) -> { valid: true, parsed: [1], ... }
- * isArray("")  -> { valid: false, error: 'Not an array: ""', ... }
+ * isArray([])  -> { valid: true, parsed: [], ... };
+ * isArray([1]) -> { valid: true, parsed: [1], ... };
+ * isArray("")  -> { valid: false, error: 'Not an array: ""', ... };
  * ```
  */
 export const isArray: Validator<unknown[], string> = (input: unknown) =>
@@ -32,9 +32,9 @@ export const isArray: Validator<unknown[], string> = (input: unknown) =>
  *
  * @example
  * ```ts
- * isNonEmptyArray([1]) -> { valid: true,  parsed: [1], ... }
- * isNonEmptyArray("")  -> { valid: false, error: 'Not an array: ""', ... }
- * isNonEmptyArray([])  -> { valid: false, error: "Not a non empty array: []", ... }
+ * isNonEmptyArray([1]) -> { valid: true,  parsed: [1], ... };
+ * isNonEmptyArray("")  -> { valid: false, error: 'Not an array: ""', ... };
+ * isNonEmptyArray([])  -> { valid: false, error: "Not a non empty array: []", ... };
  * ```
  */
 export const isNonEmptyArray: Validator<unknown[], string> = (
@@ -64,10 +64,10 @@ export const isNonEmptyArray: Validator<unknown[], string> = (
  *
  * @example
  * ```ts
- * isNumberArray([])   -> { valid: true,  parsed: [], ... }
- * isNumberArray([1])  -> { valid: true,  parsed: [1], ... }
- * isNumberArray("")   -> { valid: false, error: 'Not an array: ""', ... }
- * isNumberArray([""]) -> { valid: false, error: 'Not a number array: [""]', ... }
+ * isNumberArray([])   -> { valid: true,  parsed: [], ... };
+ * isNumberArray([1])  -> { valid: true,  parsed: [1], ... };
+ * isNumberArray("")   -> { valid: false, error: 'Not an array: ""', ... };
+ * isNumberArray([""]) -> { valid: false, error: 'Not a number array: [""]', ... };
  * ```
  */
 export const isNumberArray: Validator<number[], string> = (input: unknown) => {
@@ -95,10 +95,10 @@ export const isNumberArray: Validator<number[], string> = (input: unknown) => {
  *
  * @example
  * ```ts
- * isStringArray([])   -> { valid: true,  parsed: [], ... }
- * isStringArray([""]) -> { valid: true,  parsed: [""], ... }
- * isStringArray("")   -> { valid: false, error: 'Not an array: ""', ... }
- * isStringArray([1])  -> { valid: false, error: "Not a number array: [1]", ... }
+ * isStringArray([])   -> { valid: true,  parsed: [], ... };
+ * isStringArray([""]) -> { valid: true,  parsed: [""], ... };
+ * isStringArray("")   -> { valid: false, error: 'Not an array: ""', ... };
+ * isStringArray([1])  -> { valid: false, error: "Not a number array: [1]", ... };
  * ```
  */
 export const isStringArray: Validator<string[], string> = (input: unknown) => {
@@ -127,10 +127,10 @@ export const isStringArray: Validator<string[], string> = (input: unknown) => {
  *
  * @example
  * ```ts
- * isOneOf([1, 2, 3], 1) -> { valid: true, parsed: 1, ... }
+ * isOneOf([1, 2, 3], 1) -> { valid: true, parsed: 1, ... };
  *
  * isOneOf([1, 2, 3], 4) ->
- *   { valid: false, error: "Not one of [1, 2, 3]: 4", ... }
+ *   { valid: false, error: "Not one of [1, 2, 3]: 4", ... };
  * ```
  */
 export const isOneOf = <T>(
@@ -155,10 +155,10 @@ export const isOneOf = <T>(
  *
  * @example
  * ```ts
- * isArrayOf([1, 2, 3], [3, 1]) -> { valid: true, parsed: [3, 1], ... }
+ * isArrayOf([1, 2, 3], [3, 1]) -> { valid: true, parsed: [3, 1], ... };
  *
  * isArrayOf([1, 2, 3], [3, 1, 4]) ->
- *   { valid: false, error: "Not an array of [1, 2, 3]: [3, 1, 4]", ... }
+ *   { valid: false, error: "Not an array of [1, 2, 3]: [3, 1, 4]", ... };
  * ```
  */
 export const isArrayOf = <T>(
@@ -192,8 +192,8 @@ export const isArrayOf = <T>(
  * const builds = ["dev", "prod"] as const;
  * const { isOneOf: isBuild } = arrayValidators(builds);
  *
- * isBuild("dev") -> { valid: true, parsed: [3, 1], ... }
- * isBuild("local") -> { valid: false, 'Not one of ["dev", "prod"]: "local"', ... }
+ * isBuild("dev") -> { valid: true, parsed: [3, 1], ... };
+ * isBuild("local") -> { valid: false, 'Not one of ["dev", "prod"]: "local"', ... };
  * ```
  */
 export const arrayValidators = <T>(

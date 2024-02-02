@@ -11,8 +11,8 @@ import { validateIf } from "../factories/validate";
  *
  * @example
  * ```ts
- * isUndefined(undefined) -> { valid: true,  parsed: undefined, ... }
- * isUndefined(null)      -> { valid: false, error: "Not undefined: null", ... }
+ * isUndefined(undefined) -> { valid: true,  parsed: undefined, ... };
+ * isUndefined(null)      -> { valid: false, error: "Not undefined: null", ... };
  * ```
  */
 export const isUndefined: Validator<undefined, string> = (input: unknown) =>
@@ -28,8 +28,8 @@ export const isUndefined: Validator<undefined, string> = (input: unknown) =>
  *
  * @example
  * ```ts
- * isNull(null)      -> { valid: true,  parsed: null, ... }
- * isNull(undefined) -> { valid: false, error: "Not null: undefined", ... }
+ * isNull(null)      -> { valid: true,  parsed: null, ... };
+ * isNull(undefined) -> { valid: false, error: "Not null: undefined", ... };
  * ```
  */
 export const isNull: Validator<null, string> = (input: unknown) =>
@@ -45,9 +45,9 @@ export const isNull: Validator<null, string> = (input: unknown) =>
  *
  * @example
  * ```ts
- * isBoolean(true)  -> { valid: true,  parsed: true, ... }
- * isBoolean(false) -> { valid: true,  parsed: false, ... }
- * isBoolean("")    -> { valid: false, error: 'Not a boolean: ""', ... }
+ * isBoolean(true)  -> { valid: true,  parsed: true, ... };
+ * isBoolean(false) -> { valid: true,  parsed: false, ... };
+ * isBoolean("")    -> { valid: false, error: 'Not a boolean: ""', ... };
  * ```
  */
 export const isBoolean: Validator<boolean, string> = (input: unknown) =>
@@ -63,8 +63,8 @@ export const isBoolean: Validator<boolean, string> = (input: unknown) =>
  *
  * @example
  * ```ts
- * isNumber(1)  -> { valid: true,  parsed: 1, ... }
- * isNumber("") -> { valid: false, error: 'Not a number: ""', ... }
+ * isNumber(1)  -> { valid: true,  parsed: 1, ... };
+ * isNumber("") -> { valid: false, error: 'Not a number: ""', ... };
  * ```
  */
 export const isNumber: Validator<number, string> = (input: unknown) =>
@@ -85,8 +85,8 @@ export const isNumber: Validator<number, string> = (input: unknown) =>
  *
  * @example
  * ```ts
- * isString("") -> { valid: true,  parsed: "", ... }
- * isString(1)  -> { valid: false, error: "Not a string: 1", ... }
+ * isString("") -> { valid: true,  parsed: "", ... };
+ * isString(1)  -> { valid: false, error: "Not a string: 1", ... };
  * ```
  */
 export const isString: Validator<string, string> = (input: unknown) =>
@@ -102,9 +102,9 @@ export const isString: Validator<string, string> = (input: unknown) =>
  *
  * @example
  * ```ts
- * isObject([]) -> { valid: true,  parsed: [], ... }
- * isObject({}) -> { valid: true,  parsed: {}, ... }
- * isObject("") -> { valid: false, error: 'Not an object: ""', ... }
+ * isObject([]) -> { valid: true,  parsed: [], ... };
+ * isObject({}) -> { valid: true,  parsed: {}, ... };
+ * isObject("") -> { valid: false, error: 'Not an object: ""', ... };
  * ```
  */
 export const isObject: Validator<object, string> = (input: unknown) =>

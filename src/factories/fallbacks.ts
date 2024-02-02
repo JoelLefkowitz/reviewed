@@ -14,8 +14,8 @@ import { isArray } from "../validators/arrays";
  *
  * @example
  * ```ts
- * validateOr(isNumber, 0, 1)   -> 1
- * validateOr(isNumber, 0, "1") -> 0
+ * validateOr(isNumber, 0, 1)   -> 1;
+ * validateOr(isNumber, 0, "1") -> 0;
  * ```
  */
 export const validateOr = <T>(
@@ -39,8 +39,8 @@ export const validateOr = <T>(
  *
  * @example
  * ```ts
- * validateEachOr(isNumber, 0, [1, 2, 3])     -> [1, 2, 3]
- * validateEachOr(isNumber, 0, ["1", 2, "3"]) -> [0, 2, 0]
+ * validateEachOr(isNumber, 0, [1, 2, 3])     -> [1, 2, 3];
+ * validateEachOr(isNumber, 0, ["1", 2, "3"]) -> [0, 2, 0];
  * ```
  */
 export const validateEachOr = <T>(

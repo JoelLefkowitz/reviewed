@@ -14,7 +14,7 @@ import { serialize } from "../services/strings";
  * @example
  * ```ts
  * invalidate("1", "Not a number") ->
- *   { valid: false, input: "", parsed: null, error: 'Not a number'}
+ *   { valid: false, input: "", parsed: null, error: 'Not a number'};
  * ```
  */
 export const invalidate = <T, U>(
@@ -39,7 +39,7 @@ export const invalidate = <T, U>(
  * @example
  * ```ts
  * invalidateWith("1", "Not a number") ->
- *   { valid: false, input: "", parsed: null, error: 'Not a number: "1"'}
+ *   { valid: false, input: "", parsed: null, error: 'Not a number: "1"'};
  * ```
  */
 export const invalidateWith = <T>(

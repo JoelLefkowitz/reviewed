@@ -181,6 +181,26 @@ if (guard(isNumber)(input)) {
 Validators can be combined:
 
 ```ts
+validateWith({ name: isString, age: isNumber }, { name: "", age: "" }) -> {
+    valid: false,
+    error: { age: 'Not a number: ""' },
+    ...
+  };
+```
+
+```ts
+const isStringOrNull = either(isString, isNull);
+
+isStringOrNull(1) -> {
+    valid: false,
+    error: ["Not a string: 1", "Not null: 1"],
+    ...
+  };
+```
+
+Results can be combined:
+
+```ts
 merge({ a: isNumber("1"), b: isNumber(2), c: isNumber("3") }) -> {
     valid: false,
     error: { a: 'Not a number: "1"', c: 'Not a number: "3"' },

@@ -42,7 +42,7 @@ export const guard =
  *
  * const isNumber = fromGuard(guard, "Not a number");
  *
- * isNumber(1) -> { valid: true, parsed: 1, ... }
+ * isNumber(1) -> { valid: true, parsed: 1, ... };
  * ```
  */
 export const fromGuard =
