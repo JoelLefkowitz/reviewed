@@ -31,7 +31,7 @@ export const not =
  * @category Factories
  *
  * @typeParam T - the first validated type
- * @typeParam T - the second validated type
+ * @typeParam U - the second validated type
  * @param left - the first validator
  * @param right - the second validator
  *
