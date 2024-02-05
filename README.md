@@ -2,12 +2,12 @@
 
 Ergonomic, extensible and lightweight validators.
 
-![review_action](https://img.shields.io/github/actions/workflow/status/JoelLefkowitz/reviewed/review.yml)
-![npm_version](https://img.shields.io/npm/v/reviewed)
-![npm_downloads](https://img.shields.io/npm/dw/reviewed)
-![npm_bundle_size](https://img.shields.io/bundlephobia/min/reviewed)
-![codacy_quality](https://img.shields.io/codacy/grade/0c0c92a961d444ee9f65d961bf0e1293)
-![codacy_coverage](https://img.shields.io/codacy/coverage/0c0c92a961d444ee9f65d961bf0e1293)
+![Review](https://img.shields.io/github/actions/workflow/status/JoelLefkowitz/reviewed/review.yml)
+![Version](https://img.shields.io/npm/v/reviewed)
+![Downloads](https://img.shields.io/npm/dw/reviewed)
+![Size](https://img.shields.io/bundlephobia/min/reviewed)
+![Quality](https://img.shields.io/codacy/grade/0c0c92a961d444ee9f65d961bf0e1293)
+![Coverage](https://img.shields.io/codacy/coverage/0c0c92a961d444ee9f65d961bf0e1293)
 
 ## Motivation
 
@@ -66,6 +66,10 @@ pagination(new URL("https://example.com?page=-1")) ->
 ```bash
 npm install reviewed
 ```
+
+## Documentation
+
+Documentation and more detailed examples are hosted on [Github Pages](https://joellefkowitz.github.io/reviewed).
 
 ## Design
 
@@ -303,10 +307,6 @@ const isRecord: Validator<Record<string, unknown>, string> = (input: unknown) =>
 | {}    | {}     | null          |
 | ""    | null   | Not an object |
 
-## Documentation
-
-Documentation and more detailed examples are hosted on [Github Pages](https://joellefkowitz.github.io/reviewed).
-
 ## Tooling
 
 ### Tests
@@ -341,13 +341,11 @@ To run formatters:
 npm run format
 ```
 
-## Continuous integration
+## Contributing
 
-This repository uses GitHub Actions to lint and test each commit. Each commit should be formatted and its corresponding documentation should be updated.
+Please read this repository's [Code of Conduct](CODE_OF_CONDUCT.md) which outlines our collaboration standards and the [Changelog](CHANGELOG.md) for details on breaking changes that have been made.
 
-## Versioning
-
-This repository adheres to semantic versioning standards. For more information on semantic versioning visit [semver](https://semver.org).
+This repository adheres to semantic versioning standards. For more information on semantic versioning visit [SemVer](https://semver.org).
 
 Bump2version is used to version and tag changes. For example:
 
@@ -355,15 +353,7 @@ Bump2version is used to version and tag changes. For example:
 bump2version patch
 ```
 
-## Changelog
-
-Please read this repository's [changelog](CHANGELOG.md) for details on changes that have been made.
-
-## Contributing
-
-Please read this repository's guidelines on [contributing](CONTRIBUTING.md) for details on the process for submitting pull requests. Moreover, our [code of conduct](CODE_OF_CONDUCT.md) declares our collaboration standards.
-
-## Contributors
+### Contributors
 
 - [Joel Lefkowitz](https://github.com/joellefkowitz) - Initial work
 

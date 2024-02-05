@@ -32,7 +32,7 @@ export const suite = <T>(
   valid: { input: unknown; parsed: T }[],
   invalid: Record<string, unknown[]>,
   name: string = validator.name,
-): void =>
+): void => {
   describe(name, () => {
     it("passes a valid objects", () => {
       valid.forEach(({ input, parsed }) => {
@@ -49,3 +49,4 @@ export const suite = <T>(
       });
     });
   });
+};

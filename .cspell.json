@@ -2,42 +2,26 @@
   "language": "en",
   "ignorePaths": [
     ".git",
-    "build",
+    ".gitignore",
+    ".husky",
     "coverage",
     "dist",
-    "node_modules",
-    "venv",
-    "yarn-error.log",
-    "yarn.lock"
+    "yarn-error.log"
   ],
   "dictionaries": [
     "bash",
-    "companies",
-    "css",
     "en-gb",
-    "filetypes",
-    "fonts",
-    "html",
-    "local",
     "misc",
     "node",
-    "npm",
     "softwareTerms",
     "typescript"
   ],
   "words": [
     "autofix",
     "bumpversion",
-    "camelcase",
     "cliui",
     "codacy",
-    "huskyrc",
     "lefkowitz",
-    "nosecret",
-    "plusplus",
-    "superstruct",
-    "trufflehog",
-    "typecheck",
-    "venv"
+    "superstruct"
   ]
 }

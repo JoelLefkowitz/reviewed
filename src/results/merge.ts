@@ -71,7 +71,7 @@ export const allValid = <T>(results: Validated<T>[]): Validated<T[]> => {
     return validate(input, parsed);
   }
 
-  const errors = error.filter(guard(isString));
+  const errors = (error as string[]).filter(guard(isString));
   return invalidate(input, errors);
 };
 

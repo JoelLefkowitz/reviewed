@@ -11,7 +11,8 @@ import { serialize } from "../services/strings";
  *
  * @example
  * ```ts
- * fail({a: "Not a number: null"}) -> Error('{"a": "Not a number: null');
+ * fail<{ a: number }>({a: "Not a number: null"}) ->
+ *   Error('{"a": "Not a number: null');
  * ```
  */
 export const fail = <T>(

@@ -37,7 +37,7 @@ export const validatedOr = <T, U>(result: Validated<T, U>, fallback: T): T =>
 export const filterValidated = <T, U>(results: Validated<T, U>[]): T[] =>
   results.reduce<T[]>(
     (acc, { valid, parsed }) => (valid ? [...acc, parsed] : acc),
-    [] as T[],
+    [],
   );
 
 /**
@@ -61,7 +61,7 @@ export const filterValidatedOr = <T, U>(
 ): T[] =>
   results.reduce<T[]>(
     (acc, { valid, parsed }) => [...acc, valid ? parsed : fallback],
-    [] as T[],
+    [],
   );
 
 /**
