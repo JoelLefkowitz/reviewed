@@ -15,6 +15,7 @@ export * from "./models/validation/Validated.model";
 export * from "./models/validation/ValidationErrors.model";
 export * from "./models/validation/Validator.model";
 export * from "./results/filter";
+export * from "./results/map";
 export * from "./results/merge";
 export * from "./testing/suite";
 export * from "./validators/arrays";
