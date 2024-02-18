@@ -161,6 +161,18 @@ suite(isNaturalNumber, [{ input: 1, parsed: 1 }], {
 });
 ```
 
+### Combining validators
+
+Validators can be chained to validate a payload:
+
+```json
+[{ "name": "a" }, { "name": "b" }]
+```
+
+```ts
+export const isArrayOfNames = isArrayOf(isRecordOf({ name: isString }));
+```
+
 ### Guards
 
 Guards can inform the compiler that the input satisfies a type predicate. This is thanks to TypeScript's `is` operator:
@@ -271,8 +283,12 @@ Validators can be inverted or joined:
 
 ```ts
 const not: <T>(validator: Validator<T>, reason?: string) => Validator<T>;
+
 const both: <T, U>(first: Validator<T>, second: Validator<U>) => Validator<T & U>;
 const either: <T, U>(first: Validator<T>, second: Validator<U>) => Validator<T | U>;
+
+const isArrayOf: <T>(validator: Validator<T>) => Validator<T[]>;
+const isRecordOf: <T>(validators: ValidatorFields<T>) => Validator<T>;
 ```
 
 Results can be merged:
@@ -320,7 +336,7 @@ const isNonEmptyRecord: Validator<Record<string, unknown>>;
 const isEmail: RegexValidator<"user" | "domain">;
 
 const isOneOf: <T>(options: T[]) => Validator<T>;
-const isArrayOf: <T>(options: T[]) => Validator<T[]>;
+const isManyOf: <T>(options: T[]) => Validator<T[]>;
 ```
 
 ### Reasonable types

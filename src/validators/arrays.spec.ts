@@ -1,6 +1,6 @@
 import {
   isArray,
-  isArrayOf,
+  isManyOf,
   isNonEmptyArray,
   isNumberArray,
   isOneOf,
@@ -55,12 +55,12 @@ describe("isOneOf", () => {
   });
 });
 
-describe("isArrayOf", () => {
+describe("isManyOf", () => {
   it("validates if an array contains only values from a set of options", () => {
-    expect(isArrayOf([1, 2, 3])([3, 1]).parsed).toEqual([3, 1]);
+    expect(isManyOf([1, 2, 3])([3, 1]).parsed).toEqual([3, 1]);
 
-    expect(isArrayOf([1, 2, 3])("").error).toBe('Not an array: ""');
-    expect(isArrayOf([1, 2, 3])([3, 1, 4]).error).toBe(
+    expect(isManyOf([1, 2, 3])("").error).toBe('Not an array: ""');
+    expect(isManyOf([1, 2, 3])([3, 1, 4]).error).toBe(
       "Not an array of [1, 2, 3]: [3, 1, 4]",
     );
   });

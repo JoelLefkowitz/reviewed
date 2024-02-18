@@ -202,13 +202,13 @@ export const isOneOf =
  *
  * @category Validators
  * @example
- *   isArrayOf([1, 2, 3])([3, 1]) >>
+ *   isManyOf([1, 2, 3])([3, 1]) >>
  *     {
  *       valid: true,
  *       parsed: [3, 1],
  *     };
  *
- *   isArrayOf([1, 2, 3])([3, 1, 4]) >>
+ *   isManyOf([1, 2, 3])([3, 1, 4]) >>
  *     {
  *       valid: false,
  *       error: "Not an array of [1, 2, 3]: [3, 1, 4]",
@@ -217,7 +217,7 @@ export const isOneOf =
  * @typeParam T - The validated type
  * @param options - The valid options
  */
-export const isArrayOf =
+export const isManyOf =
   <T>(options: readonly T[]) =>
   (input: unknown): Validated<T[]> => {
     const array = isArray(input);

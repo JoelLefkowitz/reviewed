@@ -7,7 +7,7 @@
   "themeColor": "#BA16B5",
   "categorizeByGroup": true,
   "groupOrder": ["Functions"],
-  "categoryOrder": ["Factories", "Validators"],
+  "categoryOrder": ["Factories", "Aliases", "Validators"],
   "navigation": {
     "includeGroups": true,
     "includeCategories": true

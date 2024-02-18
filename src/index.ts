@@ -1,3 +1,4 @@
+export * from "./factories/aliases";
 export * from "./factories/arrays";
 export * from "./factories/conditionals";
 export * from "./factories/errors";
