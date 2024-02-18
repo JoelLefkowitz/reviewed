@@ -188,7 +188,7 @@ export const isStringArray: Validator<string[]> = (input: unknown) => {
  * @param options - The valid options
  */
 export const isOneOf =
-  <T>(options: T[]): Validator<T> =>
+  <T>(options: readonly T[]): Validator<T> =>
   (input: unknown) =>
     validateIf(
       options.includes(input as T),
@@ -218,7 +218,7 @@ export const isOneOf =
  * @param options - The valid options
  */
 export const isArrayOf =
-  <T>(options: T[]) =>
+  <T>(options: readonly T[]) =>
   (input: unknown): Validated<T[]> => {
     const array = isArray(input);
 
