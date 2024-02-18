@@ -172,13 +172,13 @@ export const isStringArray: Validator<string[]> = (input: unknown) => {
  *
  * @category Validators
  * @example
- *   isOneOf([1, 2, 3], 1) >>
+ *   isOneOf([1, 2, 3])(1) >>
  *     {
  *       valid: true,
  *       parsed: 1,
  *     };
  *
- *   isOneOf([1, 2, 3], 4) >>
+ *   isOneOf([1, 2, 3])(4) >>
  *     {
  *       valid: false,
  *       error: "Not one of [1, 2, 3]: 4",
@@ -186,28 +186,29 @@ export const isStringArray: Validator<string[]> = (input: unknown) => {
  *
  * @typeParam T - The validated type
  * @param options - The valid options
- * @param input   - The raw input
  */
-export const isOneOf = <T>(options: T[], input: unknown): Validated<T> =>
-  validateIf(
-    options.includes(input as T),
-    input,
-    input,
-    `Not one of ${serialize(options)}`,
-  );
+export const isOneOf =
+  <T>(options: T[]): Validator<T> =>
+  (input: unknown) =>
+    validateIf(
+      options.includes(input as T),
+      input,
+      input,
+      `Not one of ${serialize(options)}`,
+    );
 
 /**
  * Validate an input is an array of elements from a list of options
  *
  * @category Validators
  * @example
- *   isArrayOf([1, 2, 3], [3, 1]) >>
+ *   isArrayOf([1, 2, 3])([3, 1]) >>
  *     {
  *       valid: true,
  *       parsed: [3, 1],
  *     };
  *
- *   isArrayOf([1, 2, 3], [3, 1, 4]) >>
+ *   isArrayOf([1, 2, 3])([3, 1, 4]) >>
  *     {
  *       valid: false,
  *       error: "Not an array of [1, 2, 3]: [3, 1, 4]",
@@ -215,19 +216,20 @@ export const isOneOf = <T>(options: T[], input: unknown): Validated<T> =>
  *
  * @typeParam T - The validated type
  * @param options - The valid options
- * @param input   - The raw input
  */
-export const isArrayOf = <T>(options: T[], input: unknown): Validated<T[]> => {
-  const array = isArray(input);
+export const isArrayOf =
+  <T>(options: T[]) =>
+  (input: unknown): Validated<T[]> => {
+    const array = isArray(input);
 
-  if (!array.valid) {
-    return array as Validated<T[]>;
-  }
+    if (!array.valid) {
+      return array as Validated<T[]>;
+    }
 
-  return validateIf(
-    !array.parsed.some((i) => !options.includes(i as T)),
-    input,
-    input,
-    `Not an array of ${serialize(options)}`,
-  );
-};
+    return validateIf(
+      !array.parsed.some((i) => !options.includes(i as T)),
+      input,
+      input,
+      `Not an array of ${serialize(options)}`,
+    );
+  };
