@@ -1,31 +1,28 @@
-import { Validator } from "../models/validation/Validator.model";
+import { Validator } from "../models/validators";
 import { invalidateWith } from "../factories/invalidate";
 
 /**
  * Construct a test suite for a validator
  *
  * @category Testing
- *
- * @typeParam T - the validated type
- * @param validator - the validator to test
- * @param valid - an array of valid raw and parsed inputs
- * @param invalid - a mapping of validation errors and invalid inputs
- * @param name - the name of the validator to test
- *
  * @example
- * ```ts
- * suite(
- *   isStringArray,
- *   [
- *     { input: [], parsed: [] },
- *     { input: ["a"], parsed: ["a"] },
- *   ],
- *   {
- *     "Not an array": [undefined, null, true, 1, "a", {}],
- *     "Not an array of strings": [[1]],
- *   },
- * });
- * ```
+ *   suite(
+ *     isStringArray,
+ *     [
+ *       { input: [], parsed: [] },
+ *       { input: ["a"], parsed: ["a"] },
+ *     ],
+ *     {
+ *       "Not an array": [undefined, null, true, 1, "a", {}],
+ *       "Not an array of strings": [[1]],
+ *     },
+ *   );
+ *
+ * @typeParam T - The validated type
+ * @param validator - The validator to test
+ * @param valid     - An array of valid raw and parsed inputs
+ * @param invalid   - A mapping of validation errors and invalid inputs
+ * @param name      - The name of the validator to test
  */
 export const suite = <T>(
   validator: Validator<T>,
@@ -43,7 +40,7 @@ export const suite = <T>(
     it("fails invalid objects", () => {
       Object.entries(invalid).forEach(([reason, cases]) => {
         cases.forEach((input) => {
-          const { error } = invalidateWith(input, reason);
+          const { error } = invalidateWith(reason)(input);
           expect(validator(input).error).toBe(error);
         });
       });

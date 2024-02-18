@@ -1,5 +1,5 @@
 import { isInteger, isNaturalNumber } from "./numbers";
-import { suite } from "../testing/suite";
+import { suite } from "../testing/suites";
 
 suite(
   isInteger,

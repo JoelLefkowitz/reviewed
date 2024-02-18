@@ -1,3 +1,4 @@
+/** @internal */
 export const mapRecord = <T extends string, U, V>(
   map: (x: U) => V,
   record: Record<T, U>,
@@ -10,6 +11,7 @@ export const mapRecord = <T extends string, U, V>(
   return Object.fromEntries(reduced) as Record<T, V>;
 };
 
+/** @internal */
 export const reduceRecord = <T extends string, U, V>(
   map: (x: U) => V,
   filter: (x: U) => boolean,
@@ -24,6 +26,7 @@ export const reduceRecord = <T extends string, U, V>(
   return Object.fromEntries(reduced) as Partial<Record<T, V>>;
 };
 
+/** @internal */
 export const pickField = <T extends string, U, V extends keyof U>(
   field: V,
   record: Record<T, U>,

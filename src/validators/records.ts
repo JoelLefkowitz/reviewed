@@ -1,25 +1,29 @@
-import { Validator } from "../models/validation/Validator.model";
+import { Validator } from "../models/validators";
 import { isArray } from "./arrays";
 import { isObject } from "./primitives";
-import { validateIf } from "../factories/validate";
+import { validateIf } from "../factories/conditionals";
 
 /**
  * Validate a record
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isRecord({}) -> { valid: true,  parsed: {}, ... };
- * isRecord([]) -> { valid: false, error: "Not a record: []", ... };
- * ```
+ *   isRecord({}) >>
+ *     {
+ *       valid: true,
+ *       parsed: {},
+ *     };
+ *
+ *   isRecord([]) >>
+ *     {
+ *       valid: false,
+ *       error: "Not a record: []",
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isRecord: Validator<Record<string, unknown>, string> = (
-  input: unknown,
-) =>
+export const isRecord: Validator<Record<string, unknown>> = (input: unknown) =>
   validateIf(
     isObject(input).valid && !isArray(input).valid,
     input,
@@ -31,17 +35,23 @@ export const isRecord: Validator<Record<string, unknown>, string> = (
  * Validate a non empty record
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isRecord({a: 1}) -> { valid: true,  parsed: {a: 1}, ... };
- * isRecord({})     -> { valid: false, error: "Not a non empty record: {}", ... };
- * ```
+ *   isRecord({ a: 1 }) >>
+ *     {
+ *       valid: true,
+ *       parsed: { a: 1 },
+ *     };
+ *
+ *   isRecord({}) >>
+ *     {
+ *       valid: false,
+ *       error: "Not a non empty record: {}",
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isNonEmptyRecord: Validator<Record<string, unknown>, string> = (
+export const isNonEmptyRecord: Validator<Record<string, unknown>> = (
   input: unknown,
 ) => {
   const record = isRecord(input);

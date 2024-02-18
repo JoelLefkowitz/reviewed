@@ -1,26 +1,28 @@
-import { Validated } from "../models/validation/Validated.model";
+import { Validated, Validator } from "../models/validators";
+import { ValidationErrors } from "../models/errors";
 import { serialize } from "../services/strings";
 
 /**
  * Invalidate an input
  *
  * @category Factories
- *
- * @typeParam T - the validated type
- * @typeParam U - the validation errors type
- * @param input - the raw input
- * @param error - the validation errors
- *
  * @example
- * ```ts
- * invalidate("1", "Not a number") ->
- *   { valid: false, input: "", parsed: null, error: 'Not a number'};
- * ```
+ *   invalidate("1", "Not a number") >>
+ *     {
+ *       valid: false,
+ *       input: "",
+ *       parsed: null,
+ *       error: "Not a number",
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
+ * @param error - The validation errors
  */
-export const invalidate = <T, U>(
+export const invalidate = <T>(
   input: unknown,
-  error: U,
-): Validated<T, U> => ({
+  error: ValidationErrors<T>,
+): Validated<T> => ({
   valid: false,
   input,
   parsed: null,
@@ -28,21 +30,22 @@ export const invalidate = <T, U>(
 });
 
 /**
- * Invalidate an input and serialize it with an error message
+ * Invalidate an input and serialize it with a failure message
  *
  * @category Factories
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- * @param reason - the error message
- *
  * @example
- * ```ts
- * invalidateWith("1", "Not a number") ->
- *   { valid: false, input: "", parsed: null, error: 'Not a number: "1"'};
- * ```
+ *   invalidateWith("Not a number")("1") >>
+ *     {
+ *       valid: false,
+ *       input: "",
+ *       parsed: null,
+ *       error: 'Not a number: "1"',
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param reason - The failure message
  */
-export const invalidateWith = <T>(
-  input: unknown,
-  reason: string,
-): Validated<T, string> => invalidate(input, `${reason}: ${serialize(input)}`);
+export const invalidateWith =
+  <T>(reason: string): Validator<T> =>
+  (input: unknown) =>
+    invalidate(input, `${reason}: ${serialize(input)}`);

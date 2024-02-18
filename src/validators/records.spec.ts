@@ -1,5 +1,5 @@
 import { isNonEmptyRecord, isRecord } from "./records";
-import { suite } from "../testing/suite";
+import { suite } from "../testing/suites";
 
 suite(
   isRecord,

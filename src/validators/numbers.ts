@@ -1,22 +1,28 @@
-import { Validator } from "../models/validation/Validator.model";
+import { Validator } from "../models/validators";
 import { isNumber } from "./primitives";
-import { validateIf } from "../factories/validate";
+import { validateIf } from "../factories/conditionals";
 
 /**
  * Validate an integer
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isInteger(1)   -> { valid: true,  parsed: 1, ... };
- * isInteger(0.5) -> { valid: false, error: "Not an integer: 0.5", ... };
- * ```
+ *   isInteger(1) >>
+ *     {
+ *       valid: true,
+ *       parsed: 1,
+ *     };
+ *
+ *   isInteger(0.5) >>
+ *     {
+ *       valid: false,
+ *       error: "Not an integer: 0.5",
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isInteger: Validator<number, string> = (input: unknown) => {
+export const isInteger: Validator<number> = (input: unknown) => {
   const number = isNumber(input);
 
   if (!number.valid) {
@@ -35,17 +41,23 @@ export const isInteger: Validator<number, string> = (input: unknown) => {
  * Validate a natural number
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isNaturalNumber(1) -> { valid: true,  parsed: 1, ... };
- * isNaturalNumber(0) -> { valid: false, error: "Not a natural number: 0", ... };
- * ```
+ *   isNaturalNumber(1) >>
+ *     {
+ *       valid: true,
+ *       parsed: 1,
+ *     };
+ *
+ *   isNaturalNumber(0) >>
+ *     {
+ *       valid: false,
+ *       error: "Not a natural number: 0",
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isNaturalNumber: Validator<number, string> = (input: unknown) => {
+export const isNaturalNumber: Validator<number> = (input: unknown) => {
   const integer = isInteger(input);
 
   if (!integer.valid) {

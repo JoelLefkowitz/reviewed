@@ -4,7 +4,7 @@ import {
   isNaturalNumberString,
   isNumberString,
 } from "./strings";
-import { suite } from "../testing/suite";
+import { suite } from "../testing/suites";
 
 suite(
   isBooleanString,

@@ -1,45 +1,64 @@
-import { Validated } from "../models/validation/Validated.model";
-import { Validator } from "../models/validation/Validator.model";
+import { Validated, Validator } from "../models/validators";
 import { isNumber, isString } from "./primitives";
 import { serialize } from "../services/strings";
-import { validateIf } from "../factories/validate";
+import { validateIf } from "../factories/conditionals";
 
 /**
  * Validate an array
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isArray([])  -> { valid: true, parsed: [], ... };
- * isArray([1]) -> { valid: true, parsed: [1], ... };
- * isArray("")  -> { valid: false, error: 'Not an array: ""', ... };
- * ```
+ *   isArray([]) >>
+ *     {
+ *       valid: true,
+ *       parsed: [],
+ *     };
+ *
+ *   isArray([1]) >>
+ *     {
+ *       valid: true,
+ *       parsed: [1],
+ *     };
+ *
+ *   isArray("") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not an array: ""',
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isArray: Validator<unknown[], string> = (input: unknown) =>
+export const isArray: Validator<unknown[]> = (input: unknown) =>
   validateIf(Array.isArray(input), input, input, "Not an array");
 
 /**
  * Validate a non empty array
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isNonEmptyArray([1]) -> { valid: true,  parsed: [1], ... };
- * isNonEmptyArray("")  -> { valid: false, error: 'Not an array: ""', ... };
- * isNonEmptyArray([])  -> { valid: false, error: "Not a non empty array: []", ... };
- * ```
+ *   isNonEmptyArray([1]) >>
+ *     {
+ *       valid: true,
+ *       parsed: [1],
+ *     };
+ *
+ *   isNonEmptyArray("") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not an array: ""',
+ *     };
+ *
+ *   isNonEmptyArray([]) >>
+ *     {
+ *       valid: false,
+ *       error: "Not a non empty array: []",
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isNonEmptyArray: Validator<unknown[], string> = (
-  input: unknown,
-) => {
+export const isNonEmptyArray: Validator<unknown[]> = (input: unknown) => {
   const array = isArray(input);
 
   if (!array.valid) {
@@ -58,19 +77,35 @@ export const isNonEmptyArray: Validator<unknown[], string> = (
  * Validate an array of numbers
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isNumberArray([])   -> { valid: true,  parsed: [], ... };
- * isNumberArray([1])  -> { valid: true,  parsed: [1], ... };
- * isNumberArray("")   -> { valid: false, error: 'Not an array: ""', ... };
- * isNumberArray([""]) -> { valid: false, error: 'Not a number array: [""]', ... };
- * ```
+ *   isNumberArray([]) >>
+ *     {
+ *       valid: true,
+ *       parsed: [],
+ *     };
+ *
+ *   isNumberArray([1]) >>
+ *     {
+ *       valid: true,
+ *       parsed: [1],
+ *     };
+ *
+ *   isNumberArray("") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not an array: ""',
+ *     };
+ *
+ *   isNumberArray([""]) >>
+ *     {
+ *       valid: false,
+ *       error: 'Not an array of numbers: [""]',
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isNumberArray: Validator<number[], string> = (input: unknown) => {
+export const isNumberArray: Validator<number[]> = (input: unknown) => {
   const array = isArray(input);
 
   if (!array.valid) {
@@ -89,19 +124,35 @@ export const isNumberArray: Validator<number[], string> = (input: unknown) => {
  * Validate an array of strings
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isStringArray([])   -> { valid: true,  parsed: [], ... };
- * isStringArray([""]) -> { valid: true,  parsed: [""], ... };
- * isStringArray("")   -> { valid: false, error: 'Not an array: ""', ... };
- * isStringArray([1])  -> { valid: false, error: "Not a number array: [1]", ... };
- * ```
+ *   isStringArray([]) >>
+ *     {
+ *       valid: true,
+ *       parsed: [],
+ *     };
+ *
+ *   isStringArray([""]) >>
+ *     {
+ *       valid: true,
+ *       parsed: [""],
+ *     };
+ *
+ *   isStringArray("") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not an array: ""',
+ *     };
+ *
+ *   isStringArray([1]) >>
+ *     {
+ *       valid: false,
+ *       error: "Not an array of strings: [1]",
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isStringArray: Validator<string[], string> = (input: unknown) => {
+export const isStringArray: Validator<string[]> = (input: unknown) => {
   const array = isArray(input);
 
   if (!array.valid) {
@@ -120,23 +171,24 @@ export const isStringArray: Validator<string[], string> = (input: unknown) => {
  * Validate an input is one of a list of options
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param options - the valid options
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isOneOf([1, 2, 3], 1) -> { valid: true, parsed: 1, ... };
+ *   isOneOf([1, 2, 3], 1) >>
+ *     {
+ *       valid: true,
+ *       parsed: 1,
+ *     };
  *
- * isOneOf([1, 2, 3], 4) ->
- *   { valid: false, error: "Not one of [1, 2, 3]: 4", ... };
- * ```
+ *   isOneOf([1, 2, 3], 4) >>
+ *     {
+ *       valid: false,
+ *       error: "Not one of [1, 2, 3]: 4",
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param options - The valid options
+ * @param input   - The raw input
  */
-export const isOneOf = <T>(
-  options: T[],
-  input: unknown,
-): Validated<T, string> =>
+export const isOneOf = <T>(options: T[], input: unknown): Validated<T> =>
   validateIf(
     options.includes(input as T),
     input,
@@ -148,27 +200,28 @@ export const isOneOf = <T>(
  * Validate an input is an array of elements from a list of options
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param options - the valid options
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isArrayOf([1, 2, 3], [3, 1]) -> { valid: true, parsed: [3, 1], ... };
+ *   isArrayOf([1, 2, 3], [3, 1]) >>
+ *     {
+ *       valid: true,
+ *       parsed: [3, 1],
+ *     };
  *
- * isArrayOf([1, 2, 3], [3, 1, 4]) ->
- *   { valid: false, error: "Not an array of [1, 2, 3]: [3, 1, 4]", ... };
- * ```
+ *   isArrayOf([1, 2, 3], [3, 1, 4]) >>
+ *     {
+ *       valid: false,
+ *       error: "Not an array of [1, 2, 3]: [3, 1, 4]",
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param options - The valid options
+ * @param input   - The raw input
  */
-export const isArrayOf = <T>(
-  options: T[],
-  input: unknown,
-): Validated<T[], string> => {
+export const isArrayOf = <T>(options: T[], input: unknown): Validated<T[]> => {
   const array = isArray(input);
 
   if (!array.valid) {
-    return array;
+    return array as Validated<T[]>;
   }
 
   return validateIf(
@@ -178,30 +231,3 @@ export const isArrayOf = <T>(
     `Not an array of ${serialize(options)}`,
   );
 };
-
-/**
- * Constructs a set of array validators
- *
- * @category Validators
- *
- * @typeParam T - the validated type
- * @param options - the valid options
- *
- * @example
- * ```ts
- * const builds = ["dev", "prod"] as const;
- * const { isOneOf: isBuild } = arrayValidators(builds);
- *
- * isBuild("dev") -> { valid: true, parsed: [3, 1], ... };
- * isBuild("local") -> { valid: false, 'Not one of ["dev", "prod"]: "local"', ... };
- * ```
- */
-export const arrayValidators = <T>(
-  options: T[] | readonly T[],
-): {
-  isOneOf: Validator<T>;
-  isArrayOf: Validator<T[]>;
-} => ({
-  isOneOf: (input: unknown) => isOneOf([...options], input),
-  isArrayOf: (input: unknown) => isArrayOf([...options], input),
-});

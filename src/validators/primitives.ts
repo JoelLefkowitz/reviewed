@@ -1,73 +1,102 @@
-import { Validator } from "../models/validation/Validator.model";
-import { validateIf } from "../factories/validate";
+import { Validator } from "../models/validators";
+import { validateIf } from "../factories/conditionals";
 
 /**
  * Validate an input is undefined
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isUndefined(undefined) -> { valid: true,  parsed: undefined, ... };
- * isUndefined(null)      -> { valid: false, error: "Not undefined: null", ... };
- * ```
+ *   isUndefined(undefined) >>
+ *     {
+ *       valid: true,
+ *       parsed: undefined,
+ *     };
+ *
+ *   isUndefined(null) >>
+ *     {
+ *       valid: false,
+ *       error: "Not undefined: null",
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isUndefined: Validator<undefined, string> = (input: unknown) =>
+export const isUndefined: Validator<undefined> = (input: unknown) =>
   validateIf(input === undefined, input, input, "Not undefined");
 
 /**
  * Validate an input is null
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isNull(null)      -> { valid: true,  parsed: null, ... };
- * isNull(undefined) -> { valid: false, error: "Not null: undefined", ... };
- * ```
+ *   isNull(null) >>
+ *     {
+ *       valid: true,
+ *       parsed: null,
+ *     };
+ *
+ *   isNull(undefined) >>
+ *     {
+ *       valid: false,
+ *       error: "Not null: undefined",
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isNull: Validator<null, string> = (input: unknown) =>
+export const isNull: Validator<null> = (input: unknown) =>
   validateIf(input === null, input, input, "Not null");
 
 /**
  * Validate a boolean
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isBoolean(true)  -> { valid: true,  parsed: true, ... };
- * isBoolean(false) -> { valid: true,  parsed: false, ... };
- * isBoolean("")    -> { valid: false, error: 'Not a boolean: ""', ... };
- * ```
+ *   isBoolean(true) >>
+ *     {
+ *       valid: true,
+ *       parsed: true,
+ *     };
+ *
+ *   isBoolean(false) >>
+ *     {
+ *       valid: true,
+ *       parsed: false,
+ *     };
+ *
+ *   isBoolean("") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not a boolean: ""',
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isBoolean: Validator<boolean, string> = (input: unknown) =>
+export const isBoolean: Validator<boolean> = (input: unknown) =>
   validateIf(typeof input === "boolean", input, input, "Not a boolean");
 
 /**
  * Validate a number
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isNumber(1)  -> { valid: true,  parsed: 1, ... };
- * isNumber("") -> { valid: false, error: 'Not a number: ""', ... };
- * ```
+ *   isNumber(1) >>
+ *     {
+ *       valid: true,
+ *       parsed: 1,
+ *     };
+ *
+ *   isNumber("") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not a number: ""',
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isNumber: Validator<number, string> = (input: unknown) =>
+export const isNumber: Validator<number> = (input: unknown) =>
   validateIf(
     typeof input === "number" && isFinite(input),
     input,
@@ -79,35 +108,52 @@ export const isNumber: Validator<number, string> = (input: unknown) =>
  * Validate a string
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isString("") -> { valid: true,  parsed: "", ... };
- * isString(1)  -> { valid: false, error: "Not a string: 1", ... };
- * ```
+ *   isString("") >>
+ *     {
+ *       valid: true,
+ *       parsed: "",
+ *     };
+ *
+ *   isString(1) >>
+ *     {
+ *       valid: false,
+ *       error: "Not a string: 1",
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isString: Validator<string, string> = (input: unknown) =>
+export const isString: Validator<string> = (input: unknown) =>
   validateIf(typeof input === "string", input, input, "Not a string");
 
 /**
  * Validate an object
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isObject([]) -> { valid: true,  parsed: [], ... };
- * isObject({}) -> { valid: true,  parsed: {}, ... };
- * isObject("") -> { valid: false, error: 'Not an object: ""', ... };
- * ```
+ *   isObject([]) >>
+ *     {
+ *       valid: true,
+ *       parsed: [],
+ *     };
+ *
+ *   isObject({}) >>
+ *     {
+ *       valid: true,
+ *       parsed: {},
+ *     };
+ *
+ *   isObject("") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not an object: ""',
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isObject: Validator<object, string> = (input: unknown) =>
+export const isObject: Validator<object> = (input: unknown) =>
   validateIf(
     typeof input === "object" && input !== null,
     input,

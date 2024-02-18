@@ -1,5 +1,4 @@
 import {
-  arrayValidators,
   isArray,
   isArrayOf,
   isNonEmptyArray,
@@ -7,7 +6,7 @@ import {
   isOneOf,
   isStringArray,
 } from "./arrays";
-import { suite } from "../testing/suite";
+import { suite } from "../testing/suites";
 
 suite(
   isArray,
@@ -63,23 +62,6 @@ describe("isArrayOf", () => {
     expect(isArrayOf([1, 2, 3], "").error).toBe('Not an array: ""');
     expect(isArrayOf([1, 2, 3], [3, 1, 4]).error).toBe(
       "Not an array of [1, 2, 3]: [3, 1, 4]",
-    );
-  });
-});
-
-describe("arrayValidators", () => {
-  it("constructs a set of array validators", () => {
-    const builds = ["dev", "prod"] as const;
-
-    const { isOneOf: isBuild, isArrayOf: isBuildArray } =
-      arrayValidators(builds);
-
-    expect(isBuild("dev").parsed).toBe("dev");
-    expect(isBuild("local").error).toBe('Not one of ["dev", "prod"]: "local"');
-
-    expect(isBuildArray(["dev"]).parsed).toEqual(["dev"]);
-    expect(isBuildArray(["dev", "local"]).error).toBe(
-      'Not an array of ["dev", "prod"]: ["dev", "local"]',
     );
   });
 });

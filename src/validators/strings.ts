@@ -1,24 +1,40 @@
-import { Validator } from "../models/validation/Validator.model";
+import { Validator } from "../models/validators";
 import { isNumber, isString } from "./primitives";
-import { validateIf } from "../factories/validate";
+import { validateIf } from "../factories/conditionals";
 
 /**
  * Validate a boolean string
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isBooleanString("true")  -> { valid: true,  parsed: true, ... };
- * isBooleanString("false") -> { valid: true,  parsed: false, ... };
- * isBooleanString(1)       -> { valid: false, error: "Not a string: 1", ... };
- * isBooleanString("")      -> { valid: false, error: 'Not a boolean: ""', ... };
- * ```
+ *   isBooleanString("true") >>
+ *     {
+ *       valid: true,
+ *       parsed: true,
+ *     };
+ *
+ *   isBooleanString("false") >>
+ *     {
+ *       valid: true,
+ *       parsed: false,
+ *     };
+ *
+ *   isBooleanString(1) >>
+ *     {
+ *       valid: false,
+ *       error: "Not a string: 1",
+ *     };
+ *
+ *   isBooleanString("") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not a boolean: ""',
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isBooleanString: Validator<boolean, string> = (input: unknown) => {
+export const isBooleanString: Validator<boolean> = (input: unknown) => {
   const string = isString(input);
 
   if (!string.valid) {
@@ -37,19 +53,35 @@ export const isBooleanString: Validator<boolean, string> = (input: unknown) => {
  * Validate a number string
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isNumberString("1")        -> { valid: true,  parsed: 1, ... };
- * isNumberString("")         -> { valid: false, error: 'Not a number: ""', ... };
- * isNumberString("NaN")      -> { valid: false, error: 'Not a number: "NaN"', ... };
- * isNumberString("Infinity") -> { valid: false, error: 'Not a number: "Infinity"', ... };
- * ```
+ *   isNumberString("1") >>
+ *     {
+ *       valid: true,
+ *       parsed: 1,
+ *     };
+ *
+ *   isNumberString("") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not a number: ""',
+ *     };
+ *
+ *   isNumberString("NaN") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not a number: "NaN"',
+ *     };
+ *
+ *   isNumberString("Infinity") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not a number: "Infinity"',
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isNumberString: Validator<number, string> = (input: unknown) => {
+export const isNumberString: Validator<number> = (input: unknown) => {
   const string = isString(input);
 
   if (!string.valid) {
@@ -66,18 +98,29 @@ export const isNumberString: Validator<number, string> = (input: unknown) => {
  * Validate an integer string
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isIntegerString("1")   -> { valid: true,  parsed: 1, ... };
- * isIntegerString("")    -> { valid: false, error: 'Not a number: ""', ... };
- * isIntegerString("0.5") -> { valid: false, error: 'Not an integer: "0.5"', ... };
- * ```
+ *   isIntegerString("1") >>
+ *     {
+ *       valid: true,
+ *       parsed: 1,
+ *     };
+ *
+ *   isIntegerString("") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not a number: ""',
+ *     };
+ *
+ *   isIntegerString("0.5") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not an integer: "0.5"',
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isIntegerString: Validator<number, string> = (input: unknown) => {
+export const isIntegerString: Validator<number> = (input: unknown) => {
   const numberString = isNumberString(input);
 
   if (!numberString.valid) {
@@ -96,21 +139,35 @@ export const isIntegerString: Validator<number, string> = (input: unknown) => {
  * Validate a natural number string
  *
  * @category Validators
- *
- * @typeParam T - the validated type
- * @param input - the raw input
- *
  * @example
- * ```ts
- * isNaturalNumberString("1")   -> { valid: true,  parsed: 1, ... };
- * isNaturalNumberString("")    -> { valid: false, error: 'Not a number: ""', ... };
- * isNaturalNumberString("0.5") -> { valid: false, error: 'Not an integer: "0.5"', ... };
- * isNaturalNumberString("0")   -> { valid: false, error: 'Not a natural number: "0"', ... };
- * ```
+ *   isNaturalNumberString("1") >>
+ *     {
+ *       valid: true,
+ *       parsed: 1,
+ *     };
+ *
+ *   isNaturalNumberString("") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not a number: ""',
+ *     };
+ *
+ *   isNaturalNumberString("0.5") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not an integer: "0.5"',
+ *     };
+ *
+ *   isNaturalNumberString("0") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not a natural number: "0"',
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
  */
-export const isNaturalNumberString: Validator<number, string> = (
-  input: unknown,
-) => {
+export const isNaturalNumberString: Validator<number> = (input: unknown) => {
   const integerString = isIntegerString(input);
 
   if (!integerString.valid) {

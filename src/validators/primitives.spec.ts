@@ -6,7 +6,7 @@ import {
   isString,
   isUndefined,
 } from "./primitives";
-import { suite } from "../testing/suite";
+import { suite } from "../testing/suites";
 
 suite(isUndefined, [{ input: undefined, parsed: undefined }], {
   "Not undefined": [null, true, 1, "", "a", [], {}],

@@ -6,8 +6,8 @@
   "plugin": ["typedoc-material-theme"],
   "themeColor": "#BA16B5",
   "categorizeByGroup": true,
-  "groupOrder": ["Functions", "*"],
-  "categoryOrder": ["Validators", "*"],
+  "groupOrder": ["Functions"],
+  "categoryOrder": ["Factories", "Validators"],
   "navigation": {
     "includeGroups": true,
     "includeCategories": true

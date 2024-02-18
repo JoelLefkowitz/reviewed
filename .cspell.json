@@ -21,6 +21,7 @@
     "bumpversion",
     "cliui",
     "codacy",
+    "jsdoc",
     "lefkowitz",
     "superstruct"
   ]
