@@ -26,7 +26,7 @@ export const not =
     const { valid } = validator(input);
     return !valid
       ? validate(input)
-      : invalidateWith<T>(reason ?? "Not Invalid")(input);
+      : invalidateWith(reason ?? "Not Invalid")(input);
   };
 
 /**
@@ -60,9 +60,9 @@ export const not =
  * @param second - The second validator
  */
 export const both =
-  <T, U>(first: Validator<T>, second: Validator<U>): Validator<T & U> =>
+  <T, U>(first: Validator<T>, second: Validator<U>): Validator<(T & U)[]> =>
   (input: unknown) =>
-    all([first(input) as Validated<T & U>, second(input)]) as Validated<T & U>;
+    all([first(input) as Validated<T & U>, second(input) as Validated<T & U>]);
 
 /**
  * Combine two validators with a logical OR
@@ -89,6 +89,6 @@ export const both =
  * @param second - The second validator
  */
 export const either =
-  <T, U>(first: Validator<T>, second: Validator<U>): Validator<T | U> =>
+  <T, U>(first: Validator<T>, second: Validator<U>): Validator<(T | U)[]> =>
   (input: unknown) =>
-    any([first(input) as Validated<T | U>, second(input)]) as Validated<T | U>;
+    any([first(input) as Validated<T | U>, second(input)]);

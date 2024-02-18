@@ -1,5 +1,4 @@
-import { Validated, Validator } from "../models/validators";
-import { ValidationErrors } from "../models/errors";
+import { Validated, ValidationErrors, Validator } from "../models/validators";
 import { serialize } from "../services/strings";
 
 /**

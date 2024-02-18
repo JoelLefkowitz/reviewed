@@ -1,4 +1,4 @@
-import { ValidationErrors } from "./errors";
+import { Annotated } from "./records";
 
 /** @typeParam T - The validated type */
 export interface Valid<T> {
@@ -15,6 +15,13 @@ export interface Invalid<T> {
   parsed: null;
   error: ValidationErrors<T>;
 }
+
+/** @typeParam T - The validated type */
+export type ValidationErrors<T> =
+  | string
+  | string[]
+  | Annotated<T>
+  | Annotated<T>[];
 
 /** @typeParam T - The validated type */
 export type Validated<T> = Valid<T> | Invalid<T>;

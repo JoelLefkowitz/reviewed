@@ -1,10 +1,8 @@
-import { Validated } from "../models/validators";
+import { Validated, ValidationErrors } from "../models/validators";
 import { ValidatedFields } from "../models/fields";
-import { ValidationErrors } from "../models/errors";
 import { allPass, group } from "../internal/arrays";
-import { guard } from "./guards";
 import { invalidate, invalidateWith } from "./invalidate";
-import { isNull, isString } from "../validators/primitives";
+import { isString } from "../validators/primitives";
 import { mapRecord, pickField, reduceRecord } from "../internal/records";
 import { validate } from "./validate";
 
@@ -29,9 +27,12 @@ export const all = <T>(results: Validated<T>[]): Validated<T[]> => {
 
   const { input, parsed, error } = group(results);
 
-  return error.every(guard(isNull))
+  return error.every((i) => i === null)
     ? validate(input, parsed)
-    : invalidate(input, error.filter(guard(isString)));
+    : invalidate(
+        input,
+        error.filter((i) => i !== null) as ValidationErrors<T[]>,
+      );
 };
 
 /**
@@ -60,9 +61,12 @@ export const any = <T>(results: Validated<T>[]): Validated<T[]> => {
     [],
   );
 
-  return error.some(guard(isNull))
+  return error.some((i) => i === null)
     ? validate(input, parsed)
-    : invalidate(input, error.filter(guard(isString)));
+    : invalidate(
+        input,
+        error.filter((i) => i !== null) as ValidationErrors<T[]>,
+      );
 };
 
 /**

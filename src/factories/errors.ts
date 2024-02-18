@@ -1,4 +1,4 @@
-import { ValidationErrors } from "../models/errors";
+import { ValidationErrors } from "../models/validators";
 import { serialize } from "../services/strings";
 
 /**

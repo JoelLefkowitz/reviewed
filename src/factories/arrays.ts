@@ -1,4 +1,4 @@
-import { Invalid, Validated, Validator } from "../models/validators";
+import { Validated, Validator } from "../models/validators";
 import { all } from "./results";
 import { isArray } from "../validators/arrays";
 
@@ -29,7 +29,7 @@ export const validateEach =
     const array = isArray(input);
 
     if (!array.valid) {
-      return [array as Invalid<T>];
+      return [array];
     }
 
     return array.parsed.map(validator);

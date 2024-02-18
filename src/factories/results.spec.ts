@@ -1,4 +1,5 @@
 import { all, any, merge, sieve } from "./results";
+import { invalidate } from "./invalidate";
 import { isNumber } from "../validators/primitives";
 import { mapRecord } from "../internal/records";
 
@@ -12,6 +13,18 @@ describe("all", () => {
     expect(all(["1", 2, "3"].map(isNumber)).error).toEqual([
       'Not a number: "1"',
       'Not a number: "3"',
+    ]);
+  });
+
+  it("collects nested failure messages", () => {
+    expect(
+      all([
+        invalidate("", ["a", "b"]),
+        invalidate("", [{ a: "b" }, { c: "d" }]),
+      ]).error,
+    ).toEqual([
+      ["a", "b"],
+      [{ a: "b" }, { c: "d" }],
     ]);
   });
 });
@@ -30,6 +43,18 @@ describe("any", () => {
       'Not a number: "1"',
       'Not a number: "2"',
       'Not a number: "3"',
+    ]);
+  });
+
+  it("collects nested failure messages", () => {
+    expect(
+      any([
+        invalidate("", ["a", "b"]),
+        invalidate("", [{ a: "b" }, { c: "d" }]),
+      ]).error,
+    ).toEqual([
+      ["a", "b"],
+      [{ a: "b" }, { c: "d" }],
     ]);
   });
 });
