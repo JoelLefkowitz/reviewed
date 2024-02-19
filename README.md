@@ -66,6 +66,18 @@ paginate(new URL("https://example.com?page=-1")) >>
   };
 ```
 
+I want a record with the input and failure messages, not some ridiculous opaque object with error methods!
+
+```ts
+isRecordOf({ a: isNumber, b: isString })({ a: 1, b: 2 }) >>
+  {
+    valid: false,
+    input: { a: 1, b: 2 },
+    parsed: null,
+    error: { b: "Not a number: 2" },
+  };
+```
+
 ## Installing
 
 ```bash
@@ -113,7 +125,7 @@ isIntegerString("0.5") >>
 
 ### Alternatives
 
-Webpack warns when a bundle exceeds 250kb, validation is not an optional feature of a web application. If the minified size of a package compromises this budget it simply won't be used.
+Webpack warns when a bundle exceeds 250kb, validation is not an optional feature of an application. If the minified size of a package compromises this budget it simply won't be used.
 
 | Package     | Version | Minified (kB) |
 | ----------- | ------- | ------------- |
@@ -388,6 +400,33 @@ const isRecord: Validator<Record<string, unknown>> = (input: unknown) =>
 | \[]   | null   | Not a record  |
 | {}    | {}     | null          |
 | ""    | null   | Not an object |
+
+### Secret magic
+
+Hey let's write an `isArrayOf` and `isRecordOf` function:
+
+```ts
+const isArrayOf: <T>(validator: Validator<T>) => Validator<T[]>;
+const isRecordOf: <T>(validators: ValidatorFields<T>) => Validator<T>;
+```
+
+But wait we already have:
+
+```ts
+const validateAll: <T>(validator: Validator<T>) => Validator<T[]>;
+const validateWith: <T>(validators: ValidatorFields<T>) => Validator<T>;
+```
+
+That's because they're the same thing woah...
+
+![Celebration](https://media.giphy.com/media/vv8R20yaYZIKk/giphy.gif)
+
+So we can just alias them:
+
+```ts
+export const isArrayOf = validateAll;
+export const isRecordOf = validateWith;
+```
 
 ## Tooling
 

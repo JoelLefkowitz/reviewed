@@ -2,7 +2,6 @@ import { Validated, ValidationErrors } from "../models/validators";
 import { ValidatedFields } from "../models/fields";
 import { allPass, group } from "../internal/arrays";
 import { invalidate, invalidateWith } from "./invalidate";
-import { isString } from "../validators/primitives";
 import { mapRecord, pickField, reduceRecord } from "../internal/records";
 import { validate } from "./validate";
 
@@ -97,7 +96,7 @@ export const merge = <T>(results: ValidatedFields<T>): Validated<T> => {
 
   const errors = reduceRecord(
     ({ error }) => error,
-    ({ error }) => isString(error).valid,
+    ({ valid }) => !valid,
     results,
   );
 
