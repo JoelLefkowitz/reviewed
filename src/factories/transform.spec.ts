@@ -26,18 +26,15 @@ describe("both", () => {
     const isNonEmptyStringArray = both(isNonEmptyArray, isStringArray);
 
     expect(isNonEmptyStringArray([""]).valid).toBe(true);
-    expect(isNonEmptyStringArray([""]).parsed).toEqual([[""], [""]]);
+    expect(isNonEmptyStringArray([""]).parsed).toEqual([""]);
 
     expect(isNonEmptyStringArray([]).valid).toBe(false);
-    expect(isNonEmptyStringArray([]).error).toEqual([
-      "Not a non empty array: []",
-    ]);
+    expect(isNonEmptyStringArray([]).error).toBe("Not a non empty array: []");
 
-    expect(isNonEmptyStringArray(1).valid).toBe(false);
-    expect(isNonEmptyStringArray(1).error).toEqual([
-      "Not an array: 1",
-      "Not an array: 1",
-    ]);
+    expect(isNonEmptyStringArray([1]).valid).toBe(false);
+    expect(isNonEmptyStringArray([1]).error).toBe(
+      "Not an array of strings: [1]",
+    );
   });
 });
 
@@ -46,12 +43,12 @@ describe("either", () => {
     const isStringOrNull = either(isString, isNull);
 
     expect(isStringOrNull("").valid).toBe(true);
-    expect(isStringOrNull("").parsed).toEqual([""]);
+    expect(isStringOrNull("").parsed).toBe("");
 
     expect(isStringOrNull(null).valid).toBe(true);
-    expect(isStringOrNull(null).parsed).toEqual([null]);
+    expect(isStringOrNull(null).parsed).toBe(null);
 
     expect(isStringOrNull(1).valid).toBe(false);
-    expect(isStringOrNull(1).error).toEqual(["Not a string: 1", "Not null: 1"]);
+    expect(isStringOrNull(1).error).toBe("Not a string: 1");
   });
 });

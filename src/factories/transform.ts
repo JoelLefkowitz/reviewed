@@ -1,5 +1,4 @@
 import { Validated, Validator } from "../models/validators";
-import { all, any } from "./results";
 import { invalidateWith } from "./invalidate";
 import { validate } from "./validate";
 
@@ -39,19 +38,19 @@ export const not =
  *   isNonEmptyStringArray([""]) >>
  *     {
  *       valid: true,
- *       parsed: [[""], [""]],
+ *       parsed: [""],
  *     };
  *
  *   isNonEmptyStringArray([]) >>
  *     {
  *       valid: false,
- *       error: ["Not a non empty array: []"],
+ *       error: "Not a non empty array: []",
  *     };
  *
- *   isNonEmptyStringArray(1) >>
+ *   isNonEmptyStringArray([1]) >>
  *     {
  *       valid: false,
- *       error: ["Not an array: 1", "Not a array: 1"],
+ *       error: "Not an array of strings: [1]",
  *     };
  *
  * @typeParam T - The first validated type
@@ -60,9 +59,17 @@ export const not =
  * @param second - The second validator
  */
 export const both =
-  <T, U>(first: Validator<T>, second: Validator<U>): Validator<(T & U)[]> =>
-  (input: unknown) =>
-    all([first(input) as Validated<T & U>, second(input) as Validated<T & U>]);
+  <T, U>(first: Validator<T>, second: Validator<U>): Validator<T & U> =>
+  (input: unknown) => {
+    const left = first(input) as Validated<T & U>;
+    const right = second(input) as Validated<T & U>;
+
+    if (left.valid && right.valid) {
+      return left;
+    }
+
+    return left.valid ? right : left;
+  };
 
 /**
  * Combine two validators with a logical OR
@@ -74,13 +81,19 @@ export const both =
  *   isStringOrNull("") >>
  *     {
  *       valid: true,
- *       parsed: [[""], [""]],
+ *       parsed: "",
+ *     };
+ *
+ *   isStringOrNull(null) >>
+ *     {
+ *       valid: true,
+ *       parsed: null,
  *     };
  *
  *   isStringOrNull(1) >>
  *     {
  *       valid: false,
- *       error: ["Not a string: 1", "Not null: 1"],
+ *       error: "Not a string: 1",
  *     };
  *
  * @typeParam T - The first validated type
@@ -89,6 +102,15 @@ export const both =
  * @param second - The second validator
  */
 export const either =
-  <T, U>(first: Validator<T>, second: Validator<U>): Validator<(T | U)[]> =>
-  (input: unknown) =>
-    any([first(input) as Validated<T | U>, second(input)]);
+  <T, U>(first: Validator<T>, second: Validator<U>): Validator<T | U> =>
+  (input: unknown) => {
+    const left = first(input) as Validated<T | U>;
+
+    if (left.valid) {
+      return left;
+    }
+
+    const right = second(input) as Validated<T | U>;
+
+    return right.valid ? right : left;
+  };
