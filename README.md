@@ -74,7 +74,7 @@ isRecordOf({ a: isNumber, b: isString })({ a: 1, b: 2 }) >>
     valid: false,
     input: { a: 1, b: 2 },
     parsed: null,
-    error: { b: "Not a number: 2" },
+    error: { b: "Not a string: 2" },
   };
 ```
 
