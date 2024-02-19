@@ -111,7 +111,9 @@ A validation library for TypeScript needs to be:
 isIntegerString("1") >>
   {
     valid: true,
+    input: "1",
     parsed: 1,
+    error: null,
   };
 ```
 
@@ -119,6 +121,8 @@ isIntegerString("1") >>
 isIntegerString("0.5") >>
   {
     valid: false,
+    input: "0.5",
+    parsed: null,
     error: "Not an integer 0.5",
   };
 ```
