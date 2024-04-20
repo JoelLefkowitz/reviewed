@@ -20,4 +20,6 @@ runs:
 
     - name: Install node dependencies
       shell: bash
-      run: yarn install --frozen-lockfile
+      run: |
+        corepack enable
+        yarn install --immutable

@@ -25,6 +25,7 @@
     "bumpversion",
     "cliui",
     "codacy",
+    "corepack",
     "giphy",
     "jsdoc",
     "lefkowitz",
