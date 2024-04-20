@@ -25,3 +25,7 @@ runs:
     - name: Install node dependencies
       shell: bash
       run: yarn install --immutable
+
+    - name: Add trufflehog3
+      shell: bash
+      run: pip install trufflehog3
