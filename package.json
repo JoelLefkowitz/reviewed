@@ -2,7 +2,6 @@
   "name": "reviewed",
   "description": "Ergonomic, extensible and lightweight validators.",
   "version": "0.9.1",
-  "private": false,
   "license": "MIT",
   "author": "Joel Lefkowitz",
   "repository": "https://github.com/joellefkowitz/reviewed",
@@ -14,6 +13,7 @@
   "keywords": [
     "validation"
   ],
+  "packageManager": "yarn@4.1.1",
   "metadata": {
     "publisher": "npm",
     "languages": [
@@ -26,8 +26,8 @@
     "lifecycle": "Alpha"
   },
   "scripts": {
-    "prepare": "husky",
-    "lint": "cspell . --dot && eslint . --fix && tsc --noEmit",
+    "postinstall": "husky",
+    "lint": "cspell . --dot && eslint . --fix && tsc --noEmit && trufflehog3",
     "format": "prettier . --write",
     "build": "tsc",
     "test": "jest",

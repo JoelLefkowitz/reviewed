@@ -1,28 +1,34 @@
 {
   "language": "en",
   "ignorePaths": [
+    ".DS_Store",
     ".git",
     ".gitignore",
     ".husky",
+    ".yarn",
     "coverage",
     "dist",
+    "docs/*.css",
+    "node_modules",
     "yarn-error.log"
   ],
   "dictionaries": [
+    "aws",
     "bash",
     "en-gb",
+    "fullstack",
     "misc",
-    "node",
-    "softwareTerms",
-    "typescript"
+    "softwareTerms"
   ],
   "words": [
     "autofix",
     "bumpversion",
     "cliui",
     "codacy",
+    "giphy",
     "jsdoc",
     "lefkowitz",
-    "superstruct"
+    "superstruct",
+    "trufflehog"
   ]
 }
