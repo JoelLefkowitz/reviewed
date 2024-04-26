@@ -1,7 +1,7 @@
 {
-  "entryPoints": ["src"],
-  "out": "./docs/dist",
-  "customCss": "docs/styles.css",
+  "entryPoints": ["../../src"],
+  "out": "../dist",
+  "customCss": "./styles.css",
   "cleanOutputDir": true,
   "plugin": ["typedoc-material-theme"],
   "themeColor": "#BA16B5",

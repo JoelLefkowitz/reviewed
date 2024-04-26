@@ -434,6 +434,14 @@ export const isRecordOf = validateWith;
 
 ## Tooling
 
+### Dependencies
+
+To install dependencies:
+
+```bash
+yarn install
+```
+
 ### Tests
 
 To run tests:
@@ -486,8 +494,8 @@ bump2version patch
 
 Lots of love to the open source community!
 
-<p align='center'>
+<div align='center'>
     <img width=200 height=200 src='https://media.giphy.com/media/osAcIGTSyeovPq6Xph/giphy.gif' alt='Be kind to your mind' />
     <img width=200 height=200 src='https://media.giphy.com/media/KEAAbQ5clGWJwuJuZB/giphy.gif' alt='Love each other' />
     <img width=200 height=200 src='https://media.giphy.com/media/WRWykrFkxJA6JJuTvc/giphy.gif' alt="It's ok to have a bad day" />
-</p>
+</div>

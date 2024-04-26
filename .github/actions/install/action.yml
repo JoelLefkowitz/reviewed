@@ -22,10 +22,10 @@ runs:
         node-version: ${{ inputs.node-version }}
         cache: yarn
 
-    - name: Install node dependencies
+    - name: Install yarn dependencies
       shell: bash
       run: yarn install --immutable
 
-    - name: Add trufflehog3
+    - name: Install trufflehog3
       shell: bash
       run: pip install trufflehog3

@@ -12,6 +12,7 @@ exclude:
 
   - message: Tooling outputs
     paths:
+      - docs/dist
       - package-lock.json
       - yarn-error.log
       - yarn.lock

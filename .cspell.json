@@ -1,17 +1,5 @@
 {
   "language": "en",
-  "ignorePaths": [
-    ".DS_Store",
-    ".git",
-    ".gitignore",
-    ".husky",
-    ".yarn",
-    "coverage",
-    "dist",
-    "docs/*.css",
-    "node_modules",
-    "yarn-error.log"
-  ],
   "dictionaries": [
     "aws",
     "bash",
@@ -20,6 +8,7 @@
     "misc",
     "softwareTerms"
   ],
+  "ignorePaths": [".git"],
   "words": [
     "autofix",
     "bumpversion",

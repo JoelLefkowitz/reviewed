@@ -27,11 +27,11 @@
   },
   "scripts": {
     "postinstall": "husky",
-    "lint": "cspell . --dot && eslint . --fix && tsc --noEmit && trufflehog3",
+    "lint": "cspell . --dot --gitignore && eslint . --fix && tsc --noEmit && trufflehog3",
     "format": "prettier . --write",
     "build": "tsc",
     "test": "jest",
-    "docs": "typedoc"
+    "docs": "typedoc --options docs/typedoc/typedoc.json"
   },
   "resolutions": {
     "cliui": "^8.0.1",
