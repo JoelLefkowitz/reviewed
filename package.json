@@ -31,13 +31,14 @@
     "format": "prettier . --write",
     "build": "tsc",
     "test": "jest",
-    "docs": "typedoc --options docs/typedoc/typedoc.json"
+    "docs": "typedoc --options docs/typedoc/typedoc.json && ts-node ./docs/typedoc/assets.ts"
   },
   "resolutions": {
     "cliui": "^8.0.1",
     "strip-ansi": "^6.0.1"
   },
   "devDependencies": {
+    "@types/glob": "^8.1.0",
     "@types/jest": "29.0.0",
     "@types/node": "^18.11.0",
     "@typescript-eslint/eslint-plugin": "^6.20.0",
@@ -55,6 +56,6 @@
     "tslib": "^2.3.0",
     "typedoc": "^0.25.7",
     "typedoc-material-theme": "^1.0.2",
-    "typescript": "^5.3.0"
+    "typescript": "~5.3.0"
   }
 }

@@ -17,7 +17,7 @@
     "strictPropertyInitialization": true,
     "useUnknownInCatchVariables": true,
     "downlevelIteration": true,
-    "outDir": "./dist",
+    "outDir": "dist",
     "module": "CommonJS",
     "moduleResolution": "node",
     "resolveJsonModule": true,
