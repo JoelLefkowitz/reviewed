@@ -11,7 +11,9 @@
     "dist"
   ],
   "keywords": [
-    "validation"
+    "validators",
+    "guards",
+    "parsers"
   ],
   "packageManager": "yarn@4.1.1",
   "metadata": {

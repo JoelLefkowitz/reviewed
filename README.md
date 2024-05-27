@@ -355,6 +355,8 @@ const isOneOf: <T>(options: T[]) => Validator<T>;
 const isManyOf: <T>(options: T[]) => Validator<T[]>;
 ```
 
+## Discussion
+
 ### Reasonable types
 
 JavaScript has some famously confusing types:
