@@ -164,16 +164,40 @@ export const isNaturalNumber: Validator<number> = (input: unknown) => {
 
 ### Testing validators
 
-`numbers.spec.ts`
+Custom Jest matchers are exposed for testing validators:
+
+`jest.config.json`
+
+```json
+{
+  "setupFilesAfterEnv": ["reviewed/testing/jest"]
+}
+```
 
 ```ts
-import { isNaturalNumber } from "./numbers";
+import { isNaturalNumberString } from "./strings";
+
+describe("isNaturalNumberString", () => {
+  it("parses natural number strings", () => {
+    expect(isNaturalNumberString).toValidate("1");
+    expect(isNaturalNumberString).toInvalidate({});
+    expect(isNaturalNumberString).toValidateAs("1", 1);
+    expect(isNaturalNumberString).toInvalidateWith({}, "Not a string");
+  });
+});
+```
+
+For convenience you can define whole suites at once:
+
+```ts
+import { isNaturalNumberString } from "./strings";
 import { suite } from "reviewed";
 
-suite(isNaturalNumber, [{ input: 1, parsed: 1 }], {
-  "Not a number": [undefined, null, true, "", "a", [], {}, NaN, Infinity],
-  "Not an integer": [0.5],
-  "Not a natural number": [-1, 0],
+suite(isNaturalNumberString, [{ input: "1", parsed: 1 }], {
+  "Not a string": [undefined, null, true, 1, [], {}],
+  "Not a number string": ["", "true", "a", "NaN", "Infinity"],
+  "Not an integer string": ["0.5"],
+  "Not a natural number string": ["0", "-1"],
 });
 ```
 

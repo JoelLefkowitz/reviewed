@@ -1,5 +1,6 @@
 {
   "collectCoverage": true,
+  "setupFilesAfterEnv": ["<rootDir>/src/testing/jest.ts"],
   "modulePathIgnorePatterns": ["dist"],
   "transform": {
     "^.+\\.ts?$": ["ts-jest", { "isolatedModules": true }]
