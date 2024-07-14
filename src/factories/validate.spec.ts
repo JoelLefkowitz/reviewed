@@ -72,13 +72,14 @@ describe("validateWith", () => {
     });
 
     expect(validator({ a: "1" }).valid).toBe(true);
-    expect(validator({ a: "1" }).parsed).toEqual({ a: "1", b: undefined });
+    expect(validator({ a: "1" }).parsed).toEqual({ a: "1" });
+    expect(Object.keys(validator({ a: "1" }).parsed)).toEqual(["a"]);
 
     expect(validator({ a: "1", b: undefined }).valid).toBe(true);
-    expect(validator({ a: "1", b: undefined }).parsed).toEqual({
-      a: "1",
-      b: undefined,
-    });
+    expect(validator({ a: "1", b: undefined }).parsed).toEqual({ a: "1" });
+    expect(Object.keys(validator({ a: "1", b: undefined }).parsed)).toEqual([
+      "a",
+    ]);
 
     expect(validator({ a: "1", b: 1 }).error).toEqual({ b: "Not a string: 1" });
     expect(validator({ a: "1", b: "1" }).parsed).toEqual({ a: "1", b: 1 });
@@ -144,13 +145,14 @@ describe("validateWithAtLeast", () => {
     });
 
     expect(validator({ a: "1" }).valid).toBe(true);
-    expect(validator({ a: "1" }).parsed).toEqual({ a: "1", b: undefined });
+    expect(validator({ a: "1" }).parsed).toEqual({ a: "1" });
+    expect(Object.keys(validator({ a: "1" }).parsed)).toEqual(["a"]);
 
     expect(validator({ a: "1", b: undefined }).valid).toBe(true);
-    expect(validator({ a: "1", b: undefined }).parsed).toEqual({
-      a: "1",
-      b: undefined,
-    });
+    expect(validator({ a: "1", b: undefined }).parsed).toEqual({ a: "1" });
+    expect(Object.keys(validator({ a: "1", b: undefined }).parsed)).toEqual([
+      "a",
+    ]);
 
     expect(validator({ a: "1", b: 1 }).error).toEqual({ b: "Not a string: 1" });
     expect(validator({ a: "1", b: "1" }).parsed).toEqual({ a: "1", b: 1 });

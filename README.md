@@ -269,6 +269,8 @@ isPerson({ name: "Joel" }) >>
   };
 ```
 
+Strictly speaking, `{ name: optional(isString) }` implies that the interface is `{ name: string | undefined }` which allows name to be explicitly undefined. Since this is never useful the interface is interpreted as being `{ name?: string }` which is simpler than having a separate function for strictly optional values.
+
 ### Using literals
 
 Array literals can be converted directly to validators:

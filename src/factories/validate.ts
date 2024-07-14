@@ -2,6 +2,7 @@ import { Validated, Validator } from "../models/validators";
 import { ValidatedFields, ValidatorFields } from "../models/fields";
 import { invalidate } from "./invalidate";
 import { isRecord } from "../validators/records";
+import { isUndefined } from "../validators/primitives";
 import { merge } from "./results";
 
 /**
@@ -62,8 +63,11 @@ export const validateWith =
       return record as Validated<T>;
     }
 
+    const isOptional = <T>(validator: Validator<T>) =>
+      validator(undefined).valid;
+
     const missing = Object.keys(validators).filter(
-      (i) => !(i in record.parsed || validators[i as keyof T](undefined).valid),
+      (i) => !(i in record.parsed || isOptional(validators[i as keyof T])),
     );
 
     if (missing.length > 0) {
@@ -79,10 +83,11 @@ export const validateWith =
       return invalidate(input, `Unexpected extra fields: ${extra.join(", ")}`);
     }
 
-    const validated = Object.entries(record.parsed).map(([name, field]) => [
-      name,
-      validators[name as keyof T](field),
-    ]);
+    const validated = Object.entries(record.parsed).reduce<[string, unknown][]>(
+      (acc, [k, v]) =>
+        isUndefined(v).valid ? acc : [...acc, [k, validators[k as keyof T](v)]],
+      [],
+    );
 
     return merge(Object.fromEntries(validated) as ValidatedFields<T>);
   };
@@ -110,8 +115,11 @@ export const validateWithAtLeast =
       return record as Validated<T>;
     }
 
+    const isOptional = <T>(validator: Validator<T>) =>
+      validator(undefined).valid;
+
     const missing = Object.keys(validators).filter(
-      (i) => !(i in record.parsed || validators[i as keyof T](undefined).valid),
+      (i) => !(i in record.parsed || isOptional(validators[i as keyof T])),
     );
 
     if (missing.length > 0) {
@@ -121,10 +129,16 @@ export const validateWithAtLeast =
       );
     }
 
-    const validated = Object.entries(record.parsed).map(([name, field]) => [
-      name,
-      (name in validators ? validators[name as keyof T] : validate)(field),
-    ]);
+    const validated = Object.entries(record.parsed).reduce<[string, unknown][]>(
+      (acc, [k, v]) =>
+        isUndefined(v).valid
+          ? acc
+          : [
+              ...acc,
+              [k, (k in validators ? validators[k as keyof T] : validate)(v)],
+            ],
+      [],
+    );
 
     return merge(Object.fromEntries(validated) as ValidatedFields<T>);
   };
