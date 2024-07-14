@@ -438,6 +438,7 @@ Hey let's write an `isArrayOf` and `isRecordOf` function:
 ```ts
 const isArrayOf: <T>(validator: Validator<T>) => Validator<T[]>;
 const isRecordOf: <T>(validators: ValidatorFields<T>) => Validator<T>;
+const isRecordOfAtLeast: <T>(validators: ValidatorFields<T>) => Validator<T>;
 ```
 
 But wait we already have:
@@ -445,6 +446,7 @@ But wait we already have:
 ```ts
 const validateAll: <T>(validator: Validator<T>) => Validator<T[]>;
 const validateWith: <T>(validators: ValidatorFields<T>) => Validator<T>;
+const validateWithAtLeast: <T>(validators: ValidatorFields<T>) => Validator<T>;
 ```
 
 That's because they're the same thing woah...
@@ -456,6 +458,7 @@ So we can just alias them:
 ```ts
 export const isArrayOf = validateAll;
 export const isRecordOf = validateWith;
+export const isRecordOfAtLeast = validateWithAtLeast;
 ```
 
 ## Tooling

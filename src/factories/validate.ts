@@ -1,5 +1,6 @@
 import { Validated, Validator } from "../models/validators";
 import { ValidatedFields, ValidatorFields } from "../models/fields";
+import { invalidate } from "./invalidate";
 import { isRecord } from "../validators/records";
 import { merge } from "./results";
 
@@ -61,12 +62,69 @@ export const validateWith =
       return record as Validated<T>;
     }
 
-    const validated = Object.fromEntries(
-      Object.entries(validators).map(([field, validator]) => [
-        field,
-        (validator as Validator<unknown>)(record.parsed[field]),
-      ]),
+    const missing = Object.keys(validators).filter(
+      (i) => !(i in record.parsed),
     );
 
-    return merge(validated as ValidatedFields<T>);
+    if (missing.length > 0) {
+      return invalidate(
+        input,
+        `Missing required fields: ${missing.join(", ")}`,
+      );
+    }
+
+    const extra = Object.keys(record.parsed).filter((i) => !(i in validators));
+
+    if (extra.length > 0) {
+      return invalidate(input, `Unexpected extra fields: ${extra.join(", ")}`);
+    }
+
+    const validated = Object.entries(record.parsed).map(([name, field]) => [
+      name,
+      validators[name as keyof T](field),
+    ]);
+
+    return merge(Object.fromEntries(validated) as ValidatedFields<T>);
+  };
+
+/**
+ * Validate an input's fields with validators allowing extra fields
+ *
+ * @category Factories
+ * @example
+ *   validateWithAtLeast({ a: isNumber, b: isString })({ a: 1, b: "2" }) >>
+ *     {
+ *       valid: true,
+ *       input: { a: 1, b: "2" },
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param validators - The validators to use
+ */
+export const validateWithAtLeast =
+  <T>(validators: ValidatorFields<T>): Validator<T> =>
+  (input: unknown) => {
+    const record = isRecord(input);
+
+    if (!record.valid) {
+      return record as Validated<T>;
+    }
+
+    const missing = Object.keys(validators).filter(
+      (i) => !(i in record.parsed),
+    );
+
+    if (missing.length > 0) {
+      return invalidate(
+        input,
+        `Missing required fields: ${missing.join(", ")}`,
+      );
+    }
+
+    const validated = Object.entries(record.parsed).map(([name, field]) => [
+      name,
+      (name in validators ? validators[name as keyof T] : validate)(field),
+    ]);
+
+    return merge(Object.fromEntries(validated) as ValidatedFields<T>);
   };

@@ -1,5 +1,5 @@
 import { validateAll } from "./arrays";
-import { validateWith } from "./validate";
+import { validateWith, validateWithAtLeast } from "./validate";
 
 /**
  * Alias for validateAll
@@ -16,3 +16,11 @@ export const isArrayOf = validateAll;
  * @see {@link validateWith}
  */
 export const isRecordOf = validateWith;
+
+/**
+ * Alias for validateWithAtLeast
+ *
+ * @category Aliases
+ * @see {@link validateWithAtLeast}
+ */
+export const isRecordOfAtLeast = validateWithAtLeast;
