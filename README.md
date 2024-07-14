@@ -170,7 +170,15 @@ Custom Jest matchers are exposed for testing validators:
 
 ```json
 {
-  "setupFilesAfterEnv": ["reviewed/testing/jest"]
+  "setupFilesAfterEnv": ["reviewed/dist/testing/jest.js"]
+}
+```
+
+`tsconfig.json`
+
+```json
+{
+  "files": ["node_modules/reviewed/dist/testing/jest.d.ts"]
 }
 ```
 
