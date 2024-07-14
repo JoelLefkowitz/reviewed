@@ -279,6 +279,18 @@ isPerson({ name: "Joel" }) >>
 
 Strictly speaking, `{ name: optional(isString) }` implies that the interface is `{ name: string | undefined }` which allows name to be explicitly undefined. Since this is never useful the interface is interpreted as being `{ name?: string }` which is simpler than having a separate function for strictly optional values.
 
+Note that there has been lots of discussion around changing the way TypeScript handles undefined vs optional parameters: https://github.com/Microsoft/TypeScript/issues/12400. Rather than implementing some casts under the hood to fight the type checker this library leaves it up to the developer to be explicit:
+
+```ts
+const isPerson = isRecordOf<Person>({ name: optional(isString) });
+```
+
+Whereas this will throw an error when strict optional checking is enabled:
+
+```ts
+const isPerson: Validator<Person> = isRecordOf({ name: optional(isString) });
+```
+
 ### Using literals
 
 Array literals can be converted directly to validators:
