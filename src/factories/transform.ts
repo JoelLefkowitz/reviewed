@@ -140,7 +140,8 @@ export const either =
  *     };
  *
  * @typeParam T - The validated type
- * @param first  - The validator
+ * @param first - The validator
  */
-export const optional = <T>(validator: Validator<T>): Validator<T | undefined> =>
-  either(validator, isUndefined);
+export const optional = <T>(
+  validator: Validator<T>,
+): Validator<T | undefined> => either(validator, isUndefined);
