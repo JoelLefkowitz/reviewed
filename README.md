@@ -102,7 +102,7 @@ A validation library for TypeScript needs to be:
   - Common validators are available
 - Lightweight
   - Dependency free
-  - Tiny bundle size (~ 10Kb)
+  - Tiny bundle size
   - Fully tree shakeable
 
 `reviewed` exposes a flexible interface that achieves these goals.
@@ -245,6 +245,30 @@ if (guard(isNumber)(input)) {
 }
 ```
 
+### Optional fields
+
+Validators can be made optional:
+
+```ts
+interface Person {
+  name?: string;
+}
+
+const isPerson = isRecordOf<Person>({ name: optional(isString) });
+
+isPerson({}) >>
+  {
+    valid: true,
+    parsed: { name: "Joel" },
+  };
+
+isPerson({ name: "Joel" }) >>
+  {
+    valid: true,
+    parsed: { name: "Joel" },
+  };
+```
+
 ### Using literals
 
 Array literals can be converted directly to validators:
@@ -326,6 +350,8 @@ const not: <T>(validator: Validator<T>, reason?: string) => Validator<T>;
 
 const both: <T, U>(first: Validator<T>, second: Validator<U>) => Validator<T & U>;
 const either: <T, U>(first: Validator<T>, second: Validator<U>) => Validator<T | U>;
+
+const optional = <T>(validator: Validator<T>): Validator<T | undefined>;
 
 const isArrayOf: <T>(validator: Validator<T>) => Validator<T[]>;
 const isRecordOf: <T>(validators: ValidatorFields<T>) => Validator<T>;

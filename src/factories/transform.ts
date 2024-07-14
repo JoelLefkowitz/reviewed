@@ -1,5 +1,6 @@
 import { Validated, Validator } from "../models/validators";
 import { invalidateWith } from "./invalidate";
+import { isUndefined } from "../validators/primitives";
 import { validate } from "./validate";
 
 /**
@@ -114,3 +115,32 @@ export const either =
 
     return right.valid ? right : left;
   };
+
+/**
+ * Allow a validator to accept undefined inputs
+ *
+ * @category Factories
+ * @example
+ *   interface Person {
+ *     name?: string;
+ *   }
+ *
+ *   const isPerson = isRecordOf<Person>({ name: optional(isString) });
+ *
+ *   isPerson({}) >>
+ *     {
+ *       valid: true,
+ *       parsed: { name: undefined },
+ *     };
+ *
+ *   isPerson({ name: "Joel" }) >>
+ *     {
+ *       valid: true,
+ *       parsed: { name: "Joel" },
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param first  - The validator
+ */
+export const optional = <T>(validator: Validator<T>): Validator<T | undefined> =>
+  either(validator, isUndefined);

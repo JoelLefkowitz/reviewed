@@ -63,7 +63,7 @@ export const validateWith =
     }
 
     const missing = Object.keys(validators).filter(
-      (i) => !(i in record.parsed),
+      (i) => !(i in record.parsed || validators[i as keyof T](undefined).valid),
     );
 
     if (missing.length > 0) {
@@ -111,7 +111,7 @@ export const validateWithAtLeast =
     }
 
     const missing = Object.keys(validators).filter(
-      (i) => !(i in record.parsed),
+      (i) => !(i in record.parsed || validators[i as keyof T](undefined).valid),
     );
 
     if (missing.length > 0) {

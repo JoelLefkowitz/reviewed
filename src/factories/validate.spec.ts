@@ -1,4 +1,6 @@
+import { isNaturalNumberString } from "../validators/strings";
 import { isNumber, isString } from "../validators/primitives";
+import { optional } from "./transform";
 import { validate, validateWith, validateWithAtLeast } from "./validate";
 
 describe("validate", () => {
@@ -62,6 +64,22 @@ describe("validateWith", () => {
       error: "Unexpected extra fields: c",
     });
   });
+
+  it("parses optional fields", () => {
+    const validator = validateWith<{ a: string; b?: number }>({
+      a: isString,
+      b: optional(isNaturalNumberString),
+    });
+
+    expect(validator({ a: "1" }).valid).toBe(true);
+    expect(validator({ a: "1" }).parsed).toEqual({ a: "1", b: undefined });
+
+    expect(validator({ a: "1", b: undefined }).valid).toBe(true);
+    expect(validator({ a: "1", b: undefined }).parsed).toEqual({ a: "1", b: undefined });
+
+    expect(validator({ a: "1", b: 1 }).error).toEqual({ b: "Not a string: 1" });
+    expect(validator({ a: "1", b: "1" }).parsed).toEqual({ a: "1", b: 1 });
+  });
 });
 
 describe("validateWithAtLeast", () => {
@@ -114,5 +132,21 @@ describe("validateWithAtLeast", () => {
       parsed: { a: 1, b: "2", c: null },
       error: null,
     });
+  });
+
+  it("parses optional fields", () => {
+    const validator = validateWithAtLeast<{ a: string; b?: number }>({
+      a: isString,
+      b: optional(isNaturalNumberString),
+    });
+
+    expect(validator({ a: "1" }).valid).toBe(true);
+    expect(validator({ a: "1" }).parsed).toEqual({ a: "1", b: undefined });
+
+    expect(validator({ a: "1", b: undefined }).valid).toBe(true);
+    expect(validator({ a: "1", b: undefined }).parsed).toEqual({ a: "1", b: undefined });
+
+    expect(validator({ a: "1", b: 1 }).error).toEqual({ b: "Not a string: 1" });
+    expect(validator({ a: "1", b: "1" }).parsed).toEqual({ a: "1", b: 1 });
   });
 });

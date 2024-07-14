@@ -1,4 +1,5 @@
-import { both, either, not } from "./transform";
+import { both, either, not, optional } from "./transform";
+import { isNaturalNumberString } from "../validators/strings";
 import { isNonEmptyArray, isStringArray } from "../validators/arrays";
 import { isNull, isString } from "../validators/primitives";
 
@@ -50,5 +51,17 @@ describe("either", () => {
 
     expect(isStringOrNull(1).valid).toBe(false);
     expect(isStringOrNull(1).error).toBe("Not a string: 1");
+  });
+});
+
+describe("optional", () => {
+  it("allows a validator to accept undefined inputs", () => {
+    expect(optional(isNaturalNumberString)(1).valid).toBe(false);
+
+    expect(optional(isNaturalNumberString)("1").valid).toBe(true);
+    expect(optional(isNaturalNumberString)("1").parsed).toBe(1);
+
+    expect(optional(isNaturalNumberString)(undefined).valid).toBe(true);
+    expect(optional(isNaturalNumberString)(undefined).parsed).toBe(undefined);
   });
 });
