@@ -1,7 +1,7 @@
 {
   "name": "reviewed",
   "description": "Ergonomic, extensible and lightweight validators.",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "license": "MIT",
   "author": "Joel Lefkowitz",
   "repository": "https://github.com/joellefkowitz/reviewed",
