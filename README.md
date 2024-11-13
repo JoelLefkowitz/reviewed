@@ -412,6 +412,7 @@ const isBooleanString: Validator<boolean>;
 const isNumberString: Validator<number>;
 const isIntegerString: Validator<number>;
 const isNaturalNumberString: Validator<number>;
+const isJSONString: Validator<JSON>;
 
 const isArray: Validator<unknown[]>;
 const isNonEmptyArray: Validator<unknown[]>;

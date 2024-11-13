@@ -1,6 +1,7 @@
 import {
   isBooleanString,
   isIntegerString,
+  isJSONString,
   isNaturalNumberString,
   isNumberString,
 } from "./strings";
@@ -51,4 +52,8 @@ suite(isNaturalNumberString, [{ input: "1", parsed: 1 }], {
   "Not a number string": ["", "true", "a", "NaN", "Infinity"],
   "Not an integer string": ["0.5"],
   "Not a natural number string": ["0", "-1"],
+});
+
+suite(isJSONString, [{ input: '{"a": 1}', parsed: { a: 1 } }], {
+  "Not JSON": ["_"],
 });

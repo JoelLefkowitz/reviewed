@@ -35,6 +35,7 @@ export {
 export {
   isBooleanString,
   isIntegerString,
+  isJSONString,
   isNaturalNumberString,
   isNumberString,
 } from "./validators/strings";

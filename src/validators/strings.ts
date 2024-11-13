@@ -1,5 +1,8 @@
+import { JSON as IJSON } from "../models/json";
 import { Validator } from "../models/validators";
+import { invalidateWith } from "../factories/invalidate";
 import { isNumber, isString } from "./primitives";
+import { validate } from "../factories/validate";
 import { validateIf } from "../factories/conditionals";
 
 /**
@@ -180,4 +183,38 @@ export const isNaturalNumberString: Validator<number> = (input: unknown) => {
     integerString.parsed,
     "Not a natural number string",
   );
+};
+
+/**
+ * Validate a JSON string
+ *
+ * @category Validators
+ * @example
+ *   isJSONString('{"a": 1}') >>
+ *     {
+ *       valid: true,
+ *       parsed: { a: 1 },
+ *     };
+ *
+ *   isJSONString("_") >>
+ *     {
+ *       valid: false,
+ *       error: 'Not JSON: "_"',
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param input - The raw input
+ */
+export const isJSONString: Validator<IJSON> = (input: unknown) => {
+  const string = isString(input);
+
+  if (!string.valid) {
+    return string;
+  }
+
+  try {
+    return validate(input, JSON.parse(string.parsed) as JSON);
+  } catch {
+    return invalidateWith<IJSON>("Not JSON")(input);
+  }
 };
