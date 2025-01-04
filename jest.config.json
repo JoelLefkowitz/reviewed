@@ -1,6 +1,6 @@
 {
   "transform": {
-    "^.+\\.ts?$": ["ts-jest", { "isolatedModules": true }]
+    "^.+\\.ts$": ["ts-jest", { "isolatedModules": true }]
   },
   "modulePathIgnorePatterns": ["dist"],
   "setupFilesAfterEnv": ["<rootDir>/src/testing/jest.ts"],

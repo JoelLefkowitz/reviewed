@@ -2,7 +2,7 @@
 
 Ergonomic, extensible and lightweight validators.
 
-![Review](https://img.shields.io/github/actions/workflow/status/JoelLefkowitz/reviewed/review.yml)
+![Review](https://img.shields.io/github/actions/workflow/status/JoelLefkowitz/reviewed/review.yaml)
 ![Version](https://img.shields.io/npm/v/reviewed)
 ![Downloads](https://img.shields.io/npm/dw/reviewed)
 ![Size](https://img.shields.io/bundlephobia/min/reviewed)
