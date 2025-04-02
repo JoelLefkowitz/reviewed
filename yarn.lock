@@ -4881,6 +4881,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"passes@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "passes@npm:1.0.0"
+  checksum: 10c0/70dfb351f98473dd3ebb7e46d3ab207b13f7a251fbbaf257eaa75cbf6896c3b01a568b6b1031b8fc8c80ada8717198f66232ecf2f748dd1a35a10c7f7f40c6bb
+  languageName: node
+  linkType: hard
+
 "path-exists@npm:^4.0.0":
   version: 4.0.0
   resolution: "path-exists@npm:4.0.0"
@@ -5177,6 +5184,7 @@ __metadata:
     glob: "npm:^11.0.0"
     husky: "npm:^9.0.0"
     jest: "npm:^29.0.0"
+    passes: "npm:^1.0.0"
     pinst: "npm:^3.0.0"
     prettier: "npm:^3.0.0"
     prettier-plugin-jsdoc: "npm:^1.3.0"

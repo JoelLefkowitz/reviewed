@@ -1,14 +1,6 @@
 import { ArrayFields } from "../models/fields";
 
 /** @internal */
-export const allPass = (arr: boolean[]): boolean =>
-  arr.reduce((acc, x) => acc && x, true);
-
-/** @internal */
-export const anyPass = (arr: boolean[]): boolean =>
-  arr.reduce((acc, x) => acc || x, false);
-
-/** @internal */
 export const group = <T extends object>(records: T[]) =>
   records.reduce<ArrayFields<T>>(
     (acc, x) =>

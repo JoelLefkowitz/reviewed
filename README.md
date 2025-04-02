@@ -51,31 +51,40 @@ const paginate = (url: URL): void => {
 ```
 
 ```ts
-paginate(new URL("https://example.com?page=1&size=10")) >>
-  {
-    page: 1,
-    size: 10,
-  };
+paginate(new URL("https://example.com?page=1&size=10"));
+```
+
+```json
+{
+  "page": 1,
+  "size": 10
+}
 ```
 
 ```ts
-paginate(new URL("https://example.com?page=-1")) >>
-  {
-    page: 'Not a natural number string: "-1"',
-    size: "Not a string: null",
-  };
+paginate(new URL("https://example.com?page=-1"));
+```
+
+```json
+{
+  "page": "Not a natural number string: '-1'",
+  "size": "Not a string: null"
+}
 ```
 
 I want a record with the input and failure messages, not some ridiculous opaque object with error methods!
 
 ```ts
-isRecordOf({ a: isNumber, b: isString })({ a: 1, b: 2 }) >>
-  {
-    valid: false,
-    input: { a: 1, b: 2 },
-    parsed: null,
-    error: { b: "Not a string: 2" },
-  };
+isRecordOf({ a: isNumber, b: isString })({ a: 1, b: 2 });
+```
+
+```json
+{
+  "valid": false,
+  "input": { "a": 1, "b": 2 },
+  "parsed": null,
+  "error": { "b": "Not a string: 2" }
+}
 ```
 
 ## Installing
@@ -101,30 +110,35 @@ A validation library for TypeScript needs to be:
   - It is simple to test validators
   - Common validators are available
 - Lightweight
-  - Dependency free
   - Tiny bundle size
   - Fully tree shakeable
 
 `reviewed` exposes a flexible interface that achieves these goals.
 
 ```ts
-isIntegerString("1") >>
-  {
-    valid: true,
-    input: "1",
-    parsed: 1,
-    error: null,
-  };
+isIntegerString("1");
+```
+
+```json
+{
+  "valid": true,
+  "input": "1",
+  "parsed": 1,
+  "error": null
+}
 ```
 
 ```ts
-isIntegerString("0.5") >>
-  {
-    valid: false,
-    input: "0.5",
-    parsed: null,
-    error: "Not an integer 0.5",
-  };
+isIntegerString("0.5");
+```
+
+```json
+{
+  "valid": false,
+  "input": "0.5",
+  "parsed": null,
+  "error": "Not an integer 0.5"
+}
 ```
 
 ### Alternatives
@@ -263,18 +277,28 @@ interface Person {
 }
 
 const isPerson = isRecordOf<Person>({ name: optional(isString) });
+```
 
-isPerson({}) >>
-  {
-    valid: true,
-    parsed: { name: "Joel" },
-  };
+```ts
+isPerson({});
+```
 
-isPerson({ name: "Joel" }) >>
-  {
-    valid: true,
-    parsed: { name: "Joel" },
-  };
+```json
+{
+  "valid": true,
+  "parsed": { "name": "Joel" }
+}
+```
+
+```ts
+isPerson({ name: "Joel" });
+```
+
+```json
+{
+  "valid": true,
+  "parsed": { "name": "Joel" }
+}
 ```
 
 Strictly speaking, `{ name: optional(isString) }` implies that the interface is `{ name: string | undefined }` which allows name to be explicitly undefined. Since this is never useful the interface is interpreted as being `{ name?: string }` which is simpler than having a separate function for strictly optional values.
@@ -298,18 +322,28 @@ Array literals can be converted directly to validators:
 ```ts
 const builds = ["dev", "prod"] as const;
 const isBuild = isOneOf(builds);
+```
 
-isBuild("dev") >>
-  {
-    valid: true,
-    parsed: [3, 1],
-  };
+```ts
+isBuild("dev");
+```
 
-isBuild("local") >>
-  {
-    valid: false,
-    error: 'Not one of ["dev", "prod"]: "local"',
-  };
+```json
+{
+  "valid": true,
+  "parsed": [3, 1]
+}
+```
+
+```ts
+isBuild("local");
+```
+
+```json
+{
+  "valid": false,
+  "error": "Not one of ['dev', 'prod']: 'local'"
+}
 ```
 
 ### Overview
@@ -435,7 +469,11 @@ const isManyOf: <T>(options: T[]) => Validator<T[]>;
 JavaScript has some famously confusing types:
 
 ```ts
-typeof NaN >> "number";
+typeof NaN;
+```
+
+```json
+"number"
 ```
 
 Care is taken to make primitive types easier to work with.

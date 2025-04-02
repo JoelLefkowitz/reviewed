@@ -1,6 +1,7 @@
 import { Validated, ValidationErrors } from "../models/validators";
 import { ValidatedFields } from "../models/fields";
-import { allPass, group } from "../internal/arrays";
+import { all as allPasses } from "passes";
+import { group } from "../internal/arrays";
 import { invalidate, invalidateWith } from "./invalidate";
 import { mapRecord, pickField, reduceRecord } from "../internal/records";
 import { validate } from "./validate";
@@ -89,7 +90,7 @@ export const merge = <T>(results: ValidatedFields<T>): Validated<T> => {
   const valid = pickField("valid", results);
   const input = pickField("input", results);
 
-  if (allPass(Object.values(valid))) {
+  if (allPasses(Object.values(valid))) {
     const parsed = mapRecord(({ parsed }) => parsed, results);
     return validate(input, parsed);
   }
