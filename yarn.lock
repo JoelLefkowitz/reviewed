@@ -1526,6 +1526,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/json-stringify-safe@npm:^5":
+  version: 5.0.3
+  resolution: "@types/json-stringify-safe@npm:5.0.3"
+  checksum: 10c0/5c94cb5476aca6b3dc97f67b581f1bb10c3941bdb8bec652eb836c5f1682b3c25d640a7f73f3829bfecc48358ca05a447f4884936ee1ee3ad6f97944d1cac7ad
+  languageName: node
+  linkType: hard
+
 "@types/mdast@npm:^4.0.0":
   version: 4.0.4
   resolution: "@types/mdast@npm:4.0.4"
@@ -4081,6 +4088,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"json-stringify-safe@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "json-stringify-safe@npm:5.0.1"
+  checksum: 10c0/7dbf35cd0411d1d648dceb6d59ce5857ec939e52e4afc37601aa3da611f0987d5cee5b38d58329ceddf3ed48bd7215229c8d52059ab01f2444a338bf24ed0f37
+  languageName: node
+  linkType: hard
+
 "json5@npm:^2.2.3":
   version: 2.2.3
   resolution: "json5@npm:2.2.3"
@@ -5174,6 +5188,7 @@ __metadata:
   dependencies:
     "@types/glob": "npm:^8.1.0"
     "@types/jest": "npm:29.0.0"
+    "@types/json-stringify-safe": "npm:^5"
     "@types/node": "npm:^18.11.0"
     "@typescript-eslint/eslint-plugin": "npm:^6.20.0"
     "@typescript-eslint/parser": "npm:^6.20.0"
@@ -5184,6 +5199,7 @@ __metadata:
     glob: "npm:^11.0.0"
     husky: "npm:^9.0.0"
     jest: "npm:^29.0.0"
+    json-stringify-safe: "npm:^5.0.1"
     passes: "npm:^1.0.0"
     pinst: "npm:^3.0.0"
     prettier: "npm:^3.0.0"
