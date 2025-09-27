@@ -12,4 +12,13 @@ describe("serialize", () => {
     expect(serialize([1, 2, 3])).toBe("[1, 2, 3]");
     expect(serialize({ a: 1, b: 2 })).toBe('{"a": 1, "b": 2}');
   });
+
+  it("handles circular structures", () => {
+    const circular: Record<string, unknown> = {
+      a: 1,
+    };
+
+    circular.b = circular;
+    expect(serialize(circular)).toBe('{"a": 1, "b": "[Circular ~]"}');
+  });
 });

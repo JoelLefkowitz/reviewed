@@ -1,3 +1,5 @@
+import stringify from "json-stringify-safe";
+
 /**
  * Serialize an object preserving literal values
  *
@@ -9,7 +11,7 @@
  * @param input - The object to serialize
  */
 export const serialize = (input: unknown): string =>
-  JSON.stringify(input, (_, token: unknown) => {
+  stringify(input, (_, token: unknown) => {
     if (token === undefined) {
       return "undefined";
     }
