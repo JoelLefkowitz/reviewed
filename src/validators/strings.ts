@@ -1,4 +1,4 @@
-import { JSON as IJSON } from "../models/json";
+import { IJSON } from "../models/json";
 import { Validator } from "../models/validators";
 import { invalidateWith } from "../factories/invalidate";
 import { isNumber, isString } from "./primitives";

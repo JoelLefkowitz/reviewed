@@ -1,7 +1,7 @@
-export type JSON =
-  | Partial<{ [key: string]: JSON }>
-  | JSON[]
+export type IJSON =
   | string
   | number
   | boolean
-  | null;
+  | null
+  | { [key: string]: IJSON }
+  | IJSON[];
