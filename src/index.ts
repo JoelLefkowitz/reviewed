@@ -8,6 +8,7 @@ export {
   ValidationErrors,
   Validator,
 } from "./models/validators";
+export { IJSON } from "./models/json";
 export { RegexResult, RegexValidator } from "./models/regexes";
 export { all, any, merge, sieve } from "./factories/results";
 export { both, either, not, optional } from "./factories/transform";

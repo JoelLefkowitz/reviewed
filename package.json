@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "json-stringify-safe": "^5.0.1",
-    "passes": "^1.0.0"
+    "passes": "^1.1.0"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
