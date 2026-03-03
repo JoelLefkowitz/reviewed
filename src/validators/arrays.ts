@@ -114,7 +114,7 @@ export const isNumberArray: Validator<number[]> = (input: unknown) => {
   }
 
   return validateIf(
-    array.parsed.every((i) => isNumber(i).valid),
+    array.parsed.every(guard(isNumber)),
     input,
     input,
     "Not an array of numbers",

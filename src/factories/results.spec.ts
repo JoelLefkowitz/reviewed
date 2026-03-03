@@ -1,6 +1,6 @@
-import { all, any, merge, sieve } from "./results";
+import { all, any, assert, merge, sieve } from "./results";
 import { invalidate } from "./invalidate";
-import { isNumber } from "../validators/primitives";
+import { isBoolean, isNumber } from "../validators/primitives";
 import { mapRecord } from "../internal/records";
 
 describe("all", () => {
@@ -81,5 +81,12 @@ describe("sieve", () => {
     expect(sieve(mapRecord(isNumber, { a: "1", b: 2, c: "3" }))).toEqual({
       b: 2,
     });
+  });
+});
+
+describe("assert", () => {
+  it("validates an input and throws an error on failure", () => {
+    expect(assert(isBoolean, true)).toBe(true);
+    expect(() => assert(isBoolean, 0)).toThrow("Not a boolean: 0");
   });
 });

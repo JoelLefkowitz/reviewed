@@ -1,4 +1,10 @@
-export { Annotated, RecordLike } from "./models/records";
+export {
+  Annotated,
+  Legend,
+  Mapping,
+  Optional,
+  RecordLike,
+} from "./models/records";
 export { ArrayFields, ValidatedFields, ValidatorFields } from "./models/fields";
 export {
   Guard,
@@ -9,9 +15,18 @@ export {
   Validator,
 } from "./models/validators";
 export { IJSON } from "./models/json";
+export { Listed } from "./models/arrays";
 export { RegexResult, RegexValidator } from "./models/regexes";
-export { all, any, merge, sieve } from "./factories/results";
-export { both, either, not, optional } from "./factories/transform";
+export {
+  all,
+  any,
+  assert,
+  asserts,
+  merge,
+  sieve,
+  when,
+} from "./factories/results";
+export { both, chain, either, not, optional } from "./factories/transform";
 export { fail } from "./factories/errors";
 export { filterValid } from "./factories/filter";
 export { fromGuard, guard } from "./factories/guards";
@@ -24,7 +39,7 @@ export {
   isOneOf,
   isStringArray,
 } from "./validators/arrays";
-export { isArrayOf, isRecordOf, isRecordOfAtLeast } from "./factories/aliases";
+export { isArrayOf, validateAll, validateEach } from "./factories/arrays";
 export {
   isBoolean,
   isNull,
@@ -42,15 +57,17 @@ export {
 } from "./validators/strings";
 export { isEmail } from "./validators/regexes";
 export { isInteger, isNaturalNumber } from "./validators/numbers";
-export { isNonEmptyRecord, isRecord } from "./validators/records";
-export { serialize } from "./services/strings";
-export { suite } from "./testing/suites";
 export {
-  validate,
+  isLegend,
+  isMapping,
+  isRecordOf,
+  isRecordOfAtLeast,
   validateWith,
   validateWithAtLeast,
-} from "./factories/validate";
-export { validateAll, validateEach } from "./factories/arrays";
-export { validateEachOr, validateOr } from "./factories/fallbacks";
+} from "./factories/records";
+export { isNonEmptyRecord, isRecord } from "./validators/records";
+export { serialize } from "./services/strings";
+export { validate } from "./factories/validate";
+export { validateEachOr, validateOr, validatedOr } from "./factories/fallbacks";
 export { validateIf } from "./factories/conditionals";
 export { validateRegex } from "./factories/regexes";

@@ -5,7 +5,6 @@ import {
   didNotValidate,
   didNotValidateAs,
 } from "./messages";
-import { invalidateWith } from "../factories/invalidate";
 
 /** @internal */
 const shallowEqual = (a: unknown, b: unknown) =>
@@ -29,6 +28,30 @@ export const toValidate = <T>(validator: Validator<T>, input: unknown) => {
 };
 
 /**
+ * Assert that a validator passes a given input with an expected parsed output
+ *
+ * @category Testing
+ * @example
+ *   expect(isNaturalNumberString).toValidateAs("1", 1);
+ *
+ * @param input - The raw input
+ */
+export const toValidateAs = <T>(
+  validator: Validator<T>,
+  input: unknown,
+  expected: unknown,
+) => {
+  const { valid, parsed, error } = validator(input);
+  return {
+    pass: valid && shallowEqual(parsed, expected),
+    message: () =>
+      valid
+        ? didNotValidateAs(input, expected, parsed)
+        : didNotValidate(input, error),
+  };
+};
+
+/**
  * Assert that a validator fails a given input
  *
  * @category Testing
@@ -46,35 +69,6 @@ export const toInvalidate = <T>(validator: Validator<T>, input: unknown) => {
 };
 
 /**
- * Assert that a validator passes a given input with an expected parsed output
- *
- * @category Testing
- * @example
- *   expect(isNaturalNumberString).toValidateAs("1", 1);
- *
- * @param input - The raw input
- */
-export const toValidateAs = <T>(
-  validator: Validator<T>,
-  input: unknown,
-  expected: unknown,
-) => {
-  const { valid, parsed, error } = validator(input);
-  return valid && shallowEqual(parsed, expected)
-    ? {
-        pass: true,
-        message: () => "",
-      }
-    : {
-        pass: false,
-        message: () =>
-          valid
-            ? didNotValidateAs(input, expected, parsed)
-            : didNotValidate(input, error),
-      };
-};
-
-/**
  * Assert that a validator fails a given input with an expected reason
  *
  * @category Testing
@@ -86,22 +80,16 @@ export const toValidateAs = <T>(
 export const toInvalidateWith = <T>(
   validator: Validator<T>,
   input: unknown,
-  reason: string,
+  expected: string,
 ) => {
   const { valid, error } = validator(input);
-  const { error: expected } = invalidateWith(reason)(input);
-  return !valid && error == expected
-    ? {
-        pass: true,
-        message: () => "",
-      }
-    : {
-        pass: false,
-        message: () =>
-          valid
-            ? didNotInvalidate(input)
-            : didNotInvalidateWith(input, expected, error),
-      };
+  return {
+    pass: !valid && shallowEqual(error, expected),
+    message: () =>
+      valid
+        ? didNotInvalidate(input)
+        : didNotInvalidateWith(input, expected, error),
+  };
 };
 
 /**

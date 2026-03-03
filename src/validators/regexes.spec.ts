@@ -1,9 +1,7 @@
 import { isEmail } from "./regexes";
-import { suite } from "../testing/suites";
 
-suite(
-  isEmail,
-  [
+describe("isEmail", () => {
+  test.each([
     {
       input: "user@domain.com",
       parsed: {
@@ -31,14 +29,17 @@ suite(
         named: { user: "user", domain: "sub.domain.com" },
       },
     },
-  ],
-  {
-    "Not an email": [
-      "user",
-      "@domain.com",
-      "user@domain",
-      "user-domain.com",
-      "user~@domain.com",
-    ],
-  },
-);
+  ])("validates $input as email", ({ input, parsed }) => {
+    expect(isEmail).toValidateAs(input, parsed);
+  });
+
+  test.each([
+    { input: "user", error: 'Not an email: "user"' },
+    { input: "@domain.com", error: 'Not an email: "@domain.com"' },
+    { input: "user@domain", error: 'Not an email: "user@domain"' },
+    { input: "user-domain.com", error: 'Not an email: "user-domain.com"' },
+    { input: "user~@domain.com", error: 'Not an email: "user~@domain.com"' },
+  ])('fails $input with "$error"', ({ input, error }) => {
+    expect(isEmail).toInvalidateWith(input, error);
+  });
+});

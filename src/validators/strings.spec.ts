@@ -1,59 +1,125 @@
 import {
   isBooleanString,
-  isIntegerString,
-  isJSONString,
-  isNaturalNumberString,
   isNumberString,
+  isIntegerString,
+  isNaturalNumberString,
+  isJSONString,
 } from "./strings";
-import { suite } from "../testing/suites";
 
-suite(
-  isBooleanString,
-  [
+describe("isBooleanString", () => {
+  test.each([
     { input: "true", parsed: true },
     { input: "false", parsed: false },
-  ],
-  {
-    "Not a string": [undefined, null, true, 1, [], {}],
-    "Not a boolean string": ["", "1", "a"],
-  },
-);
+  ])("validates $input as $parsed", ({ input, parsed }) => {
+    expect(isBooleanString).toValidateAs(input, parsed);
+  });
 
-suite(
-  isNumberString,
-  [
+  test.each([
+    { input: undefined, error: 'Not a string: "undefined"' },
+    { input: null, error: "Not a string: null" },
+    { input: true, error: "Not a string: true" },
+    { input: 1, error: "Not a string: 1" },
+    { input: [], error: "Not a string: []" },
+    { input: {}, error: "Not a string: {}" },
+  ])('fails $input with "$error"', ({ input, error }) => {
+    expect(isBooleanString).toInvalidateWith(input, error);
+  });
+});
+
+describe("isNumberString", () => {
+  test.each([
     { input: "-1", parsed: -1 },
     { input: "0", parsed: 0 },
     { input: "0.5", parsed: 0.5 },
     { input: "1", parsed: 1 },
-  ],
-  {
-    "Not a string": [undefined, null, true, 1, [], {}],
-    "Not a number string": ["", "true", "a", "NaN", "Infinity"],
-  },
-);
+  ])("validates $input as $parsed", ({ input, parsed }) => {
+    expect(isNumberString).toValidateAs(input, parsed);
+  });
 
-suite(
-  isIntegerString,
-  [
+  test.each([
+    { input: undefined, error: 'Not a string: "undefined"' },
+    { input: null, error: "Not a string: null" },
+    { input: true, error: "Not a string: true" },
+    { input: 1, error: "Not a string: 1" },
+    { input: [], error: "Not a string: []" },
+    { input: {}, error: "Not a string: {}" },
+    { input: "", error: 'Not a number string: ""' },
+    { input: "true", error: 'Not a number string: "true"' },
+    { input: "a", error: 'Not a number string: "a"' },
+    { input: "NaN", error: 'Not a number string: "NaN"' },
+    { input: "Infinity", error: 'Not a number string: "Infinity"' },
+  ])('fails $input with "$error"', ({ input, error }) => {
+    expect(isNumberString).toInvalidateWith(input, error);
+  });
+});
+
+describe("isIntegerString", () => {
+  test.each([
     { input: "-1", parsed: -1 },
     { input: "0", parsed: 0 },
     { input: "1", parsed: 1 },
-  ],
-  {
-    "Not a string": [undefined, null, true, 1, [], {}],
-    "Not a number string": ["", "true", "a", "NaN", "Infinity"],
-    "Not an integer string": ["0.5"],
-  },
-);
+  ])("validates $input as $parsed", ({ input, parsed }) => {
+    expect(isIntegerString).toValidateAs(input, parsed);
+  });
 
-suite(isNaturalNumberString, [{ input: "1", parsed: 1 }], {
-  "Not a string": [undefined, null, true, 1, [], {}],
-  "Not a number string": ["", "true", "a", "NaN", "Infinity"],
-  "Not an integer string": ["0.5"],
-  "Not a natural number string": ["0", "-1"],
+  test.each([
+    { input: undefined, error: 'Not a string: "undefined"' },
+    { input: null, error: "Not a string: null" },
+    { input: true, error: "Not a string: true" },
+    { input: 1, error: "Not a string: 1" },
+    { input: [], error: "Not a string: []" },
+    { input: {}, error: "Not a string: {}" },
+    { input: "", error: 'Not a number string: ""' },
+    { input: "true", error: 'Not a number string: "true"' },
+    { input: "a", error: 'Not a number string: "a"' },
+    { input: "NaN", error: 'Not a number string: "NaN"' },
+    { input: "Infinity", error: 'Not a number string: "Infinity"' },
+    { input: "0.5", error: 'Not an integer string: "0.5"' },
+  ])('fails $input with "$error"', ({ input, error }) => {
+    expect(isIntegerString).toInvalidateWith(input, error);
+  });
 });
 
-suite(isJSONString, [{ input: '{"a": 1}', parsed: { a: 1 } }], {
-  "Not JSON": ["_"],
+describe("isNaturalNumberString", () => {
+  test.each([{ input: "1", parsed: 1 }])(
+    "validates $input as $parsed",
+    ({ input, parsed }) => {
+      expect(isNaturalNumberString).toValidateAs(input, parsed);
+    },
+  );
+
+  test.each([
+    { input: undefined, error: 'Not a string: "undefined"' },
+    { input: null, error: "Not a string: null" },
+    { input: true, error: "Not a string: true" },
+    { input: 1, error: "Not a string: 1" },
+    { input: [], error: "Not a string: []" },
+    { input: {}, error: "Not a string: {}" },
+    { input: "", error: 'Not a number string: ""' },
+    { input: "true", error: 'Not a number string: "true"' },
+    { input: "a", error: 'Not a number string: "a"' },
+    { input: "NaN", error: 'Not a number string: "NaN"' },
+    { input: "Infinity", error: 'Not a number string: "Infinity"' },
+    { input: "0.5", error: 'Not an integer string: "0.5"' },
+    { input: "0", error: 'Not a natural number string: "0"' },
+    { input: "-1", error: 'Not a natural number string: "-1"' },
+  ])('fails $input with "$error"', ({ input, error }) => {
+    expect(isNaturalNumberString).toInvalidateWith(input, error);
+  });
+});
+
+describe("isJSONString", () => {
+  test.each([{ input: '{"a": 1}', parsed: { a: 1 } }])(
+    "validates $input as $parsed",
+    ({ input, parsed }) => {
+      expect(isJSONString).toValidateAs(input, parsed);
+    },
+  );
+
+  test.each([{ input: "_", error: 'Not JSON: "_"' }])(
+    'fails $input with "$error"',
+    ({ input, error }) => {
+      expect(isJSONString).toInvalidateWith(input, error);
+    },
+  );
 });

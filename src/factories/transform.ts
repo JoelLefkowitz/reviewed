@@ -1,4 +1,4 @@
-import { Validated, Validator } from "../models/validators";
+import { Invalid, Valid, Validated, Validator } from "../models/validators";
 import { invalidateWith } from "./invalidate";
 import { isUndefined } from "../validators/primitives";
 import { validate } from "./validate";
@@ -145,3 +145,16 @@ export const either =
 export const optional = <T>(
   validator: Validator<T>,
 ): Validator<T | undefined> => either(validator, isUndefined);
+
+// TODO (Joel): Add a docstring here
+export const chain =
+  <T, U>(first: Validator<T>, second: Validator<U>) =>
+  (input: unknown): Invalid<T> | Invalid<U> | Valid<U> => {
+    const intermediate = first(input);
+
+    if (!intermediate.valid) {
+      return intermediate;
+    }
+
+    return second(intermediate.parsed);
+  };

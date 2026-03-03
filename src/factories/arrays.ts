@@ -66,3 +66,11 @@ export const validateAll =
 
     return all(array.parsed.map(validator));
   };
+
+/**
+ * Alias for validateAll
+ *
+ * @category Aliases
+ * @see {@link validateAll}
+ */
+export const isArrayOf = validateAll;
