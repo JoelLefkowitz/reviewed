@@ -13,8 +13,9 @@ describe("fromGuard", () => {
     const guard = (input: unknown): input is number =>
       typeof input === "number" && !isNaN(input);
 
-    const isNumber = fromGuard(guard, "Not a number");
-    expect(isNumber(1).parsed).toBe(1);
-    expect(isNumber("").error).toBe('Not a number: ""');
+    const validator = fromGuard(guard, "Not a number");
+
+    expect(validator).toValidate(1);
+    expect(validator).toInvalidateWith("", 'Not a number: ""');
   });
 });

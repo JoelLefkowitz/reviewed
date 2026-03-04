@@ -21,6 +21,12 @@ export const validateOr =
     return validated.valid ? validated.parsed : fallback;
   };
 
+// TODO (Joel): Add a docstring here
+export const validatedOr = <T>(
+  { valid, parsed }: Validated<T>,
+  fallback: T,
+): T => (valid ? parsed : fallback);
+
 /**
  * Validate an array of inputs with a fallback
  *
@@ -37,9 +43,3 @@ export const validateEachOr =
   <T>(validator: Validator<T>, fallback: T) =>
   (input: unknown): T[] =>
     guard(isArray)(input) ? input.map(validateOr(validator, fallback)) : [];
-
-// TODO (Joel): Add a docstring here
-export const validatedOr = <T>(
-  { valid, parsed }: Validated<T>,
-  fallback: T,
-): T => (valid ? parsed : fallback);

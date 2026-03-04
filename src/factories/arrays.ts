@@ -1,5 +1,5 @@
 import { Validated, Validator } from "../models/validators";
-import { all } from "./results";
+import { all } from "../services/results";
 import { isArray } from "../validators/arrays";
 
 /**

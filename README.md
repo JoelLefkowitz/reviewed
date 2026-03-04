@@ -184,7 +184,7 @@ Custom Jest matchers are exposed for testing validators:
 
 ```json
 {
-  "setupFilesAfterEnv": ["reviewed/dist/testing/jest.js"]
+  "setupFilesAfterEnv": ["reviewed/dist/testing/globals.js"]
 }
 ```
 
@@ -192,7 +192,7 @@ Custom Jest matchers are exposed for testing validators:
 
 ```json
 {
-  "files": ["node_modules/reviewed/dist/testing/jest.d.ts"]
+  "files": ["node_modules/reviewed/dist/testing/globals.d.ts"]
 }
 ```
 
@@ -206,20 +206,6 @@ describe("isNaturalNumberString", () => {
     expect(isNaturalNumberString).toValidateAs("1", 1);
     expect(isNaturalNumberString).toInvalidateWith({}, "Not a string");
   });
-});
-```
-
-For convenience you can define whole suites at once:
-
-```ts
-import { isNaturalNumberString } from "./strings";
-import { suite } from "reviewed";
-
-suite(isNaturalNumberString, [{ input: "1", parsed: 1 }], {
-  "Not a string": [undefined, null, true, 1, [], {}],
-  "Not a number string": ["", "true", "a", "NaN", "Infinity"],
-  "Not an integer string": ["0.5"],
-  "Not a natural number string": ["0", "-1"],
 });
 ```
 

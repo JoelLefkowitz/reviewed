@@ -1,11 +1,22 @@
 import { Validated, ValidationErrors, Validator } from "../models/validators";
 import { ValidatedFields } from "../models/fields";
 import { all as allPasses } from "passes";
-import { fail } from "./errors";
+import { fail } from "../factories/errors";
 import { group } from "../internal/arrays";
-import { invalidate, invalidateWith } from "./invalidate";
+import { invalidate, invalidateWith } from "../factories/invalidate";
 import { mapRecord, pickField, reduceRecord } from "../internal/records";
-import { validate } from "./validate";
+import { validate } from "../factories/validate";
+
+// TODO (Joel): Add a docstring here
+export const assert = <T>(validator: Validator<T>, input: unknown): T => {
+  const { valid, parsed, error } = validator(input);
+
+  if (valid) {
+    return parsed;
+  }
+
+  throw fail(error);
+};
 
 /**
  * Merge an array of validated results using a logical AND
@@ -122,23 +133,6 @@ export const sieve = <A>(results: ValidatedFields<A>): Partial<A> =>
     ({ valid }) => valid,
     results,
   ) as Partial<A>;
-
-// TODO (Joel): Add a docstring here
-export const assert = <T>(validator: Validator<T>, input: unknown): T => {
-  const { valid, parsed, error } = validator(input);
-
-  if (valid) {
-    return parsed;
-  }
-
-  throw fail(error);
-};
-
-// TODO (Joel): Add a docstring here
-export const asserts =
-  <T>(validator: Validator<T>) =>
-  (input: unknown): T =>
-    assert(validator, input);
 
 // TODO (Joel): Add a docstring here
 export const when =

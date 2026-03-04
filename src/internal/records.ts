@@ -1,4 +1,8 @@
 /** @internal */
+export const shallowEqual = (a: unknown, b: unknown) =>
+  JSON.stringify(a) === JSON.stringify(b);
+
+/** @internal */
 export const mapRecord = <T extends string, U, V>(
   map: (x: U) => V,
   record: Record<T, U>,

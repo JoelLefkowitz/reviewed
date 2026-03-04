@@ -5,10 +5,7 @@ import {
   didNotValidate,
   didNotValidateAs,
 } from "./messages";
-
-/** @internal */
-const shallowEqual = (a: unknown, b: unknown) =>
-  JSON.stringify(a) === JSON.stringify(b);
+import { shallowEqual } from "../internal/records";
 
 /**
  * Assert that a validator passes a given input
@@ -91,27 +88,3 @@ export const toInvalidateWith = <T>(
         : didNotInvalidateWith(input, expected, error),
   };
 };
-
-/**
- * Assert that a given input is passed by a validator
- *
- * @category Testing
- * @example
- *   expect("1").toBeValidatedBy(isNaturalNumberString);
- *
- * @param validator - The validator
- */
-export const toBeValidatedBy = <T>(input: unknown, validator: Validator<T>) =>
-  toValidate(validator, input);
-
-/**
- * Assert that a given input is failed by a validator
- *
- * @category Testing
- * @example
- *   expect({}).toBeInvalidatedBy(isNaturalNumberString);
- *
- * @param validator - The validator
- */
-export const toBeInvalidatedBy = <T>(input: unknown, validator: Validator<T>) =>
-  toInvalidate(validator, input);

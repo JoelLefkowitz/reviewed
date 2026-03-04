@@ -1,7 +1,14 @@
 import { Invalid, Valid, Validated, Validator } from "../models/validators";
-import { invalidateWith } from "./invalidate";
+import { assert } from "./results";
+import { invalidateWith } from "../factories/invalidate";
 import { isUndefined } from "../validators/primitives";
-import { validate } from "./validate";
+import { validate } from "../factories/validate";
+
+// TODO (Joel): Add a docstring here
+export const asserts =
+  <T>(validator: Validator<T>) =>
+  (input: unknown): T =>
+    assert(validator, input);
 
 /**
  * Invert a validator

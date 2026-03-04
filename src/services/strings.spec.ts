@@ -14,11 +14,9 @@ describe("serialize", () => {
   });
 
   it("handles circular structures", () => {
-    const circular: Record<string, unknown> = {
-      a: 1,
-    };
-
+    const circular: Record<string, unknown> = { a: 1 };
     circular.b = circular;
+
     expect(serialize(circular)).toBe('{"a": 1, "b": "[Circular ~]"}');
   });
 });

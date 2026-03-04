@@ -6,7 +6,7 @@ import { invalidate } from "./invalidate";
 import { isRecord } from "../validators/records";
 import { isString } from "../validators/primitives";
 import { isUndefined } from "../validators/primitives";
-import { merge } from "./results";
+import { merge } from "../services/results";
 import { validate } from "./validate";
 
 /**

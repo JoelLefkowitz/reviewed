@@ -1,157 +1,66 @@
 import { isMapping, validateWith, validateWithAtLeast } from "./records";
-import { isNaturalNumberString, isNumberString } from "../validators/strings";
-import { isNumber, isString } from "../validators/primitives";
-import { optional } from "./transform";
+import { isNumber } from "../validators/primitives";
+import { optional } from "../services/transformers";
 
 describe("validateWith", () => {
+  const validator = validateWith({
+    a: isNumber,
+  });
+
   it("validates an input's fields with validators", () => {
-    expect(
-      validateWith({
-        a: isNumber,
-        b: isNumberString,
-      }),
-    ).toValidateAs({ a: 1, b: "2" }, { a: 1, b: 2 });
-
-    expect(
-      validateWith({
-        a: isNumber,
-        b: isString,
-      }),
-    ).toInvalidateWith("", 'Not a record: ""');
-
-    expect(
-      validateWith({
-        a: isNumber,
-        b: isString,
-      }),
-    ).toInvalidateWith({ a: 1, b: 2 }, { b: "Not a string: 2" });
+    expect(validator).toValidate({ a: 1 });
+    expect(validator).toInvalidateWith(null, "Not a record: null");
+    expect(validator).toInvalidateWith({}, "Missing required fields: a");
+    expect(validator).toInvalidateWith({ a: "1" }, { a: 'Not a number: "1"' });
   });
 
-  it("requires exactly the specified fields", () => {
-    expect(
-      validateWith({
-        a: isNumber,
-        b: isString,
-      }),
-    ).toInvalidateWith({ a: 1 }, "Missing required fields: b");
-
-    expect(
-      validateWith({
-        a: isNumber,
-        b: isString,
-      }),
-    ).toInvalidateWith({ a: 1, b: "2", c: null }, "Unexpected extra fields: c");
-  });
-
-  it("parses optional fields", () => {
-    const validator = validateWith<{ a: string; b?: number }>({
-      a: isString,
-      b: optional(isNaturalNumberString),
-    });
-
-    expect(validator).toValidateAs({ a: "1" }, { a: "1" });
-    expect(
-      Object.keys(
-        validator({
-          a: "1",
-        }).parsed,
-      ),
-    ).toEqual(["a"]);
-
-    expect(validator).toValidateAs({ a: "1", b: undefined }, { a: "1" });
-    expect(
-      Object.keys(
-        validator({
-          a: "1",
-          b: undefined,
-        }).parsed,
-      ),
-    ).toEqual(["a"]);
-
+  it("doesn't allow extra fields", () => {
     expect(validator).toInvalidateWith(
-      { a: "1", b: 2 },
-      { b: "Not a string: 2" },
+      { a: 1, b: 2 },
+      "Unexpected extra fields: b",
     );
-
-    expect(validator).toValidateAs({ a: "1", b: "2" }, { a: "1", b: 2 });
   });
 });
 
 describe("validateWithAtLeast", () => {
   it("validates an input's fields with validators", () => {
-    expect(
-      validateWithAtLeast({
-        a: isNumber,
-        b: isString,
-      }),
-    ).toValidateAs({ a: 1, b: "2" }, { a: 1, b: "2" });
+    const validator = validateWithAtLeast({
+      a: isNumber,
+    });
 
-    expect(
-      validateWithAtLeast({
-        a: isNumber,
-        b: isString,
-      }),
-    ).toInvalidateWith("", 'Not a record: ""');
-
-    expect(
-      validateWithAtLeast({
-        a: isNumber,
-        b: isString,
-      }),
-    ).toInvalidateWith({ a: 1, b: 2 }, { b: "Not a string: 2" });
+    expect(validator).toValidate({ a: 1 });
+    expect(validator).toInvalidateWith(null, "Not a record: null");
+    expect(validator).toInvalidateWith({}, "Missing required fields: a");
+    expect(validator).toInvalidateWith({ a: "1" }, { a: 'Not a number: "1"' });
   });
 
   it("allows extra fields", () => {
-    expect(
-      validateWithAtLeast({
-        a: isNumber,
-        b: isString,
-      }),
-    ).toInvalidateWith({ a: 1 }, "Missing required fields: b");
+    const validator = validateWithAtLeast({
+      a: isNumber,
+    });
 
-    expect(
-      validateWithAtLeast({
-        a: isNumber,
-        b: isString,
-      }),
-    ).toValidateAs({ a: 1, b: "2", c: null }, { a: 1, b: "2", c: null });
+    expect(validator).toValidate({ a: 1, b: 2 });
   });
 
   it("parses optional fields", () => {
-    const validator = validateWithAtLeast<{ a: string; b?: number }>({
-      a: isString,
-      b: optional(isNaturalNumberString),
+    const validator = validateWithAtLeast({
+      a: optional(isNumber),
     });
 
-    expect(validator).toValidateAs({ a: "1" }, { a: "1" });
-    expect(
-      Object.keys(
-        validator({
-          a: "1",
-        }).parsed,
-      ),
-    ).toEqual(["a"]);
-
-    expect(validator).toValidateAs({ a: "1", b: undefined }, { a: "1" });
-    expect(
-      Object.keys(
-        validator({
-          a: "1",
-          b: undefined,
-        }).parsed,
-      ),
-    ).toEqual(["a"]);
-
-    expect(validator).toInvalidateWith(
-      { a: "1", b: 2 },
-      { b: "Not a string: 2" },
-    );
-
-    expect(validator).toValidateAs({ a: "1", b: "2" }, { a: "1", b: 2 });
+    expect(validator).toValidate({ a: undefined });
+    expect(validator).toValidate({});
   });
 });
 
 describe("isMapping", () => {
-  expect(isMapping(isString)).toValidate({ a: "1", b: "2" });
-  expect(isMapping(isString)).toInvalidate({ a: "1", b: 2 });
+  const validator = isMapping(isNumber);
+
+  it("validates a record with string keys", () => {
+    expect(validator).toValidate({ a: 1, b: 2 });
+    expect(validator).toInvalidateWith(null, "Not a record: null");
+    expect(validator).toInvalidateWith(
+      { a: 1, b: "2" },
+      { b: 'Not a number: "2"' },
+    );
+  });
 });
