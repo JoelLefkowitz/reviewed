@@ -1,8 +1,6 @@
-import { serialize } from "../services/strings";
-
 /** @internal */
 export const didNotValidate = (input: unknown, received: unknown): string =>
-  `Expected to validate ${JSON.stringify(input)} but received: ${serialize(received)}`;
+  `Expected to validate ${JSON.stringify(input)} but received: ${JSON.stringify(received)}`;
 
 /** @internal */
 export const didNotInvalidate = (input: unknown): string =>
@@ -22,4 +20,4 @@ export const didNotInvalidateWith = (
   expected: unknown,
   received: unknown,
 ): string =>
-  `Expected to invalidate ${JSON.stringify(input)} with: ${JSON.stringify(expected)} but invalidated with: ${serialize(received)}`;
+  `Expected to invalidate ${JSON.stringify(input)} with: ${JSON.stringify(expected)} but invalidated with: ${JSON.stringify(received)}`;

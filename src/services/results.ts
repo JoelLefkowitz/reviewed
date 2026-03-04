@@ -1,15 +1,38 @@
-import { Validated, ValidationErrors } from "../models/validators";
+import { Validated, ValidationErrors, Validator } from "../models/validators";
 import { ValidatedFields } from "../models/fields";
 import { all as allPasses } from "passes";
+import { fail } from "../factories/errors";
 import { group } from "../internal/arrays";
-import { invalidate, invalidateWith } from "./invalidate";
+import { invalidate, invalidateWith } from "../factories/invalidate";
 import { mapRecord, pickField, reduceRecord } from "../internal/records";
-import { validate } from "./validate";
+import { validate } from "../factories/validate";
+
+/**
+ * Validate an input and throws an error on failure
+ *
+ * @category Services
+ * @example
+ *   assert(isNumber, null) >>
+ *   throws: "Not a number: null"
+ *
+ * @typeParam T - The validated type
+ * @param validator - The validator to use
+ * @param input     - The raw input
+ */
+export const assert = <T>(validator: Validator<T>, input: unknown): T => {
+  const { valid, parsed, error } = validator(input);
+
+  if (valid) {
+    return parsed;
+  }
+
+  throw fail(error);
+};
 
 /**
  * Merge an array of validated results using a logical AND
  *
- * @category Factories
+ * @category Services
  * @example
  *   all(["1", 2, "3"].map(isNumber)) >>
  *     {
@@ -38,7 +61,7 @@ export const all = <T>(results: Validated<T>[]): Validated<T[]> => {
 /**
  * Merge an array of validated results using a logical OR
  *
- * @category Factories
+ * @category Services
  * @example
  *   any(["1", 2, "3"].map(isNumber)) >>
  *     {
@@ -72,7 +95,7 @@ export const any = <T>(results: Validated<T>[]): Validated<T[]> => {
 /**
  * Merge the validated fields of an object
  *
- * @category Factories
+ * @category Services
  * @example
  *   merge({ a: isNumber("1"), b: isNumber(2), c: isNumber("3") }) >>
  *     {
@@ -107,7 +130,7 @@ export const merge = <T>(results: ValidatedFields<T>): Validated<T> => {
 /**
  * Select parsed results from validated fields
  *
- * @category Factories
+ * @category Services
  * @example
  *   sieve({ a: isNumber("1"), b: isNumber(2), c: isNumber("3") }) >>
  *     { b: 2 };
@@ -121,3 +144,24 @@ export const sieve = <A>(results: ValidatedFields<A>): Partial<A> =>
     ({ valid }) => valid,
     results,
   ) as Partial<A>;
+
+/**
+ * Call a callback when validation succeeds
+ *
+ * @category Services
+ * @example
+ *   when(isNumber, () => {...})
+ *
+ * @typeParam T - The validated type
+ * @param validator - The validator to use
+ * @param callback  - The callback to call
+ */
+export const when =
+  <T>(validator: Validator<T>, callback: (t: T) => void) =>
+  (input: unknown): void => {
+    const { valid, parsed } = validator(input);
+
+    if (valid) {
+      callback(parsed);
+    }
+  };

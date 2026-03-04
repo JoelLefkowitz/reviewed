@@ -5,55 +5,278 @@ import {
   isNaturalNumberString,
   isNumberString,
 } from "./strings";
-import { suite } from "../testing/suites";
+import { validates } from "../testing/cases";
 
-suite(
-  isBooleanString,
-  [
-    { input: "true", parsed: true },
-    { input: "false", parsed: false },
-  ],
-  {
-    "Not a string": [undefined, null, true, 1, [], {}],
-    "Not a boolean string": ["", "1", "a"],
-  },
-);
-
-suite(
-  isNumberString,
-  [
-    { input: "-1", parsed: -1 },
-    { input: "0", parsed: 0 },
-    { input: "0.5", parsed: 0.5 },
-    { input: "1", parsed: 1 },
-  ],
-  {
-    "Not a string": [undefined, null, true, 1, [], {}],
-    "Not a number string": ["", "true", "a", "NaN", "Infinity"],
-  },
-);
-
-suite(
-  isIntegerString,
-  [
-    { input: "-1", parsed: -1 },
-    { input: "0", parsed: 0 },
-    { input: "1", parsed: 1 },
-  ],
-  {
-    "Not a string": [undefined, null, true, 1, [], {}],
-    "Not a number string": ["", "true", "a", "NaN", "Infinity"],
-    "Not an integer string": ["0.5"],
-  },
-);
-
-suite(isNaturalNumberString, [{ input: "1", parsed: 1 }], {
-  "Not a string": [undefined, null, true, 1, [], {}],
-  "Not a number string": ["", "true", "a", "NaN", "Infinity"],
-  "Not an integer string": ["0.5"],
-  "Not a natural number string": ["0", "-1"],
+describe("isBooleanString", () => {
+  validates(
+    isBooleanString,
+    [
+      {
+        input: "true",
+        parsed: true,
+      },
+      {
+        input: "false",
+        parsed: false,
+      },
+    ],
+    [
+      {
+        input: undefined,
+        error: 'Not a string: "undefined"',
+      },
+      {
+        input: null,
+        error: "Not a string: null",
+      },
+      {
+        input: true,
+        error: "Not a string: true",
+      },
+      {
+        input: 1,
+        error: "Not a string: 1",
+      },
+      {
+        input: [],
+        error: "Not a string: []",
+      },
+      {
+        input: {},
+        error: "Not a string: {}",
+      },
+    ],
+  );
 });
 
-suite(isJSONString, [{ input: '{"a": 1}', parsed: { a: 1 } }], {
-  "Not JSON": ["_"],
+describe("isNumberString", () => {
+  validates(
+    isNumberString,
+    [
+      {
+        input: "-1",
+        parsed: -1,
+      },
+      {
+        input: "0",
+        parsed: 0,
+      },
+      {
+        input: "0.5",
+        parsed: 0.5,
+      },
+      {
+        input: "1",
+        parsed: 1,
+      },
+    ],
+    [
+      {
+        input: undefined,
+        error: 'Not a string: "undefined"',
+      },
+      {
+        input: null,
+        error: "Not a string: null",
+      },
+      {
+        input: true,
+        error: "Not a string: true",
+      },
+      {
+        input: 1,
+        error: "Not a string: 1",
+      },
+      {
+        input: [],
+        error: "Not a string: []",
+      },
+      {
+        input: {},
+        error: "Not a string: {}",
+      },
+      {
+        input: "",
+        error: 'Not a number string: ""',
+      },
+      {
+        input: "true",
+        error: 'Not a number string: "true"',
+      },
+      {
+        input: "a",
+        error: 'Not a number string: "a"',
+      },
+      {
+        input: "NaN",
+        error: 'Not a number string: "NaN"',
+      },
+      {
+        input: "Infinity",
+        error: 'Not a number string: "Infinity"',
+      },
+    ],
+  );
+});
+
+describe("isIntegerString", () => {
+  validates(
+    isIntegerString,
+    [
+      {
+        input: "-1",
+        parsed: -1,
+      },
+      {
+        input: "0",
+        parsed: 0,
+      },
+      {
+        input: "1",
+        parsed: 1,
+      },
+    ],
+    [
+      {
+        input: undefined,
+        error: 'Not a string: "undefined"',
+      },
+      {
+        input: null,
+        error: "Not a string: null",
+      },
+      {
+        input: true,
+        error: "Not a string: true",
+      },
+      {
+        input: 1,
+        error: "Not a string: 1",
+      },
+      {
+        input: [],
+        error: "Not a string: []",
+      },
+      {
+        input: {},
+        error: "Not a string: {}",
+      },
+      {
+        input: "",
+        error: 'Not a number string: ""',
+      },
+      {
+        input: "true",
+        error: 'Not a number string: "true"',
+      },
+      {
+        input: "a",
+        error: 'Not a number string: "a"',
+      },
+      {
+        input: "NaN",
+        error: 'Not a number string: "NaN"',
+      },
+      {
+        input: "Infinity",
+        error: 'Not a number string: "Infinity"',
+      },
+      {
+        input: "0.5",
+        error: 'Not an integer string: "0.5"',
+      },
+    ],
+  );
+});
+
+describe("isNaturalNumberString", () => {
+  validates(
+    isNaturalNumberString,
+    [
+      {
+        input: "1",
+        parsed: 1,
+      },
+    ],
+    [
+      {
+        input: undefined,
+        error: 'Not a string: "undefined"',
+      },
+      {
+        input: null,
+        error: "Not a string: null",
+      },
+      {
+        input: true,
+        error: "Not a string: true",
+      },
+      {
+        input: 1,
+        error: "Not a string: 1",
+      },
+      {
+        input: [],
+        error: "Not a string: []",
+      },
+      {
+        input: {},
+        error: "Not a string: {}",
+      },
+      {
+        input: "",
+        error: 'Not a number string: ""',
+      },
+      {
+        input: "true",
+        error: 'Not a number string: "true"',
+      },
+      {
+        input: "a",
+        error: 'Not a number string: "a"',
+      },
+      {
+        input: "NaN",
+        error: 'Not a number string: "NaN"',
+      },
+      {
+        input: "Infinity",
+        error: 'Not a number string: "Infinity"',
+      },
+      {
+        input: "0.5",
+        error: 'Not an integer string: "0.5"',
+      },
+      {
+        input: "0",
+        error: 'Not a natural number string: "0"',
+      },
+      {
+        input: "-1",
+        error: 'Not a natural number string: "-1"',
+      },
+    ],
+  );
+});
+
+describe("isJSONString", () => {
+  validates(
+    isJSONString,
+    [
+      {
+        input: '{"a": 1}',
+        parsed: { a: 1 },
+      },
+    ],
+    [
+      {
+        input: null,
+        error: "Not a string: null",
+      },
+      {
+        input: "_",
+        error: 'Not JSON: "_"',
+      },
+    ],
+  );
 });

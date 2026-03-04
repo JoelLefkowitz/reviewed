@@ -1,4 +1,5 @@
 import { Validator } from "../models/validators";
+import { guard } from "../factories/guards";
 import { isArray } from "./arrays";
 import { isObject } from "./primitives";
 import { validateIf } from "../factories/conditionals";
@@ -25,7 +26,7 @@ import { validateIf } from "../factories/conditionals";
  */
 export const isRecord: Validator<Record<string, unknown>> = (input: unknown) =>
   validateIf(
-    isObject(input).valid && !isArray(input).valid,
+    guard(isObject)(input) && !guard(isArray)(input),
     input,
     input,
     "Not a record",

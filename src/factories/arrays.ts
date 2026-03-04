@@ -1,5 +1,5 @@
 import { Validated, Validator } from "../models/validators";
-import { all } from "./results";
+import { all } from "../services/results";
 import { isArray } from "../validators/arrays";
 
 /**
@@ -66,3 +66,11 @@ export const validateAll =
 
     return all(array.parsed.map(validator));
   };
+
+/**
+ * Alias for validateAll
+ *
+ * @category Aliases
+ * @see {@link validateAll}
+ */
+export const isArrayOf = validateAll;

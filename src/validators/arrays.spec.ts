@@ -6,62 +6,202 @@ import {
   isOneOf,
   isStringArray,
 } from "./arrays";
-import { suite } from "../testing/suites";
+import { validates } from "../testing/cases";
 
-suite(
-  isArray,
-  [
-    { input: [], parsed: [] },
-    { input: [1], parsed: [1] },
-  ],
-  {
-    "Not an array": [undefined, null, true, 1, "a", {}],
-  },
-);
-
-suite(isNonEmptyArray, [{ input: [1], parsed: [1] }], {
-  "Not an array": [undefined, null, true, 1, "a", {}],
-  "Not a non empty array": [[]],
+describe("isArray", () => {
+  validates(
+    isArray,
+    [
+      {
+        input: [],
+        parsed: [],
+      },
+      {
+        input: [1],
+        parsed: [1],
+      },
+    ],
+    [
+      {
+        input: undefined,
+        error: 'Not an array: "undefined"',
+      },
+      {
+        input: null,
+        error: "Not an array: null",
+      },
+      {
+        input: true,
+        error: "Not an array: true",
+      },
+      {
+        input: 1,
+        error: "Not an array: 1",
+      },
+      {
+        input: "a",
+        error: 'Not an array: "a"',
+      },
+      {
+        input: {},
+        error: "Not an array: {}",
+      },
+    ],
+  );
 });
 
-suite(
-  isNumberArray,
-  [
-    { input: [], parsed: [] },
-    { input: [1], parsed: [1] },
-  ],
-  {
-    "Not an array": [undefined, null, true, 1, "a", {}],
-    "Not an array of numbers": [["a"]],
-  },
-);
+describe("isNonEmptyArray", () => {
+  validates(
+    isNonEmptyArray,
+    [
+      {
+        input: [1],
+        parsed: [1],
+      },
+    ],
+    [
+      {
+        input: undefined,
+        error: 'Not an array: "undefined"',
+      },
+      {
+        input: null,
+        error: "Not an array: null",
+      },
+      {
+        input: true,
+        error: "Not an array: true",
+      },
+      {
+        input: 1,
+        error: "Not an array: 1",
+      },
+      {
+        input: "a",
+        error: 'Not an array: "a"',
+      },
+      {
+        input: {},
+        error: "Not an array: {}",
+      },
+      {
+        input: [],
+        error: "Not a non empty array: []",
+      },
+    ],
+  );
+});
 
-suite(
-  isStringArray,
-  [
-    { input: [], parsed: [] },
-    { input: ["a"], parsed: ["a"] },
-  ],
-  {
-    "Not an array": [undefined, null, true, 1, "a", {}],
-    "Not an array of strings": [[1]],
-  },
-);
+describe("isNumberArray", () => {
+  validates(
+    isNumberArray,
+    [
+      {
+        input: [],
+        parsed: [],
+      },
+      {
+        input: [1],
+        parsed: [1],
+      },
+    ],
+    [
+      {
+        input: undefined,
+        error: 'Not an array: "undefined"',
+      },
+      {
+        input: null,
+        error: "Not an array: null",
+      },
+      {
+        input: true,
+        error: "Not an array: true",
+      },
+      {
+        input: 1,
+        error: "Not an array: 1",
+      },
+      {
+        input: "a",
+        error: 'Not an array: "a"',
+      },
+      {
+        input: {},
+        error: "Not an array: {}",
+      },
+      {
+        input: ["a"],
+        error: 'Not an array of numbers: ["a"]',
+      },
+    ],
+  );
+});
+
+describe("isStringArray", () => {
+  validates(
+    isStringArray,
+    [
+      {
+        input: [],
+        parsed: [],
+      },
+      {
+        input: ["a"],
+        parsed: ["a"],
+      },
+    ],
+    [
+      {
+        input: undefined,
+        error: 'Not an array: "undefined"',
+      },
+      {
+        input: null,
+        error: "Not an array: null",
+      },
+      {
+        input: true,
+        error: "Not an array: true",
+      },
+      {
+        input: 1,
+        error: "Not an array: 1",
+      },
+      {
+        input: "a",
+        error: 'Not an array: "a"',
+      },
+      {
+        input: {},
+        error: "Not an array: {}",
+      },
+      {
+        input: [1],
+        error: "Not an array of strings: [1]",
+      },
+    ],
+  );
+});
 
 describe("isOneOf", () => {
+  const validator = isOneOf([1, 2, 3]);
+
   it("validates if an object is a value from a set of options", () => {
-    expect(isOneOf([1, 2, 3])(1).parsed).toBe(1);
-    expect(isOneOf([1, 2, 3])(4).error).toBe("Not one of [1, 2, 3]: 4");
+    expect(validator).toValidate(1);
+    expect(validator).toInvalidateWith(4, "Not one of [1, 2, 3]: 4");
   });
 });
 
 describe("isManyOf", () => {
-  it("validates if an array contains only values from a set of options", () => {
-    expect(isManyOf([1, 2, 3])([3, 1]).parsed).toEqual([3, 1]);
+  const validator = isManyOf([1, 2, 3]);
 
-    expect(isManyOf([1, 2, 3])("").error).toBe('Not an array: ""');
-    expect(isManyOf([1, 2, 3])([3, 1, 4]).error).toBe(
-      "Not an array of [1, 2, 3]: [3, 1, 4]",
+  it("validates if an array contains only values from a set of options", () => {
+    expect(validator).toValidate([1]);
+    expect(validator).toInvalidateWith("", 'Not an array: ""');
+    expect(validator).toInvalidateWith(
+      [1, 2, 4],
+      "Not an array of [1, 2, 3]: [1, 2, 4]",
     );
   });
 });
