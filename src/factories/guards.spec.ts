@@ -4,6 +4,7 @@ import { isNumber } from "../validators/primitives";
 describe("guard", () => {
   it("constructs a guard from a validator", () => {
     const isNumberGuard = guard(isNumber);
+    
     expect(isNumberGuard(1)).toBe(true);
   });
 });

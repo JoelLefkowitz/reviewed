@@ -3,22 +3,28 @@ import { isNumber } from "../validators/primitives";
 import { optional } from "../services/transformers";
 
 describe("validateWith", () => {
-  const validator = validateWith({
-    a: isNumber,
-  });
-
   it("validates an input's fields with validators", () => {
+    const validator = validateWith({
+      a: isNumber,
+    });
+
     expect(validator).toValidate({ a: 1 });
     expect(validator).toInvalidateWith(null, "Not a record: null");
     expect(validator).toInvalidateWith({}, "Missing required fields: a");
     expect(validator).toInvalidateWith({ a: "1" }, { a: 'Not a number: "1"' });
-  });
-
-  it("doesn't allow extra fields", () => {
     expect(validator).toInvalidateWith(
       { a: 1, b: 2 },
       "Unexpected extra fields: b",
     );
+  });
+
+  it("parses optional fields", () => {
+    const validator = validateWith({
+      a: optional(isNumber),
+    });
+
+    expect(validator).toValidate({ a: undefined });
+    expect(validator).toValidate({});
   });
 });
 
@@ -32,13 +38,6 @@ describe("validateWithAtLeast", () => {
     expect(validator).toInvalidateWith(null, "Not a record: null");
     expect(validator).toInvalidateWith({}, "Missing required fields: a");
     expect(validator).toInvalidateWith({ a: "1" }, { a: 'Not a number: "1"' });
-  });
-
-  it("allows extra fields", () => {
-    const validator = validateWithAtLeast({
-      a: isNumber,
-    });
-
     expect(validator).toValidate({ a: 1, b: 2 });
   });
 

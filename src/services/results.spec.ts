@@ -1,4 +1,4 @@
-import { all, any, assert, merge, sieve } from "./results";
+import { all, any, assert, merge, sieve, when } from "./results";
 import { invalidate } from "../factories/invalidate";
 import { isNumber } from "../validators/primitives";
 import { mapRecord } from "../internal/records";
@@ -101,5 +101,19 @@ describe("sieve", () => {
     ).toEqual({
       b: 2,
     });
+  });
+});
+
+describe("when", () => {
+  it("calls a callback when validation succeeds", () => {
+    const numbers = [];
+
+    const effect = when(isNumber, (x) => {
+      numbers.push(x);
+    });
+
+    [1, "2", 3].forEach(effect);
+
+    expect(numbers).toEqual([1, 3]);
   });
 });

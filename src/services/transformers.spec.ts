@@ -1,14 +1,14 @@
-import { asserts, both, either, not, optional } from "./transformers";
+import { asserts, both, chain, either, not, optional } from "./transformers";
 import { isNaturalNumberString } from "../validators/strings";
-import { isNonEmptyArray, isStringArray } from "../validators/arrays";
+import { isNonEmptyArray, isOneOf, isStringArray } from "../validators/arrays";
 import { isNull, isNumber, isString } from "../validators/primitives";
 
 describe("asserts", () => {
-  const validator = asserts(isNumber);
+  const assertor = asserts(isNumber);
 
   it("augments a validator to throw an error on failure", () => {
-    expect(validator(1)).toBe(1);
-    expect(() => validator(null)).toThrow("Not a number: null");
+    expect(assertor(1)).toBe(1);
+    expect(() => assertor(null)).toThrow("Not a number: null");
   });
 });
 
@@ -62,5 +62,15 @@ describe("optional", () => {
     expect(validator).toInvalidateWith(1, "Not a string: 1");
     expect(validator).toValidateAs("1", 1);
     expect(validator).toValidateAs(undefined, undefined);
+  });
+});
+
+describe("chain", () => {
+  it("combines validators sequentially", () => {
+    const validator = chain(isOneOf([1, 2]), isOneOf([2, 3]));
+
+    expect(validator).toValidate(2);
+    expect(validator).toInvalidateWith(1, "Not one of [2, 3]: 1");
+    expect(validator).toInvalidateWith(3, "Not one of [1, 2]: 3");
   });
 });
