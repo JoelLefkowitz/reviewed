@@ -29,10 +29,10 @@ const parse = (input: unknown) => {
 I want to validate an object and get failure messages for each field:
 
 ```ts
-import { errors, isNaturalNumberString } from "reviewed";
+import { errors, isRecordOf, isNaturalNumberString } from "reviewed";
 
 const paginate = (url: URL): void => {
-  const isPagination = validateWith({
+  const isPagination = isRecordOf({
     page: isNaturalNumberString,
     size: isNaturalNumberString,
   });
@@ -43,6 +43,7 @@ const paginate = (url: URL): void => {
   });
 
   if (valid) {
+    // Parsed type: { page: number, size: number }
     console.log(parsed);
   } else {
     console.error(error);

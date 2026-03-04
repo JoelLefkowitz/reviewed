@@ -4,7 +4,17 @@ import { invalidateWith } from "../factories/invalidate";
 import { isUndefined } from "../validators/primitives";
 import { validate } from "../factories/validate";
 
-// TODO (Joel): Add a docstring here
+/**
+ * Augment a validator to throw an error on failure
+ *
+ * @category Services
+ * @example
+ *   asserts(isNumber)(null) >>
+ *   throws: "Not a number: null"
+ *
+ * @typeParam T - The validated type
+ * @param validator - The validator to use
+ */
 export const asserts =
   <T>(validator: Validator<T>) =>
   (input: unknown): T =>
@@ -13,7 +23,7 @@ export const asserts =
 /**
  * Invert a validator
  *
- * @category Factories
+ * @category Services
  * @example
  *   const isNotNull = not(isNull, "Is null");
  *
@@ -39,7 +49,7 @@ export const not =
 /**
  * Combine two validators with a logical AND
  *
- * @category Factories
+ * @category Services
  * @example
  *   const isNonEmptyStringArray = both(isNonEmptyArray, isStringArray);
  *
@@ -82,7 +92,7 @@ export const both =
 /**
  * Combine two validators with a logical OR
  *
- * @category Factories
+ * @category Services
  * @example
  *   const isStringOrNull = either(isString, isNull);
  *
@@ -126,13 +136,13 @@ export const either =
 /**
  * Allow a validator to accept undefined inputs
  *
- * @category Factories
+ * @category Services
  * @example
  *   interface Person {
  *     name?: string;
  *   }
  *
- *   const isPerson = isRecordOf<Person>({ name: optional(isString) });
+ *   const isPerson = validateWith<Person>({ name: optional(isString) });
  *
  *   isPerson({}) >>
  *     {
@@ -153,7 +163,28 @@ export const optional = <T>(
   validator: Validator<T>,
 ): Validator<T | undefined> => either(validator, isUndefined);
 
-// TODO (Joel): Add a docstring here
+/**
+ * Combine validators sequentially
+ *
+ * @category Services
+ * @example
+ *   const select = chain(isOneOf([1, 2]), isOneOf([2, 3]));
+ *
+ *   select(2) >>
+ *     {
+ *       valid: true,
+ *       parsed: 2,
+ *     };
+ *
+ *   select(1) >>
+ *     {
+ *       valid: false,
+ *       error: "Not one of [2, 3]: 1",
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param validator - The validator to use
+ */
 export const chain =
   <T, U>(first: Validator<T>, second: Validator<U>) =>
   (input: unknown): Invalid<T> | Invalid<U> | Valid<U> => {

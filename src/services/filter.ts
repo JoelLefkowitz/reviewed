@@ -1,11 +1,11 @@
 import { Validator } from "../models/validators";
-import { guard } from "./guards";
+import { guard } from "../factories/guards";
 import { isArray } from "../validators/arrays";
 
 /**
  * Filter an array of inputs with a validator
  *
- * @category Factories
+ * @category Services
  * @example
  *   filterValid(isNumber)(["1", 2, "3"]) >> [2];
  *

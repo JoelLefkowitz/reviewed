@@ -108,7 +108,6 @@ export const validateWithAtLeast =
     return merge(Object.fromEntries(validated) as ValidatedFields<T>);
   };
 
-// TODO (Joel): Improve the README.md intro for reviewed showing isRecordOf() and the inferred type
 /**
  * Alias for validateWith
  *
@@ -125,7 +124,20 @@ export const isRecordOf = validateWith;
  */
 export const isRecordOfAtLeast = validateWithAtLeast;
 
-// TODO (Joel): Add a docstring here
+/**
+ * Validate a record with string keys
+ *
+ * @category Services
+ * @example
+ *   isMapping(isNumber)({ a: 1 }) >>
+ *     {
+ *       valid: true,
+ *       input: { a: 1 },
+ *     };
+ *
+ * @typeParam T - The validated type
+ * @param validator - The validator to use
+ */
 export const isMapping =
   <T>(validator: Validator<T>): Validator<Mapping<T>> =>
   (input: unknown) => {
@@ -143,5 +155,10 @@ export const isMapping =
     return merge(Object.fromEntries(validated) as ValidatedFields<Mapping<T>>);
   };
 
-// TODO (Joel): Add a docstring here
+/**
+ * Alias for isMapping(isString)
+ *
+ * @category Aliases
+ * @see {@link isMapping}
+ */
 export const isLegend: Validator<Legend> = isMapping(isString);
