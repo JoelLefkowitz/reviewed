@@ -11,25 +11,62 @@ Ergonomic, extensible and lightweight validators.
 
 ## Motivation
 
-I want to validate unknowns and for the compiler to know the parsed type:
+1. I want to validate unknowns without into plain objects I can consume:
 
 ```ts
-import { isNumber } from "reviewed";
+import { isRecordOf, isString } from "reviewed";
 
-const parse = (input: unknown) => {
-  const { valid, parsed } = isNumber(input);
+const isPerson = isRecordOf({
+  name: isString,
+});
 
-  if (valid) {
-    // Parsed type: number
-    console.log(parsed);
-  }
-};
+isPerson({ name: "Joel" });
 ```
 
-I want to validate an object and get failure messages for each field:
+```json
+{
+  "valid": true,
+  "input": { "name": "Joel" },
+  "parsed": { "name": "Joel" },
+  "error": null
+}
+```
 
 ```ts
-import { errors, isRecordOf, isNaturalNumberString } from "reviewed";
+isPerson({ name: null });
+```
+
+```json
+{
+  "valid": false,
+  "input": { "name": null },
+  "parsed": null,
+  "error": {
+    "name": "Not a string: null"
+  }
+}
+```
+
+2. I want the compiler be able to infer all the types:
+
+```ts
+const { valid, parsed } = isPerson({ name: "Joel" });
+
+if (valid) {
+  // Type: { page: number, size: number }
+  console.log(parsed);
+
+  // Type: number
+  console.log(parsed.page);
+}
+```
+
+3. During validation I want to parse the data:
+
+Parsing is part of validation. `isNaturalNumberString` checks a value is a whole number saved as a string for example as a URL parameter. Since the validator needs to assess the value contains a number already, it should be responsible for parsing it to a number type.
+
+```ts
+import { isRecordOf, isNaturalNumberString } from "reviewed";
 
 const paginate = (url: URL): void => {
   const isPagination = isRecordOf({
@@ -70,21 +107,6 @@ paginate(new URL("https://example.com?page=-1"));
 {
   "page": "Not a natural number string: '-1'",
   "size": "Not a string: null"
-}
-```
-
-I want a record with the input and failure messages, not some ridiculous opaque object with error methods!
-
-```ts
-isRecordOf({ a: isNumber, b: isString })({ a: 1, b: 2 });
-```
-
-```json
-{
-  "valid": false,
-  "input": { "a": 1, "b": 2 },
-  "parsed": null,
-  "error": { "b": "Not a string: 2" }
 }
 ```
 
