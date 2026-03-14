@@ -32,7 +32,7 @@ isPerson({ name: "Joel" });
 }
 ```
 
-And if I pass something invalid it should give me consumable errors:
+If I pass something invalid it should give me consumable errors:
 
 ```ts
 isPerson({ name: null });
@@ -144,33 +144,7 @@ A validation library for TypeScript needs to be:
   - Tiny bundle size
   - Fully tree shakeable
 
-`reviewed` exposes a flexible interface that achieves these goals.
-
-```ts
-isIntegerString("1");
-```
-
-```json
-{
-  "valid": true,
-  "input": "1",
-  "parsed": 1,
-  "error": null
-}
-```
-
-```ts
-isIntegerString("0.5");
-```
-
-```json
-{
-  "valid": false,
-  "input": "0.5",
-  "parsed": null,
-  "error": "Not an integer 0.5"
-}
-```
+This package exposes a flexible interface that achieves these goals.
 
 ### Alternatives
 
