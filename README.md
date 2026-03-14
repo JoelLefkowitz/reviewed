@@ -11,7 +11,7 @@ Ergonomic, extensible and lightweight validators.
 
 ## Motivation
 
-1. I want to validate unknowns without into plain objects I can consume:
+1. I want to validate unknowns into plain objects I can consume:
 
 ```ts
 import { isRecordOf, isString } from "reviewed";
@@ -31,6 +31,8 @@ isPerson({ name: "Joel" });
   "error": null
 }
 ```
+
+And if I pass something invalid it should give me consumable errors:
 
 ```ts
 isPerson({ name: null });
@@ -63,7 +65,9 @@ if (valid) {
 
 3. During validation I want to parse the data:
 
-Parsing is part of validation. `isNaturalNumberString` checks a value is a whole number saved as a string for example as a URL parameter. Since the validator needs to assess the value contains a number already, it should be responsible for parsing it to a number type.
+Parsing is already part of validation. `isNaturalNumberString` checks a value is a whole number saved as a string for example as a URL parameter.
+
+Since the validator needs to assess the value contains a number already, it should be responsible for parsing it to a number type.
 
 ```ts
 import { isRecordOf, isNaturalNumberString } from "reviewed";
@@ -88,6 +92,8 @@ const paginate = (url: URL): void => {
 };
 ```
 
+Now I lift numbers directly from the url:
+
 ```ts
 paginate(new URL("https://example.com?page=1&size=10"));
 ```
@@ -98,6 +104,8 @@ paginate(new URL("https://example.com?page=1&size=10"));
   "size": 10
 }
 ```
+
+And I can get useful error messages:
 
 ```ts
 paginate(new URL("https://example.com?page=-1"));
