@@ -1,33 +1,10 @@
 import { Validated, ValidationErrors, Validator } from "../models/validators";
 import { ValidatedFields } from "../models/fields";
 import { all as allPasses } from "passes";
-import { fail } from "../factories/errors";
 import { group } from "../internal/arrays";
 import { invalidate, invalidateWith } from "../factories/invalidate";
 import { mapRecord, pickField, reduceRecord } from "../internal/records";
 import { validate } from "../factories/validate";
-
-/**
- * Validate an input and throws an error on failure
- *
- * @category Services
- * @example
- *   assert(isNumber, null) >>
- *   throws: "Not a number: null"
- *
- * @typeParam T - The validated type
- * @param validator - The validator to use
- * @param input     - The raw input
- */
-export const assert = <T>(validator: Validator<T>, input: unknown): T => {
-  const { valid, parsed, error } = validator(input);
-
-  if (valid) {
-    return parsed;
-  }
-
-  throw fail(error);
-};
 
 /**
  * Merge an array of validated results using a logical AND

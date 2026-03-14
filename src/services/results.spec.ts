@@ -1,14 +1,7 @@
-import { all, any, assert, merge, sieve, when } from "./results";
+import { all, any, merge, sieve, when } from "./results";
 import { invalidate } from "../factories/invalidate";
 import { isNumber } from "../validators/primitives";
 import { mapRecord } from "../internal/records";
-
-describe("assert", () => {
-  it("validates an input and throws an error on failure", () => {
-    expect(assert(isNumber, 1)).toBe(1);
-    expect(() => assert(isNumber, null)).toThrow("Not a number: null");
-  });
-});
 
 describe("all", () => {
   it("merges an array of validated results using a logical AND", () => {

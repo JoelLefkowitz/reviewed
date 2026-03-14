@@ -1,16 +1,7 @@
-import { asserts, both, chain, either, not, optional } from "./transformers";
+import { both, chain, either, not, optional } from "./transformers";
 import { isNaturalNumberString } from "../validators/strings";
 import { isNonEmptyArray, isOneOf, isStringArray } from "../validators/arrays";
-import { isNull, isNumber, isString } from "../validators/primitives";
-
-describe("asserts", () => {
-  const assertor = asserts(isNumber);
-
-  it("augments a validator to throw an error on failure", () => {
-    expect(assertor(1)).toBe(1);
-    expect(() => assertor(null)).toThrow("Not a number: null");
-  });
-});
+import { isNull, isString } from "../validators/primitives";
 
 describe("not", () => {
   it("inverts a validator", () => {

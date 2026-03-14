@@ -3,28 +3,39 @@ import { invalidateWith } from "./invalidate";
 import { validate } from "./validate";
 
 /**
- * Turn a validator into a type guard
+ * Validate and cast an input
  *
- * @remarks
- *   A validator makes a assertions about the input and returns a typed output. In
- *   contrast a guard is able to cast the type of the input for the rest of its
- *   block.
  * @category Factories
  * @example
- *   if (guard(isNumber)(input)) {
+ *   if (guard(isNumber, input)) {
  *     // input is treated as a number in this block
  *   }
  *
  * @typeParam T - The validated type
  * @param validator - The validator to convert
  */
-export const guard =
-  <T>(validator: Validator<T>) =>
-  (input: unknown): input is T =>
-    validator(input).valid;
+export const guard = <T>(validator: Validator<T>, input: unknown): input is T =>
+  validator(input).valid;
 
 /**
- * Turn a type guard into a validator
+ * Augment a validator to cast an input
+ *
+ * @category Factories
+ * @example
+ *   if (guards(isNumber)(input)) {
+ *     // input is treated as a number in this block
+ *   }
+ *
+ * @typeParam T - The validated type
+ * @param validator - The validator to convert
+ */
+export const guards =
+  <T>(validator: Validator<T>) =>
+  (input: unknown): input is T =>
+    guard(validator, input);
+
+/**
+ * Construct a validator from a guard
  *
  * @category Factories
  * @example

@@ -1,11 +1,15 @@
-import { fromGuard, guard } from "./guards";
+import { fromGuard, guard, guards } from "./guards";
 import { isNumber } from "../validators/primitives";
 
 describe("guard", () => {
-  it("constructs a guard from a validator", () => {
-    const isNumberGuard = guard(isNumber);
+  it("validates and casts an input", () => {
+    expect(guard(isNumber, 1)).toBe(true);
+  });
+});
 
-    expect(isNumberGuard(1)).toBe(true);
+describe("guards", () => {
+  it("augments a validator to cast an input", () => {
+    expect(guards(isNumber)(1)).toBe(true);
   });
 });
 

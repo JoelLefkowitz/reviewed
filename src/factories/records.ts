@@ -51,7 +51,7 @@ export const validateWith =
 
     const validated = Object.entries(record.parsed).reduce<[string, unknown][]>(
       (acc, [k, v]) =>
-        guard(isUndefined)(v)
+        guard(isUndefined, v)
           ? acc
           : [...acc, [k, validators[k as keyof T](v)]],
       [],
@@ -96,7 +96,7 @@ export const validateWithAtLeast =
 
     const validated = Object.entries(record.parsed).reduce<[string, unknown][]>(
       (acc, [k, v]) =>
-        guard(isUndefined)(v)
+        guard(isUndefined, v)
           ? acc
           : [
               ...acc,

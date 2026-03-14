@@ -1,24 +1,7 @@
 import { Invalid, Valid, Validated, Validator } from "../models/validators";
-import { assert } from "./results";
 import { invalidateWith } from "../factories/invalidate";
 import { isUndefined } from "../validators/primitives";
 import { validate } from "../factories/validate";
-
-/**
- * Augment a validator to throw an error on failure
- *
- * @category Services
- * @example
- *   asserts(isNumber)(null) >>
- *   throws: "Not a number: null"
- *
- * @typeParam T - The validated type
- * @param validator - The validator to use
- */
-export const asserts =
-  <T>(validator: Validator<T>) =>
-  (input: unknown): T =>
-    assert(validator, input);
 
 /**
  * Invert a validator

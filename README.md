@@ -199,39 +199,6 @@ export const isNaturalNumber: Validator<number> = (input: unknown) => {
 };
 ```
 
-### Testing validators
-
-Custom Jest matchers are exposed for testing validators:
-
-`jest.config.json`
-
-```json
-{
-  "setupFilesAfterEnv": ["reviewed/dist/testing/globals.js"]
-}
-```
-
-`tsconfig.json`
-
-```json
-{
-  "files": ["node_modules/reviewed/dist/testing/globals.d.ts"]
-}
-```
-
-```ts
-import { isNaturalNumberString } from "./strings";
-
-describe("isNaturalNumberString", () => {
-  it("parses natural number strings", () => {
-    expect(isNaturalNumberString).toValidate("1");
-    expect(isNaturalNumberString).toInvalidate({});
-    expect(isNaturalNumberString).toValidateAs("1", 1);
-    expect(isNaturalNumberString).toInvalidateWith({}, "Not a string");
-  });
-});
-```
-
 ### Combining validators
 
 Validators can be chained to validate a payload:
@@ -241,7 +208,24 @@ Validators can be chained to validate a payload:
 ```
 
 ```ts
-export const isArrayOfNames = isArrayOf(isRecordOf({ name: isString }));
+export const isArrayOfNames = isArrayOf(
+  isRecordOf({
+    name: isString,
+  }),
+);
+```
+
+### Assertions
+
+Validators can be told to throw an error if validation fails:
+
+```ts
+import { assert, isNumber } from "reviewed";
+
+const parsed = assert(isNumber, x);
+
+// Parsed type: number
+console.log(parsed + 1);
 ```
 
 ### Guards
@@ -252,7 +236,7 @@ Guards can inform the compiler that the input satisfies a type predicate. This i
 (input: unknown): input is string => {};
 ```
 
-Validators make assertions about the parsed type:
+Validators already let the compiler know the output matches the validated type:
 
 ```ts
 import { isNumber } from "reviewed";
@@ -265,12 +249,12 @@ if (valid) {
 }
 ```
 
-We can convert this to a guard and apply the assertion to the input instead:
+If we convert this to a guard, the compiler will also confirm the input has the matching type:
 
 ```ts
 import { guard, isNumber } from "reviewed";
 
-if (guard(isNumber)(input)) {
+if (guard(isNumber, input)) {
   // Parsed type: number
   console.log(input + 1);
 }
@@ -353,6 +337,39 @@ isBuild("local");
   "valid": false,
   "error": "Not one of ['dev', 'prod']: 'local'"
 }
+```
+
+### Testing validators
+
+Custom Jest matchers are exposed for testing validators:
+
+`jest.config.json`
+
+```json
+{
+  "setupFilesAfterEnv": ["reviewed/dist/testing/globals.js"]
+}
+```
+
+`tsconfig.json`
+
+```json
+{
+  "files": ["node_modules/reviewed/dist/testing/globals.d.ts"]
+}
+```
+
+```ts
+import { isNaturalNumberString } from "./strings";
+
+describe("isNaturalNumberString", () => {
+  it("parses natural number strings", () => {
+    expect(isNaturalNumberString).toValidate("1");
+    expect(isNaturalNumberString).toInvalidate({});
+    expect(isNaturalNumberString).toValidateAs("1", 1);
+    expect(isNaturalNumberString).toInvalidateWith({}, "Not a string");
+  });
+});
 ```
 
 ### Overview

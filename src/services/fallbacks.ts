@@ -53,4 +53,4 @@ export const validatedOr = <T>(
 export const validateEachOr =
   <T>(validator: Validator<T>, fallback: T) =>
   (input: unknown): T[] =>
-    guard(isArray)(input) ? input.map(validateOr(validator, fallback)) : [];
+    guard(isArray, input) ? input.map(validateOr(validator, fallback)) : [];

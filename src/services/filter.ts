@@ -15,7 +15,7 @@ import { isArray } from "../validators/arrays";
 export const filterValid =
   <T>(validator: Validator<T>) =>
   (input: unknown): T[] =>
-    guard(isArray)(input)
+    guard(isArray, input)
       ? input.reduce<T[]>((acc, x) => {
           const { valid, parsed } = validator(x);
           return valid ? [...acc, parsed] : acc;

@@ -26,7 +26,7 @@ import { validateIf } from "../factories/conditionals";
  */
 export const isRecord: Validator<Record<string, unknown>> = (input: unknown) =>
   validateIf(
-    guard(isObject)(input) && !guard(isArray)(input),
+    guard(isObject, input) && !guard(isArray, input),
     input,
     input,
     "Not a record",

@@ -1,5 +1,5 @@
 import { Validated, Validator } from "../models/validators";
-import { guard } from "../factories/guards";
+import { guards } from "../factories/guards";
 import { isNumber, isString } from "./primitives";
 import { serialize } from "../services/strings";
 import { validateIf } from "../factories/conditionals";
@@ -114,7 +114,7 @@ export const isNumberArray: Validator<number[]> = (input: unknown) => {
   }
 
   return validateIf(
-    array.parsed.every(guard(isNumber)),
+    array.parsed.every(guards(isNumber)),
     input,
     input,
     "Not an array of numbers",
@@ -161,7 +161,7 @@ export const isStringArray: Validator<string[]> = (input: unknown) => {
   }
 
   return validateIf(
-    array.parsed.every(guard(isString)),
+    array.parsed.every(guards(isString)),
     input,
     input,
     "Not an array of strings",

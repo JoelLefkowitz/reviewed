@@ -32,7 +32,7 @@ import { validate } from "./validate";
 export const validateRegex =
   <T extends string>(regex: RegExp, reason: string): RegexValidator<T> =>
   (input: unknown) => {
-    if (guard(isString)(input)) {
+    if (guard(isString, input)) {
       const parsed = regex.exec(input);
 
       if (parsed !== null) {

@@ -1,10 +1,10 @@
 import { ValidationErrors } from "../models/validators";
-import { serialize } from "../services/strings";
+import { serialize } from "./strings";
 
 /**
  * Construct a native error message
  *
- * @category Factories
+ * @category Services
  * @example
  *   fail<{ a: number }>({ a: "Not a number: null" }) >>
  *     Error('{ "a": "Not a number: null"}');
