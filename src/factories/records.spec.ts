@@ -10,7 +10,10 @@ describe("validateWith", () => {
 
     expect(validator).toValidate({ a: 1 });
     expect(validator).toInvalidateWith(null, "Not a record: null");
+    
     expect(validator).toInvalidateWith({}, "Missing required fields: a");
+    expect(validator).toInvalidateWith({a: undefined}, "Missing required fields: a");
+
     expect(validator).toInvalidateWith({ a: "1" }, { a: 'Not a number: "1"' });
     expect(validator).toInvalidateWith(
       { a: 1, b: 2 },
@@ -36,7 +39,10 @@ describe("validateWithAtLeast", () => {
 
     expect(validator).toValidate({ a: 1 });
     expect(validator).toInvalidateWith(null, "Not a record: null");
+
     expect(validator).toInvalidateWith({}, "Missing required fields: a");
+    expect(validator).toInvalidateWith({a: undefined}, "Missing required fields: a");
+    
     expect(validator).toInvalidateWith({ a: "1" }, { a: 'Not a number: "1"' });
     expect(validator).toValidate({ a: 1, b: 2 });
   });

@@ -32,8 +32,16 @@ export const validateWith =
       return record as Validated<T>;
     }
 
+    const optional = Object.entries(validators).reduce<string[]>(
+      (acc, [field, validator]) =>
+        guard(validator as Validator<unknown>, undefined)
+          ? acc.concat(field)
+          : acc,
+      [],
+    );
+
     const missing = Object.keys(validators).filter(
-      (i) => !(i in record.parsed || validators[i as keyof T](undefined).valid),
+      (i) => record.parsed[i] === undefined && !optional.includes(i),
     );
 
     if (missing.length > 0) {
@@ -83,8 +91,16 @@ export const validateWithAtLeast =
       return record as Validated<T>;
     }
 
+    const optional = Object.entries(validators).reduce<string[]>(
+      (acc, [field, validator]) =>
+        guard(validator as Validator<unknown>, undefined)
+          ? acc.concat(field)
+          : acc,
+      [],
+    );
+
     const missing = Object.keys(validators).filter(
-      (i) => !(i in record.parsed || validators[i as keyof T](undefined).valid),
+      (i) => record.parsed[i] === undefined && !optional.includes(i),
     );
 
     if (missing.length > 0) {
